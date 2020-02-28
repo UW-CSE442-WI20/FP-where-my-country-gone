@@ -1,23 +1,60 @@
-/* The sidebar menu */
+input[type=submit] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 13px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
 .sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 320px; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
+    height: 100%;
+    width: 320px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
     left: 0;
     background-color: #eee;
-    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-x: hidden;
     padding-top: 20px;
 }
 
-/* Style page content */
+/* Style the sidenav links and the dropdown button */
+.dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.dropdown-btn:hover {
+    color: #2ee5ee;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #eee;
+    padding-left: 8px;
+}
+
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+
 .main {
-    margin-left: 300px; /* Same as the width of the sidebar */
+    margin-left: 300px;
     padding: 0px 10px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
