@@ -52,19 +52,17 @@ $( function() {
 $( function() {
     $( "#slider-range2" ).slider({
         range: true,
-        min: 0,
-        max: 500,
-        values: [ 200, 300 ],
+        min: new Date('2016.01.01').getTime() / 1000,
+        max: new Date('2020.01.01').getTime() / 1000,
+        values: [new Date('2017.01.01').getTime() / 1000, new Date('2019.01.01').getTime() / 1000],
         slide: function( event, ui ) {
-            $( "#date-amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            $( "#date-amount" ).val( (new Date(ui.values[0] * 1000).toLocaleDateString("en-US")) + " - " + (new Date(ui.values[1] * 1000)).toLocaleDateString("en-US") );
         }
     });
-    $( "#date-amount" ).val( $( "#slider-range2" ).slider( "values", 0 ) +
-        " - " + $( "#slider-range2" ).slider( "values", 1 ) );
+    $("#date-amount").val((new Date($("#slider-range2").slider("values", 0) * 1000).toLocaleDateString("en-US")) +
+        " - " + (new Date($("#slider-range2").slider("values", 1) * 1000)).toLocaleDateString("en-US"));
 } );
 /////////////////////
-
-// Get user input
 d3.select("#form")
     .on("submit", function() {
         d3.event.preventDefault();

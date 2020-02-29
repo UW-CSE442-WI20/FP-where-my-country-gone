@@ -1,5 +1,32 @@
+h4 {
+    font-family: trebuchet ms;
+}
+
+label {
+    font-family: trebuchet ms;
+}
+
+input[type=text] {
+    padding: 10px 12px;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 2px solid #00acee;
+    border-radius: 4px;
+    font-family: trebuchet ms;
+}
+
 input[type=submit] {
     background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 13px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+input[type=submit]:hover {
+    background-color: #009900;
     border: none;
     color: white;
     padding: 13px 20px;
@@ -24,6 +51,7 @@ input[type=submit] {
 .dropdown-btn {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
+    font-family: trebuchet ms;
     font-size: 20px;
     color: #818181;
     display: block;
@@ -36,7 +64,7 @@ input[type=submit] {
 }
 
 .dropdown-btn:hover {
-    color: #2ee5ee;
+    color: #00acee;
 }
 
 .dropdown-container {
@@ -53,6 +81,10 @@ input[type=submit] {
 .main {
     margin-left: 300px;
     padding: 0px 10px;
+}
+
+.slider-amount {
+    text-align: center;
 }
 
 @media screen and (max-height: 450px) {
