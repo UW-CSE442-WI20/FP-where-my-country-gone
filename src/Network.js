@@ -1,6 +1,5 @@
 const d3 = require('d3');
 const wordsToGraph = require('./WordToGraphID.json');
-console.log(wordsToGraph);
 class Network {
     constructor() {}
 
@@ -11,40 +10,48 @@ class Network {
             console.log("found graph index: " + graphIdx);
             let graphfile = 'wordnetwork' + graphIdx + '.json';
             console.log("graphfile found: " + graphfile);
-            // const Data = require(graphfile);
-            // d3.json(graphfile).then((data) => {
-            //     d3.json('TweetsArray.json').then((tweetData) => {
-            //         let edges = data[word];
-            //         let keys = Object.keys(data[word]);
-            //         let nodes = new Set();
-            //         let links = [];
-            //         keys.forEach(function (key) {
-            //             let tweets = edges[key];
-            //             nodes.add(word);
-            //             for (let i = 0; i < tweets.length; i++) {
-            //                 let valid = true;
-            //                 let tweet = tweetData[tweets[i]];
-            //                 let tweetDate = new Date(tweet["date"]);
-            //                 if (tweetDate <= since || tweetDate >= until) {
-            //                     valid = false;
-            //                 } else if (politicians.has(tweet['username']) == false) {
-            //                     valid = false;
-            //                 } else if (sentiments.has(tweet['sentiment']) == false) {valid = false;
-            //                 }
+             d3.json(graphfile).then((data) => {
+                 d3.json('TweetsArray.json').then((tweetData) => {
+                     let edges = data[word];
+                     let keys = Object.keys(data[word]);
+                     let nodesSet = new Set();
+                     let links = [];
+                     keys.forEach(function (key) {
+                         let tweets = edges[key];
+                         nodesSet.add(word);
+                         for (let i = 0; i < tweets.length; i++) {
+                             let valid = true;
+                             let tweet = tweetData[tweets[i]];
+                             let tweetDate = new Date(tweet["date"]);
+                             if (tweetDate <= since || tweetDate >= until) {
+                                 valid = false;
+                             } else if (politicians.has(tweet['username']) == false) {
+                                 valid = false;
+                             } else if (sentiments.has(tweet['sentiment']) == false) {valid = false;
+                             }
 
-            //                 if (valid == true) {
-            //                     nodes.add(key);
-            //                     let link = {"source":word, "target":key};
-            //                     links.push(link);
-            //                 }
-            //             }
-            //         });
-            //         this.drawNetwork(nodes, links);
-            //     });
-            // });
+                             if (valid == true) {
+                                 nodesSet.add(key);
+                                 let link = {"source":word, "target":key};
+                                 links.push(link);
+                             }
+                         }
+                     });
+                     let nodesArr = Array.from(nodesSet);
+                     let nodes = [];
+                     for (let i = 0; i < nodesArr.length; i++) {
+                         let next = {"id":nodesArr[i]};
+                         nodes.push(next);
+                     }
+                     console.log(nodes);
+                     this.drawNetwork(nodes, links);
+                 });
+             });
+             /*
             d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_network.json").then((data) => {
+                console.log(data.nodes);
                 this.drawNetwork(data.nodes, data.links);
-            });
+            });*/
         }
     }
 
