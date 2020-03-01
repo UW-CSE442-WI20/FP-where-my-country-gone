@@ -20,12 +20,12 @@ networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.0
 const exampleData = require('./example-data.json');
 
 
-// Anything you put in the static folder will be available
-// over the network, e.g.
-d3.csv('carbon-emissions.csv')
-  .then((data) => {
-    console.log('Dynamically loaded CSV data', data);
-  })
+// // Anything you put in the static folder will be available
+// // over the network, e.g.
+// d3.csv('carbon-emissions.csv')
+//   .then((data) => {
+//     console.log('Dynamically loaded CSV data', data);
+//   })
 
 /////////////////////
 // Filtering
