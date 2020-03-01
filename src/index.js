@@ -17,7 +17,7 @@ networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.0
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
 // the data directly to your JavaScript bundle.
-const exampleData = require('./example-data.json');
+// const exampleData = require('./example-data.json');
 
 
 // // Anything you put in the static folder will be available
@@ -106,3 +106,5 @@ d3.select("#form")
         console.log(popAmount);
         console.log(dateAmount);
     });
+
+
