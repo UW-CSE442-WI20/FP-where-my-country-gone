@@ -7,6 +7,13 @@ const myClassInstance = new MyClass();
 myClassInstance.sayHi();
 
 
+const Network = require('./Network');
+const networkInstance = new Network();
+let checked = new Set(['marcorubio', 'RepMarkMeadows', 'AOC', 'BarackObama']);
+let sentiments = new Set(['very pos', 'pos'])
+networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.02.20'),
+    checked, sentiments);
+
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
 // the data directly to your JavaScript bundle.
