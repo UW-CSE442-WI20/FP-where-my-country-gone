@@ -23,17 +23,17 @@ const exampleData = require('./example-data.json');
 // Anything you put in the static folder will be available
 // over the network, e.g.
 d3.csv('carbon-emissions.csv')
-  .then((data) => {
-    console.log('Dynamically loaded CSV data', data);
-  })
+    .then((data) => {
+        console.log('Dynamically loaded CSV data', data);
+    })
 
 /////////////////////
 // Filtering
-var dropdown = document.getElementsByClassName("dropdown-btn");
-for (var i = 0; i < dropdown.length; i++) {
+let dropdown = document.getElementsByClassName("dropdown-btn");
+for (let i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function() {
         this.classList.toggle("active");
-        var dropdownContent = this.nextElementSibling;
+        let dropdownContent = this.nextElementSibling;
         if (dropdownContent.style.display === "block") {
             dropdownContent.style.display = "none";
         } else {
@@ -75,15 +75,15 @@ d3.select("#form")
         d3.event.preventDefault();
 
         // Get checked boxes for Democrats/Republicans
-        var checkedPeople = [];
-        var democrats = document.getElementsByClassName("dem");
-        for (var i = 0; i < democrats.length; i++) {
+        let checkedPeople = [];
+        let democrats = document.getElementsByClassName("dem");
+        for (let i = 0; i < democrats.length; i++) {
             if (democrats[i].checked) {
                 checkedPeople.push(democrats[i].value);
             }
         }
-        var republicans = document.getElementsByClassName("rep");
-        for (var i = 0; i < republicans.length; i++) {
+        let republicans = document.getElementsByClassName("rep");
+        for (let i = 0; i < republicans.length; i++) {
             if (republicans[i].checked) {
                 checkedPeople.push(republicans[i].value);
             }
@@ -91,9 +91,9 @@ d3.select("#form")
         console.log(checkedPeople);
 
         // Get checked boxes for sentiments
-        var checkedSentiments = [];
-        var sentiments = document.getElementsByClassName("sentiment");
-        for (var i = 0; i < sentiments.length; i++) {
+        let checkedSentiments = [];
+        let sentiments = document.getElementsByClassName("sentiment");
+        for (let i = 0; i < sentiments.length; i++) {
             if (sentiments[i].checked) {
                 checkedSentiments.push(sentiments[i].value);
             }
@@ -101,8 +101,8 @@ d3.select("#form")
         console.log(checkedSentiments);
 
         // Get popularity and Date amounts
-        var popAmount = document.getElementById("pop-amount").value;
-        var dateAmount = document.getElementById("date-amount").value;
+        let popAmount = document.getElementById("pop-amount").value;
+        let dateAmount = document.getElementById("date-amount").value;
         console.log(popAmount);
         console.log(dateAmount);
     });
