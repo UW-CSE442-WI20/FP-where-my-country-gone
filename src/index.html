@@ -120,7 +120,7 @@
           <label for="rep22">Mike Lee</label><br>
         </div>
 
-        <!-- Issue seelction -->
+        <!-- Issue selection -->
         <button type="button" class="dropdown-btn">Issues</button>
         <div class="dropdown-container">
         </div>
@@ -144,20 +144,24 @@
 
         <!-- Popularity slider -->
         <p>
-          <label for="pop-amount">Popularity Range:</label>
-          <input type="text" class="slider-amount" id="pop-amount" readonly>
+          <label>Popularity Range:</label>
+          <input type="text" class="slider-amount1" id="pop-amount-start" readonly>
+          to
+          <input type="text" class="slider-amount1" id="pop-amount-end" readonly>
         </p>
         <div id="slider-range1"></div>
 
         <!-- Date slider -->
         <p>
-          <label for="date-amount">Date Range:</label>
-          <input type="text" class="slider-amount" id="date-amount" readonly>
+          <label>Date Range:</label>
+          <input type="text" class="slider-amount2" id="date-amount-start" readonly>
+          to
+          <input type="text" class="slider-amount2" id="date-amount-end" readonly>
         </p>
         <div id="slider-range2"></div>
         <br>
-        <input type="submit" id="submit"  value="Search">
-      </form>
+        <input type="submit" id="submit"  value="Submit">
+      </form><br><br>
     </div>
     <div id = "GraphNetwork"></div>
     <script src="./index.js"></script>

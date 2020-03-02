@@ -2,17 +2,31 @@ h4 {
     font-family: trebuchet ms;
 }
 
+p {
+    font-family: trebuchet ms;
+}
+
 label {
     font-family: trebuchet ms;
 }
 
 input[type=text] {
-    padding: 10px 12px;
+    padding: 8px 10px;
     margin: 8px;
     box-sizing: border-box;
     border: 2px solid #00acee;
     border-radius: 4px;
     font-family: trebuchet ms;
+}
+
+.slider-amount1 {
+    text-align: center;
+    width: 55px;
+}
+
+.slider-amount2 {
+    text-align: center;
+    width: 82px;
 }
 
 input[type=submit] {
@@ -77,11 +91,11 @@ input[type=submit]:hover {
     padding: 0px 10px;
 }
 
-.slider-amount {
-    text-align: center;
-}
-
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+div.ui-slider-range.ui-widget-header {
+    background-color: #00acee;
 }

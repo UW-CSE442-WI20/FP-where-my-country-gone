@@ -42,32 +42,35 @@ for (var i = 0; i < dropdown.length; i++) {
     });
 }
 
-$( function() {
-    $( "#slider-range1" ).slider({
+// jQuery range sliders
+$(function() {
+    $("#slider-range1").slider({
         range: true,
         min: 0,
         max: 500,
-        values: [ 200, 300 ],
-        slide: function( event, ui ) {
-            $( "#pop-amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        values: [200, 300],
+        slide: function(event, ui) {
+            $("#pop-amount-start").val(ui.values[0]);
+            $("#pop-amount-end").val(ui.values[1]);
         }
     });
-    $( "#pop-amount" ).val( $( "#slider-range1" ).slider( "values", 0 ) +
-        " - " + $( "#slider-range1" ).slider( "values", 1 ) );
-} );
+    $("#pop-amount-start").val($("#slider-range1").slider("values", 0));
+    $("#pop-amount-end").val($("#slider-range1").slider("values", 1));
+});
 
-$( function() {
-    $( "#slider-range2" ).slider({
+$(function() {
+    $("#slider-range2").slider({
         range: true,
         min: new Date('2016.01.01').getTime() / 1000,
         max: new Date('2020.01.01').getTime() / 1000,
         values: [new Date('2017.01.01').getTime() / 1000, new Date('2019.01.01').getTime() / 1000],
-        slide: function( event, ui ) {
-            $( "#date-amount" ).val( (new Date(ui.values[0] * 1000).toLocaleDateString("en-US")) + " - " + (new Date(ui.values[1] * 1000)).toLocaleDateString("en-US") );
+        slide: function(event, ui) {
+            $("#date-amount-start").val((new Date(ui.values[0] * 1000)).toLocaleDateString("en-US"));
+            $("#date-amount-end").val((new Date(ui.values[1] * 1000)).toLocaleDateString("en-US"));
         }
     });
-    $("#date-amount").val((new Date($("#slider-range2").slider("values", 0) * 1000).toLocaleDateString("en-US")) +
-        " - " + (new Date($("#slider-range2").slider("values", 1) * 1000)).toLocaleDateString("en-US"));
+    $("#date-amount-start").val((new Date($("#slider-range2").slider("values", 0) * 1000)).toLocaleDateString("en-US"));
+    $("#date-amount-end").val((new Date($("#slider-range2").slider("values", 1) * 1000)).toLocaleDateString("en-US"));
 } );
 /////////////////////
 d3.select("#form")
