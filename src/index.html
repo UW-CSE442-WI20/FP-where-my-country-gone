@@ -11,9 +11,21 @@
   <body>
     <div class="sidenav">
       <form id="form">
+        <!-- Democrat/Republican selection -->
         <button type="button" class="dropdown-btn">People</button>
         <div class="dropdown-container">
+          <script>
+            function toggle(source, className) {
+              let checkboxes = document.getElementsByClassName(className);
+              for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+              }
+            }
+          </script>
+
           <h4>Democrats</h4>
+          <input type="checkbox" id="dem-all" onClick="toggle(this, 'dem')">
+          <label for="dem-all">Select All</label><br>
           <input type="checkbox" class="dem" id="dem1" name="dem1" value="Barack Obama">
           <label for="dem1">Barack Obama</label><br>
           <input type="checkbox" class="dem" id="dem2" name="dem2" value="Bernie Sanders">
@@ -60,6 +72,8 @@
           <label for="dem22">Hillary Clinton</label><br>
 
           <h4>Republicans</h4>
+          <input type="checkbox" id="rep-all" onClick="toggle(this, 'rep')">
+          <label for="rep-all">Select All</label><br>
           <input type="checkbox" class="rep" id="rep1" name="rep1" value="Donald Trump">
           <label for="rep1">Donald Trump</label><br>
           <input type="checkbox" class="rep" id="rep2" name="rep2" value="Mitch McConnell">
@@ -106,12 +120,16 @@
           <label for="rep22">Mike Lee</label><br>
         </div>
 
+        <!-- Issue seelction -->
         <button type="button" class="dropdown-btn">Issues</button>
         <div class="dropdown-container">
         </div>
 
+        <!-- Sentiment selection -->
         <button type="button" class="dropdown-btn">Sentiment</button>
         <div class="dropdown-container">
+          <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')">
+          <label for="sentiment-all">Select All</label><br>
           <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="Strongly Positive">
           <label for="strongpos">Strongly Positive</label><br>
           <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="Slightly Positive">
@@ -123,11 +141,15 @@
           <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="Strongly Negative">
           <label for="strongneg">Strongly Negative</label><br>
         </div>
+
+        <!-- Popularity slider -->
         <p>
           <label for="pop-amount">Popularity Range:</label>
           <input type="text" class="slider-amount" id="pop-amount" readonly>
         </p>
         <div id="slider-range1"></div>
+
+        <!-- Date slider -->
         <p>
           <label for="date-amount">Date Range:</label>
           <input type="text" class="slider-amount" id="date-amount" readonly>
