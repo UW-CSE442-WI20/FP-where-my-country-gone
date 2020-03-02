@@ -14,6 +14,12 @@ let sentiments = new Set(['very pos', 'pos'])
 networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.02.20'),
     checked, sentiments);
 
+
+const TwitterScatter = require('./TwitterScatter');
+const twitterScatterInstance = new TwitterScatter();
+
+twitterScatterInstance.drawTwitterScatter();
+
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
 // the data directly to your JavaScript bundle.
