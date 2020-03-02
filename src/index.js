@@ -17,23 +17,23 @@ networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.0
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
 // the data directly to your JavaScript bundle.
-const exampleData = require('./example-data.json');
+// const exampleData = require('./example-data.json');
 
 
-// Anything you put in the static folder will be available
-// over the network, e.g.
-d3.csv('carbon-emissions.csv')
-    .then((data) => {
-        console.log('Dynamically loaded CSV data', data);
-    })
+// // Anything you put in the static folder will be available
+// // over the network, e.g.
+// d3.csv('carbon-emissions.csv')
+//   .then((data) => {
+//     console.log('Dynamically loaded CSV data', data);
+//   })
 
 /////////////////////
 // Filtering
-let dropdown = document.getElementsByClassName("dropdown-btn");
-for (let i = 0; i < dropdown.length; i++) {
+var dropdown = document.getElementsByClassName("dropdown-btn");
+for (var i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function() {
         this.classList.toggle("active");
-        let dropdownContent = this.nextElementSibling;
+        var dropdownContent = this.nextElementSibling;
         if (dropdownContent.style.display === "block") {
             dropdownContent.style.display = "none";
         } else {
@@ -75,15 +75,15 @@ d3.select("#form")
         d3.event.preventDefault();
 
         // Get checked boxes for Democrats/Republicans
-        let checkedPeople = [];
-        let democrats = document.getElementsByClassName("dem");
-        for (let i = 0; i < democrats.length; i++) {
+        var checkedPeople = [];
+        var democrats = document.getElementsByClassName("dem");
+        for (var i = 0; i < democrats.length; i++) {
             if (democrats[i].checked) {
                 checkedPeople.push(democrats[i].value);
             }
         }
-        let republicans = document.getElementsByClassName("rep");
-        for (let i = 0; i < republicans.length; i++) {
+        var republicans = document.getElementsByClassName("rep");
+        for (var i = 0; i < republicans.length; i++) {
             if (republicans[i].checked) {
                 checkedPeople.push(republicans[i].value);
             }
@@ -91,9 +91,9 @@ d3.select("#form")
         console.log(checkedPeople);
 
         // Get checked boxes for sentiments
-        let checkedSentiments = [];
-        let sentiments = document.getElementsByClassName("sentiment");
-        for (let i = 0; i < sentiments.length; i++) {
+        var checkedSentiments = [];
+        var sentiments = document.getElementsByClassName("sentiment");
+        for (var i = 0; i < sentiments.length; i++) {
             if (sentiments[i].checked) {
                 checkedSentiments.push(sentiments[i].value);
             }
@@ -101,8 +101,10 @@ d3.select("#form")
         console.log(checkedSentiments);
 
         // Get popularity and Date amounts
-        let popAmount = document.getElementById("pop-amount").value;
-        let dateAmount = document.getElementById("date-amount").value;
+        var popAmount = document.getElementById("pop-amount").value;
+        var dateAmount = document.getElementById("date-amount").value;
         console.log(popAmount);
         console.log(dateAmount);
     });
+
+
