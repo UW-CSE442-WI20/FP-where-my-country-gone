@@ -7,18 +7,16 @@ class Network {
         let graphIdx = wordsToGraph[word];
         if (graphIdx == undefined) {
         } else {
-            console.log("found graph index: " + graphIdx);
             let graphfile = 'wordnetwork' + graphIdx + '.json';
-            console.log("graphfile found: " + graphfile);
              d3.json(graphfile).then((data) => {
                  d3.json('TweetsArray.json').then((tweetData) => {
                      let edges = data[word];
                      let keys = Object.keys(data[word]);
-                     let nodesSet = new Set();
+                     //let nodesSet = new Set();
                      let links = [];
+                     let wordToNumber = new Map();
                      keys.forEach(function (key) {
                          let tweets = edges[key];
-                         nodesSet.add(word);
                          for (let i = 0; i < tweets.length; i++) {
                              let valid = true;
                              let tweet = tweetData[tweets[i]];
@@ -27,31 +25,45 @@ class Network {
                                  valid = false;
                              } else if (politicians.has(tweet['username']) == false) {
                                  valid = false;
-                             } else if (sentiments.has(tweet['sentiment']) == false) {valid = false;
+                             } else if (sentiments.has(tweet['sentiment']) == false) {
+                                 valid = false;
                              }
 
                              if (valid == true) {
-                                 nodesSet.add(key);
-                                 let link = {"source":word, "target":key};
-                                 links.push(link);
+                                 if (!wordToNumber.has(key)) {
+                                     wordToNumber.set(key, 0);
+                                 }
+                                 wordToNumber.set(key, wordToNumber.get(key) + 1);
                              }
                          }
                      });
-                     let nodesArr = Array.from(nodesSet);
+                     let mapIter = wordToNumber.keys();
+                     let key = mapIter.next();
+                     let arr = [];
+                     while (!key.done) {
+                         let keyItself = key.value;
+                         let next = {"word":keyItself, "number":wordToNumber.get(keyItself)};
+                         arr.push(next);
+                         key = mapIter.next();
+                     }
+                     arr.sort(function(a, b){return a.number - b.number});
+                     arr.reverse();
                      let nodes = [];
-                     for (let i = 0; i < nodesArr.length; i++) {
-                         let next = {"id":nodesArr[i]};
-                         nodes.push(next);
+                     nodes.push({"id":word});
+                     for (let i = 0; i < 20; i++) {
+                         let nextNode = {"id":arr[i].word};
+                         nodes.push(nextNode);
+                         let len = arr[i].number;
+                         for (let j = 0; j < len; j++) {
+                             let nextLink = {"source":word, "target":arr[i].word};
+                             links.push(nextLink);
+                         }
                      }
                      console.log(nodes);
+                     console.log(links);
                      this.drawNetwork(nodes, links);
                  });
              });
-             /*
-            d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_network.json").then((data) => {
-                console.log(data.nodes);
-                this.drawNetwork(data.nodes, data.links);
-            });*/
         }
     }
 
