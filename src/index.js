@@ -1,5 +1,7 @@
 // You can require libraries
 const d3 = require('d3');
+const Network = require('./Network');
+const TwitterScatter = require('./TwitterScatter');
 
 // You can include local JS files:
 const MyClass = require('./my-class');
@@ -7,7 +9,7 @@ const myClassInstance = new MyClass();
 myClassInstance.sayHi();
 
 
-const Network = require('./Network');
+
 const networkInstance = new Network();
 let checked = new Set(['marcorubio', 'RepMarkMeadows', 'AOC', 'BarackObama']);
 let sentiments = new Set(['very pos', 'pos'])
@@ -15,7 +17,7 @@ networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.0
     checked, sentiments);
 
 
-const TwitterScatter = require('./TwitterScatter');
+
 const twitterScatterInstance = new TwitterScatter();
 
 twitterScatterInstance.drawTwitterScatter();
@@ -115,5 +117,6 @@ d3.select("#form")
         console.log(popAmount);
         console.log(dateAmount);
     });
+
 
 
