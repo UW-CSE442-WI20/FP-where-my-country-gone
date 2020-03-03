@@ -1,62 +1,85 @@
-var d3 = require('d3');
-const wordsToGraph = require('./WordToGraphID.json');
+const d3 = require('d3');
 class Network {
     constructor() {}
 
-    drawNetworkGraph(word, since, until, politicians, sentiments) {
-        let graphIdx = wordsToGraph[word];
-        if (graphIdx == undefined) {
+    drawNetworkGraph(word, since, until, politicians, sentiments, period) {
+        let graphfile;
+        let tweetsfile;
+        if (period === '2016') {
+            graphfile = 'wordnetwork2016.json';
+            tweetsfile = 'TweetsArray2016.json';
         } else {
-            console.log("found graph index: " + graphIdx);
-            let graphfile = 'wordnetwork' + graphIdx + '.json';
-            console.log("graphfile found: " + graphfile);
-             d3.json(graphfile).then((data) => {
-                 d3.json('TweetsArray.json').then((tweetData) => {
-                     let edges = data[word];
-                     let keys = Object.keys(data[word]);
-                     let nodesSet = new Set();
-                     let links = [];
-                     keys.forEach(function (key) {
-                         let tweets = edges[key];
-                         nodesSet.add(word);
-                         for (let i = 0; i < tweets.length; i++) {
-                             let valid = true;
-                             let tweet = tweetData[tweets[i]];
-                             let tweetDate = new Date(tweet["date"]);
-                             if (tweetDate <= since || tweetDate >= until) {
-                                 valid = false;
-                             } else if (politicians.has(tweet['username']) == false) {
-                                 valid = false;
-                             } else if (sentiments.has(tweet['sentiment']) == false) {valid = false;
-                             }
-
-                             if (valid == true) {
-                                 nodesSet.add(key);
-                                 let link = {"source":word, "target":key};
-                                 links.push(link);
-                             }
-                         }
-                     });
-                     let nodesArr = Array.from(nodesSet);
-                     let nodes = [];
-                     for (let i = 0; i < nodesArr.length; i++) {
-                         let next = {"id":nodesArr[i]};
-                         nodes.push(next);
-                     }
-                     console.log(nodes);
-                     this.drawNetwork(nodes, links);
-                 });
-             });
+            graphfile = 'wordnetwork.json';
+            tweetsfile = 'TweetsArray.json';
         }
+         d3.json(graphfile).then((data) => {
+             d3.json(tweetsfile).then((tweetData) => {
+                 if (data[word] == undefined) {
+                     return;
+                 }
+                 let edges = data[word];
+                 let keys = Object.keys(data[word]);
+                 //let nodesSet = new Set();
+                 let links = [];
+                 let wordToNumber = new Map();
+                 keys.forEach(function (key) {
+                     let tweets = edges[key];
+                     for (let i = 0; i < tweets.length; i++) {
+                         let valid = true;
+                         let tweet = tweetData[tweets[i]];
+                         let tweetDate = new Date(tweet["date"]);
+                         if (tweetDate <= since || tweetDate >= until) {
+                             valid = false;
+                         } else if (!politicians.has(tweet['username'])) {
+                             valid = false;
+                         } else if (!sentiments.has(tweet['sentiment'])) {
+                             valid = false;
+                         }
+
+                         if (valid == true) {
+                             if (!wordToNumber.has(key)) {
+                                 wordToNumber.set(key, 0);
+                             }
+                             wordToNumber.set(key, wordToNumber.get(key) + 1);
+                         }
+                     }
+                 });
+                 let mapIter = wordToNumber.keys();
+                 let key = mapIter.next();
+                 let arr = [];
+                 while (!key.done) {
+                     let keyItself = key.value;
+                     let next = {"word":keyItself, "number":wordToNumber.get(keyItself)};
+                     arr.push(next);
+                     key = mapIter.next();
+                 }
+                 arr.sort(function(a, b){return a.number - b.number});
+                 arr.reverse();
+                 let nodes = [];
+                 nodes.push({"id":word});
+                 for (let i = 0; i < 20; i++) {
+                     let nextNode = {"id":arr[i].word};
+                     nodes.push(nextNode);
+                     let len = arr[i].number;
+                     for (let j = 0; j < len; j++) {
+                         let nextLink = {"source":word, "target":arr[i].word};
+                         links.push(nextLink);
+                     }
+                 }
+                 console.log(nodes);
+                 console.log(links);
+                 this.drawNetwork(nodes, links);
+             });
+         });
     }
 
     drawNetwork(nodes, links) {
         console.log("NODES", nodes);
         console.log("LINKS", links);
         // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 30, bottom: 30, left: 40},
-        width = 800 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom;
+        var margin = {top: 10, right: 30, bottom: 30, left: 60},
+        width = 1100 - margin.left - margin.right,
+        height = 700 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         var svg = d3.select("#GraphNetwork")
