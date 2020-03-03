@@ -64,7 +64,7 @@ class TwitterScatter {
             //.attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
+                "translate(" + (margin.left + 30) + "," + margin.top + ")");
 
 
         d3.json('TweetsArray.json').then((tweets) => {
@@ -109,7 +109,27 @@ class TwitterScatter {
                 }))
                 .range([height - 20, 0]);
             var yAxis = svg.append("g")
+                .attr("transform", "translate(10,0)")
                 .call(d3.axisLeft(y));
+
+            // Text label for the x axis
+            svg.append("text")
+                .attr("transform",
+                    "translate(" + (width / 2) + " ," +
+                    (height + margin.top + 20) + ")")
+                .style("text-anchor", "middle")
+                .style("font-family", "trebuchet ms")
+                .text("Date");
+
+            // Text label for the y axis
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .style("font-family", "trebuchet ms")
+                .text("??");
 
             // Define the div for the tooltip
             var tooltip = d3.select("body")
@@ -132,7 +152,7 @@ class TwitterScatter {
                 .append("svg:rect")
                 .attr("width", width)
                 .attr("height", height - 20)
-                .attr("x", 0)
+                .attr("x", 10)
                 .attr("y", 0);
 
             var scatter = svg.append('g')
