@@ -31,8 +31,8 @@ $('input[type=radio]').change(function() {
         $("#slider-range2").slider({
             range: true,
             min: new Date('2016.06.01').getTime() / 1000,
-            max: new Date('2017.03.01').getTime() / 1000,
-            values: [new Date('2016.06.01').getTime() / 1000, new Date('2017.03.01').getTime() / 1000],
+            max: new Date('2017.03.31').getTime() / 1000,
+            values: [new Date('2016.06.01').getTime() / 1000, new Date('2017.03.31').getTime() / 1000],
             disabled: false,
             slide: function(event, ui) {
                 $("#date-amount-start").val((new Date(ui.values[0] * 1000)).toLocaleDateString("en-US"));
@@ -44,9 +44,9 @@ $('input[type=radio]').change(function() {
     } else {
         $("#slider-range2").slider({
             range: true,
-            min: new Date('2019.06.01').getTime() / 1000,
-            max: new Date('2020.03.01').getTime() / 1000,
-            values: [new Date('2019.06.01').getTime() / 1000, new Date('2020.03.01').getTime() / 1000],
+            min: new Date('2019.07.01').getTime() / 1000,
+            max: new Date('2020.02.01').getTime() / 1000,
+            values: [new Date('2019.07.01').getTime() / 1000, new Date('2020.02.01').getTime() / 1000],
             disabled: false,
             slide: function(event, ui) {
                 $("#date-amount-start").val((new Date(ui.values[0] * 1000)).toLocaleDateString("en-US"));
