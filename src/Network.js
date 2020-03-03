@@ -67,7 +67,7 @@ class Network {
         .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")")
         .attr("stroke", "#999")
-        .attr("stroke-opacity", 0.6);
+        .attr("stroke-opacity", 0.7);
 
         const simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links).id(d => d.id))
@@ -93,8 +93,21 @@ class Network {
         .data(nodes)
         .enter()
         .append("circle")
-            .attr("r", 8)
-            .style("fill", "#69b3a2")
+            .attr("r", 5)
+            .style("fill", "#69b3a2").call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+        node.append("text")
+            .attr("x", 8)
+            .attr("y", "0.31em")
+            .text(d => d.id)
+        .clone(true).lower()
+            .attr("fill", "none")
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
         simulation.on("tick", () => {
             link
                 .attr("x1", d => d.source.x)
@@ -123,11 +136,9 @@ class Network {
             d.fx = null;
             d.fy = null;
         }
-            
-        node.call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
+    
+        // node.call();
+
             
 
         simulation.on("tick", ticked);
