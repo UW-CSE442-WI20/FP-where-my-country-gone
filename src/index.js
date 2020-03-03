@@ -113,6 +113,16 @@ d3.select("#form")
         }
         console.log(checkedSentiments);
 
+        // Get checked input for election period
+        var checkedElectionPeriod;
+        var electionPeriods = document.getElementsByName("election-period");
+        for (var i = 0; i < electionPeriods.length; i++) {
+            if (electionPeriods[i].checked) {
+                checkedElectionPeriod = electionPeriods[i].value;
+            }
+        }
+        console.log(checkedElectionPeriod);
+
         // Get popularity and Date amounts
         var popAmount = document.getElementById("pop-amount").value;
         var dateAmount = document.getElementById("date-amount").value;
