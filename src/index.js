@@ -124,8 +124,10 @@ d3.select("#form")
         console.log(checkedElectionPeriod);
 
         // Get popularity and Date amounts
-        var popAmount = document.getElementById("pop-amount").value;
-        var dateAmount = document.getElementById("date-amount").value;
+        var popAmount = [document.getElementById("pop-amount-start").value,
+                         document.getElementById("pop-amount-end").value];
+        var dateAmount = [document.getElementById("date-amount-start").value,
+                         document.getElementById("date-amount-end").value];
         console.log(popAmount);
         console.log(dateAmount);
     });
