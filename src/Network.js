@@ -12,6 +12,7 @@ class Network {
             graphfile = 'wordnetwork.json';
             tweetsfile = 'TweetsArray.json';
         }
+        console.log(since, until);
          d3.json(graphfile).then((data) => {
              d3.json(tweetsfile).then((tweetData) => {
                  if (data[word] == undefined) {
@@ -35,8 +36,7 @@ class Network {
                          } else if (!sentiments.has(tweet['sentiment'])) {
                              valid = false;
                          }
-
-                         if (valid == true) {
+                         if (valid) {
                              if (!wordToNumber.has(key)) {
                                  wordToNumber.set(key, 0);
                              }

@@ -11,18 +11,18 @@ myClassInstance.sayHi();
 
 
 const networkInstance = new Network();
-let checked = new Set(['marcorubio', 'RepMarkMeadows', 'AOC', 'BarackObama']);
+let checked = new Set(['marcorubio', 'HillaryClinton']);
 let sentiments = new Set(['very pos', 'pos']);
-networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.02.20'),
-    checked, sentiments);
+networkInstance.drawNetworkGraph('trump', new Date('2016.7.1'), new Date('2017.02.20'),
+    checked, sentiments, '2016');
 
 
 
 const twitterScatterInstance = new TwitterScatter();
 let democrats = ['BarackObama', 'AOC'];
 let republicans = ['realDonaldTrump'];
-twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2019.10.01'),
-    new Date('2019.12.25'), sentiments, "favorites");
+twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2016.10.01'),
+    new Date('2017.3.1'), sentiments, "favorites", '2016');
 
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
