@@ -9,12 +9,31 @@ class TwitterScatter {
     drawTwitterScatter(democrats, republicans, since, until, sentiments) {
         //preprocess the data
         //call drawScatter
-        var tulsi = dems["TulsiGabbard"];
         let indexes = [];
+        let intermmediate = [];
+        let tmp;
         for (let i = 0; i < democrats.length; i++) {
-
+            tmp = intermmediate.concat(dems[democrats[i]]);
+            intermmediate = tmp;
         }
-        this.drawScatter(tulsi);
+        for (let i = 0; i < republicans.length; i++) {
+            tmp = intermmediate.concat(repubs[republicans[i]]);
+            intermmediate = tmp;
+        }
+        d3.json("TweetsArray.json").then((data) => {
+            for (let i = 0; i < intermmediate.length; i++) {
+                let nextTweet = data[intermmediate[i]];
+                let tweetDate = new Date(nextTweet["date"]);
+                if (tweetDate <= since || tweetDate >= until) {
+                    continue;
+                } else if (!sentiments.has(nextTweet['sentiment'])) {
+                    continue;
+                }
+                indexes.push(intermmediate[i]);
+            }
+            console.log(indexes);
+            this.drawScatter(indexes);
+        });
 
     }
 

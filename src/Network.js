@@ -1,70 +1,68 @@
 const d3 = require('d3');
-const wordsToGraph = require('./WordToGraphID.json');
 class Network {
     constructor() {}
 
     drawNetworkGraph(word, since, until, politicians, sentiments) {
-        let graphIdx = wordsToGraph[word];
-        if (graphIdx == undefined) {
-        } else {
-            let graphfile = 'wordnetwork' + graphIdx + '.json';
-             d3.json(graphfile).then((data) => {
-                 d3.json('TweetsArray.json').then((tweetData) => {
-                     let edges = data[word];
-                     let keys = Object.keys(data[word]);
-                     //let nodesSet = new Set();
-                     let links = [];
-                     let wordToNumber = new Map();
-                     keys.forEach(function (key) {
-                         let tweets = edges[key];
-                         for (let i = 0; i < tweets.length; i++) {
-                             let valid = true;
-                             let tweet = tweetData[tweets[i]];
-                             let tweetDate = new Date(tweet["date"]);
-                             if (tweetDate <= since || tweetDate >= until) {
-                                 valid = false;
-                             } else if (politicians.has(tweet['username']) == false) {
-                                 valid = false;
-                             } else if (sentiments.has(tweet['sentiment']) == false) {
-                                 valid = false;
-                             }
+        let graphfile = 'wordnetwork.json';
+         d3.json(graphfile).then((data) => {
+             d3.json('TweetsArray.json').then((tweetData) => {
+                 if (data[word] == undefined) {
+                     return;
+                 }
+                 let edges = data[word];
+                 let keys = Object.keys(data[word]);
+                 //let nodesSet = new Set();
+                 let links = [];
+                 let wordToNumber = new Map();
+                 keys.forEach(function (key) {
+                     let tweets = edges[key];
+                     for (let i = 0; i < tweets.length; i++) {
+                         let valid = true;
+                         let tweet = tweetData[tweets[i]];
+                         let tweetDate = new Date(tweet["date"]);
+                         if (tweetDate <= since || tweetDate >= until) {
+                             valid = false;
+                         } else if (politicians.has(tweet['username']) == false) {
+                             valid = false;
+                         } else if (sentiments.has(tweet['sentiment']) == false) {
+                             valid = false;
+                         }
 
-                             if (valid == true) {
-                                 if (!wordToNumber.has(key)) {
-                                     wordToNumber.set(key, 0);
-                                 }
-                                 wordToNumber.set(key, wordToNumber.get(key) + 1);
+                         if (valid == true) {
+                             if (!wordToNumber.has(key)) {
+                                 wordToNumber.set(key, 0);
                              }
-                         }
-                     });
-                     let mapIter = wordToNumber.keys();
-                     let key = mapIter.next();
-                     let arr = [];
-                     while (!key.done) {
-                         let keyItself = key.value;
-                         let next = {"word":keyItself, "number":wordToNumber.get(keyItself)};
-                         arr.push(next);
-                         key = mapIter.next();
-                     }
-                     arr.sort(function(a, b){return a.number - b.number});
-                     arr.reverse();
-                     let nodes = [];
-                     nodes.push({"id":word});
-                     for (let i = 0; i < 20; i++) {
-                         let nextNode = {"id":arr[i].word};
-                         nodes.push(nextNode);
-                         let len = arr[i].number;
-                         for (let j = 0; j < len; j++) {
-                             let nextLink = {"source":word, "target":arr[i].word};
-                             links.push(nextLink);
+                             wordToNumber.set(key, wordToNumber.get(key) + 1);
                          }
                      }
-                     console.log(nodes);
-                     console.log(links);
-                     this.drawNetwork(nodes, links);
                  });
+                 let mapIter = wordToNumber.keys();
+                 let key = mapIter.next();
+                 let arr = [];
+                 while (!key.done) {
+                     let keyItself = key.value;
+                     let next = {"word":keyItself, "number":wordToNumber.get(keyItself)};
+                     arr.push(next);
+                     key = mapIter.next();
+                 }
+                 arr.sort(function(a, b){return a.number - b.number});
+                 arr.reverse();
+                 let nodes = [];
+                 nodes.push({"id":word});
+                 for (let i = 0; i < 20; i++) {
+                     let nextNode = {"id":arr[i].word};
+                     nodes.push(nextNode);
+                     let len = arr[i].number;
+                     for (let j = 0; j < len; j++) {
+                         let nextLink = {"source":word, "target":arr[i].word};
+                         links.push(nextLink);
+                     }
+                 }
+                 console.log(nodes);
+                 console.log(links);
+                 this.drawNetwork(nodes, links);
              });
-        }
+         });
     }
 
     drawNetwork(nodes, links) {
