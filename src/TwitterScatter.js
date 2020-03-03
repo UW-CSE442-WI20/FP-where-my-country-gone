@@ -111,6 +111,13 @@ class TwitterScatter {
             var yAxis = svg.append("g")
                 .call(d3.axisLeft(y));
 
+            // Define the div for the tooltip
+            var tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("pointer-events", "none");
+
             svg.append("rect")
                 .attr("width", width)
                 .attr("height", height)
@@ -131,6 +138,7 @@ class TwitterScatter {
             var scatter = svg.append('g')
                 .attr("clip-path", "url(#clip)");
 
+            var formatTime = d3.timeFormat("%m/%d/%y");
 
             //Add dots
             scatter.selectAll("dot")
@@ -146,15 +154,16 @@ class TwitterScatter {
                 .attr("r", 3)
                 .style("fill", "#00acee")
                 .on("mouseover", function (d) {
-                    div.transition()
+                    console.log('fjdksl')
+                    tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    div.text(d.Tweet_Text)
+                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d["favorites"])
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
                 .on("mouseout", function (d) {
-                    div.transition()
+                    tooltip.transition()
                         .duration(500)
                         .style("opacity", 0);
                 });
