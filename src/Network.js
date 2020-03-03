@@ -22,9 +22,9 @@ class Network {
                          let tweetDate = new Date(tweet["date"]);
                          if (tweetDate <= since || tweetDate >= until) {
                              valid = false;
-                         } else if (politicians.has(tweet['username']) == false) {
+                         } else if (!politicians.has(tweet['username'])) {
                              valid = false;
-                         } else if (sentiments.has(tweet['sentiment']) == false) {
+                         } else if (!sentiments.has(tweet['sentiment'])) {
                              valid = false;
                          }
 
