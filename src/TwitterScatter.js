@@ -6,11 +6,14 @@ class TwitterScatter {
     constructor() {
     }
 
-    drawTwitterScatter(filterResults) {
-        
+    drawTwitterScatter(democrats, republicans, since, until, sentiments) {
         //preprocess the data
         //call drawScatter
         var tulsi = dems["TulsiGabbard"];
+        let indexes = [];
+        for (let i = 0; i < democrats.length; i++) {
+
+        }
         this.drawScatter(tulsi);
 
     }
