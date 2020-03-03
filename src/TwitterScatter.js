@@ -6,7 +6,7 @@ class TwitterScatter {
     constructor() {
     }
 
-    drawTwitterScatter(democrats, republicans, since, until, sentiments) {
+    drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis) {
         //preprocess the data
         //call drawScatter
         let indexes = [];
@@ -32,7 +32,9 @@ class TwitterScatter {
                 indexes.push(intermmediate[i]);
             }
             console.log(indexes);
-            this.drawScatter(indexes);
+            console.log("yax " + yAxis)
+            this.drawScatter(indexes, yAxis);
+            
         });
 
     }
@@ -48,7 +50,9 @@ class TwitterScatter {
 //     "sentiment":"very pos"
 // }
 
-    drawScatter(filterResults) { //filter results is an array of indexes which correlate with the tweetsarray index
+    drawScatter(filterResults, yAx) { //filter results is an array of indexes which correlate with the tweetsarray index
+        var yAxis = yAx;
+        console.log(" in draw" + yAx)
         var margin = {top: 10, right: 30, bottom: 30, left: 60},
             width = 1100 - margin.left - margin.right,
             height = 700 - margin.top - margin.bottom;
@@ -66,23 +70,19 @@ class TwitterScatter {
             .attr("transform",
                 "translate(" + (margin.left + 30) + "," + margin.top + ")");
 
-
-        d3.json('TweetsArray.json').then((tweets) => {
-
+    
+        d3.json('TweetsArray.json' ).then((tweets) => {
+            console.log("in json " + yAxis)
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
             var data = [];
+            var vals = []
             for (var i = 0; i < filterResults.length; i++) {
-                //data.push()
-                //console.log(tweets[filterResults[i]]["text"]);
                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
-                //console.log(" parsed " + parseTime(tweets[filterResults[i]]["date"]));
-                //console.log(" saved parse" + tweets[filterResults[i]]["date"])
-                //console.log("parsed " + parseTime("6/18/19 23:28"));
                 data.push(tweets[filterResults[i]])
-                //console.log(data)
+                //console.log([data[i]["favorites"]]);
             }
-
+            
             // Zoom feature
             var zoom = d3.zoom()
                 .scaleExtent([1, 20])
@@ -105,7 +105,7 @@ class TwitterScatter {
             // Add Y axis
             var y = d3.scaleLinear()
                 .domain(d3.extent(data, function (d) {
-                    return d["favorites"];
+                    return d[yAxis];
                 }))
                 .range([height - 20, 0]);
             var yAxis = svg.append("g")
@@ -169,7 +169,7 @@ class TwitterScatter {
                     return x(d["date"]);
                 })
                 .attr("cy", function (d) {
-                    return y(d["favorites"]);
+                    return y(d[yAxis]);
                 })
                 .attr("r", 3)
                 .style("fill", "#00acee")
@@ -178,7 +178,7 @@ class TwitterScatter {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d["favorites"])
+                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAxis])
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -218,7 +218,7 @@ class TwitterScatter {
                     return newX(d["date"])
                 })
                     .attr('cy', function (d) {
-                        return newY(d["favorites"])
+                        return newY(d[yAxis])
                     });
             }
 
@@ -236,183 +236,11 @@ class TwitterScatter {
                     return newX(d["date"]);
                 })
                     .attr('cy', function (d) {
-                        return newY(d["favorites"]);
+                        return newY(d[yAxis]);
                     });
             }
         })
     }
 
-    //copied from a3:
-    a3drawScatter(filterResults, errFlag) {
-        d3.csv(csvFile).then(function (data) {
-            // Convert to Date format
-            // data.forEach(function (d) {
-            //     d.Date = parseTime(d.Date);
-            // });
-
-            if (errFlag) {
-                d3.select("#err")
-                    .style("opacity", 1);
-            } else {
-                d3.select("#err")
-                    .style("opacity", 0);
-            }
-
-
-            // // Zoom feature
-            // var zoom = d3.zoom()
-            //     .scaleExtent([1, 20])
-            //     //translateExtent insert bounds
-            //     //or restrict zoom to one axis
-            //     .translateExtent([[0, 0], [width, height]])
-            //     .extent([[0, 0], [width, height]])
-            //     .on("zoom", zoomed);
-
-            //svg.call(zoom)
-
-            // // Add X axis
-            // var x = d3.scaleTime()
-            //     .domain(d3.extent(data, function (d) {
-            //         return d.Date;
-            //     }))
-            //     .range([0, width]);
-            // var xAxis = svg.append("g")
-            //     .attr("transform", "translate(0," + (height - 20) + ")")
-            //     .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
-
-            // // Add Y axis
-            // var y = d3.scaleLinear()
-            //     .domain([0, 20])
-            //     .range([height - 20, 0]);
-            // var yAxis = svg.append("g")
-            //     .call(d3.axisLeft(y));
-
-            // svg.append("rect")
-            //     .attr("width", width)
-            //     .attr("height", height)
-            //     .style("fill", "none")
-            //     .style("pointer-events", "all")
-            //     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-            //     .call(zoom);
-
-            // // Define the div for the tooltip
-            // var div = d3.select("body")
-            //     .append("div")
-            //     .attr("class", "tooltip")
-            //     .style("opacity", 0)
-            //     .style("pointer-events", "none");
-
-            // Add a clipPath: everything out of this area won't be drawn.
-            // var clip = svg.append("defs").append("svg:clipPath")
-            //     .attr("id", "clip")
-            //     .append("svg:rect")
-            //     .attr("width", width)
-            //     .attr("height", height-20)
-            //     .attr("x", 0)
-            //     .attr("y", 0);
-            //
-            // var scatter = svg.append('g')
-            //     .attr("clip-path", "url(#clip)");
-
-            // Text label for the x axis
-            svg.append("text")
-                .attr("transform",
-                    "translate(" + (width / 2) + " ," +
-                    (height + margin.top + 20) + ")")
-                .style("text-anchor", "middle")
-                .style("font-family", "trebuchet ms")
-                .text("Date");
-
-            // Text label for the y axis
-            svg.append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 0 - margin.left)
-                .attr("x", 0 - (height / 2))
-                .attr("dy", "1em")
-                .style("text-anchor", "middle")
-                .style("font-family", "trebuchet ms")
-                .text("Favorites");
-
-            // //Add dots
-            // scatter.selectAll("dot")
-            //     .data(data)
-            //     .enter()
-            //     .append("circle")
-            //     .attr("cx", function (d) {
-            //         return x(d.Date);
-            //     })
-            //     .attr("cy", function (d) {
-            //         return y(d.Popularity_log);
-            //     })
-            //     .attr("r", 3)
-            //     .style("fill", function (d) {
-            //         if (searchResults == null) {
-            //             return "#00acee"
-            //         } //"#cc2400"
-            //         for (var i = 0; i < searchResults.length; i++) {
-            //             if (searchResults[i] != null && searchResults[i].getTime() === d.Date.getTime()) {
-            //                 return "#00acee";
-            //             }
-            //         }
-            //         return "none";
-            //     })
-            //     .on("mouseover", function (d) {
-            //         div.transition()
-            //             .duration(200)
-            //             .style("opacity", .9);
-            //         div.text(d.Tweet_Text)
-            //             .style("left", (d3.event.pageX) + "px")
-            //             .style("top", (d3.event.pageY - 28) + "px");
-            //     })
-            //     .on("mouseout", function (d) {
-            //         div.transition()
-            //             .duration(500)
-            //             .style("opacity", 0);
-            //     });
-            //
-            // var scat = scatter
-            //     .selectAll("circle");
-            //
-            // // Update chart when zooming
-            // function updateChart() {
-            //
-            //     // Recover the new scale
-            //     var newX = d3.event.transform.rescaleX(x);
-            //     var newY = d3.event.transform.rescaleY(y);
-            //
-            //     // Update axes with these new boundaries
-            //     xAxis.call(d3.axisBottom(newX))
-            //     yAxis.call(d3.axisLeft(newY))
-            //
-            //     // Update circle position
-            //
-            //     scat.attr('cx', function (d) {
-            //         return newX(d["date"]);
-            //     })
-            //         .attr('cy', function (d) {
-            //             return newY(d["favorites"]); //Popularity_log)
-            //         });
-            // }
-            //
-            // function zoomed() {
-            //     var newX = d3.event.transform.rescaleX(x);
-            //     var newY = d3.event.transform.rescaleY(y);
-            //     xAxis.call(d3.axisBottom(newX).tickFormat(function (date) {
-            //         if (d3.event.transform.k == 1) {
-            //             return d3.timeFormat("%b %Y")(date);
-            //         } else {
-            //             return d3.timeFormat("%b %e, %Y")(date);
-            //         }
-            //     }));
-            //     scat.attr('cx', function (d) {
-            //         return newX(d["date"]);
-            //     })
-            //         .attr('cy', function (d) {
-            //             return newY(d["favorites"]);
-            //         });
-            // }
-        });
-
-    }
 }
 module.exports = TwitterScatter;

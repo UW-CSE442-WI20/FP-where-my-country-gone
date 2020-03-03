@@ -22,7 +22,7 @@ const twitterScatterInstance = new TwitterScatter();
 let democrats = ['BarackObama', 'AOC'];
 let republicans = ['realDonaldTrump'];
 twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2019.10.01'),
-    new Date('2019.12.25'), sentiments);
+    new Date('2019.12.25'), sentiments, "favorites");
 
 // You can load JSON files directly via require.
 // Note this does not add a network request, it adds
