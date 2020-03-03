@@ -51,7 +51,6 @@ class TwitterScatter {
 // }
 
     drawScatter(filterResults, yAx) { //filter results is an array of indexes which correlate with the tweetsarray index
-        var yAxis = yAx;
         console.log(" in draw" + yAx)
         var margin = {top: 10, right: 30, bottom: 30, left: 60},
             width = 1100 - margin.left - margin.right,
@@ -72,7 +71,7 @@ class TwitterScatter {
 
     
         d3.json('TweetsArray.json' ).then((tweets) => {
-            console.log("in json " + yAxis)
+            console.log("in json " + yAx)
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
             var data = [];
@@ -105,7 +104,7 @@ class TwitterScatter {
             // Add Y axis
             var y = d3.scaleLinear()
                 .domain(d3.extent(data, function (d) {
-                    return d[yAxis];
+                    return d[yAx];
                 }))
                 .range([height - 20, 0]);
             var yAxis = svg.append("g")
@@ -129,7 +128,7 @@ class TwitterScatter {
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
                 .style("font-family", "trebuchet ms")
-                .text("??");
+                .text(yAx);
 
             // Define the div for the tooltip
             var tooltip = d3.select("body")
@@ -169,7 +168,7 @@ class TwitterScatter {
                     return x(d["date"]);
                 })
                 .attr("cy", function (d) {
-                    return y(d[yAxis]);
+                    return y(d[yAx]);
                 })
                 .attr("r", 3)
                 .style("fill", "#00acee")
@@ -178,7 +177,7 @@ class TwitterScatter {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAxis])
+                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAx])
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -218,7 +217,7 @@ class TwitterScatter {
                     return newX(d["date"])
                 })
                     .attr('cy', function (d) {
-                        return newY(d[yAxis])
+                        return newY(d[yAx])
                     });
             }
 
@@ -236,7 +235,7 @@ class TwitterScatter {
                     return newX(d["date"]);
                 })
                     .attr('cy', function (d) {
-                        return newY(d[yAxis]);
+                        return newY(d[yAx]);
                     });
             }
         })
