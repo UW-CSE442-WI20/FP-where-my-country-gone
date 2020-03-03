@@ -6,7 +6,7 @@ class TwitterScatter {
     constructor() {
     }
 
-    drawTwitterScatter(democrats, republicans, since, until, sentiments) {
+    drawTwitterScatter(democrats, republicans, since, until, sentiments, period) {
         //preprocess the data
         //call drawScatter
         let indexes = [];

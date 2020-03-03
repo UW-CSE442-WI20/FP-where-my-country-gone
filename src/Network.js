@@ -2,10 +2,18 @@ const d3 = require('d3');
 class Network {
     constructor() {}
 
-    drawNetworkGraph(word, since, until, politicians, sentiments) {
-        let graphfile = 'wordnetwork.json';
+    drawNetworkGraph(word, since, until, politicians, sentiments, period) {
+        let graphfile;
+        let tweetsfile;
+        if (period === '2016') {
+            graphfile = 'wordnetwork2016.json';
+            tweetsfile = 'TweetsArray2016.json';
+        } else {
+            graphfile = 'wordnetwork.json';
+            tweetsfile = 'TweetsArray.json';
+        }
          d3.json(graphfile).then((data) => {
-             d3.json('TweetsArray.json').then((tweetData) => {
+             d3.json(tweetsfile).then((tweetData) => {
                  if (data[word] == undefined) {
                      return;
                  }

@@ -12,7 +12,7 @@ myClassInstance.sayHi();
 
 const networkInstance = new Network();
 let checked = new Set(['marcorubio', 'RepMarkMeadows', 'AOC', 'BarackObama']);
-let sentiments = new Set(['very pos', 'pos'])
+let sentiments = new Set(['very pos', 'pos']);
 networkInstance.drawNetworkGraph('trump', new Date('2016.1.1'), new Date('2020.02.20'),
     checked, sentiments);
 
