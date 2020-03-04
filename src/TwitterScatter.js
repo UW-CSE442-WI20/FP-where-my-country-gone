@@ -1,8 +1,8 @@
 const d3 = require('d3');
 
 class TwitterScatter {
-    constructor() {
-    }
+
+    constructor() {}
 
     // params:
     // democrats: the deomcrats selected.
@@ -12,16 +12,26 @@ class TwitterScatter {
     // sentiments: the sentiments selected.
     // yAxis: yAxis
     // period: the election period selected.
+    
     drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period) {
-        //preprocess the data
-        //call drawScatter
+        since = new Date('2016.10.01')
+        console.log("dem: " + democrats)
+        console.log("rep: " + republicans)
+        console.log("since: " + new Date('2016.10.01'))
+        console.log("until :" + until)
+        console.log("sentiments " + sentiments)
+        console.log("yaxis" + yAxis)
+        console.log("period: " + period)
+        
+        //todo since and until are console logging as "invalid"
+
         let indexes = [];
         let intermmediate = [];
         let tmp;
         let dems;
         let repubs;
         let tweetsfile;
-        if (period === '2016') {
+        if (period === 2016) {
             dems = require('./democrats2016.json');
             repubs = require('./republicans2016.json');
             tweetsfile = 'TweetsArray2016.json'
@@ -35,6 +45,7 @@ class TwitterScatter {
             tmp = intermmediate.concat(dems[democrats[i]]);
             intermmediate = tmp;
         }
+        
         for (let i = 0; i < republicans.length; i++) {
             tmp = intermmediate.concat(repubs[republicans[i]]);
             intermmediate = tmp;
@@ -43,15 +54,16 @@ class TwitterScatter {
             for (let i = 0; i < intermmediate.length; i++) {
                 let nextTweet = data[intermmediate[i]];
                 let tweetDate = new Date(nextTweet["date"]);
-                if (tweetDate <= since || tweetDate >= until) {
+                //todo true when expecting false, possibly the reason why an empty array gets passed to the draw fx?
+                console.log(!sentiments.has(nextTweet['sentiment'])) 
+                
+                if (tweetDate <= new Date(1,2, 2015) || tweetDate >= new Date(11, 1, 2020)) {
                     continue;
                 } else if (!sentiments.has(nextTweet['sentiment'])) {
                     continue;
                 }
                 indexes.push(intermmediate[i]);
             }
-            console.log(indexes);
-            console.log("yax " + yAxis);
             this.drawScatter(indexes, yAxis, tweetsfile);
             
         });
@@ -70,14 +82,14 @@ class TwitterScatter {
 // }
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
-        console.log(" in draw" + yAx)
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 1100 - margin.left - margin.right,
-            height = 700 - margin.top - margin.bottom;
-
-        // Append the svg object to the body of the page
+        console.log(filterResults)
+        var margin = {top: 10, right: 30, bottom: 30, left: 60};
+        var width = 1100 - margin.left - margin.right;
+        var height = 700 - margin.top - margin.bottom;
         var wid = width + margin.left + margin.right;
         var hei = height + margin.top + margin.bottom;
+        
+        
         var svg = d3.select("#dataviz")
             .append("svg")
             .attr('preserveAspectRatio', 'xMinYMin meet')
@@ -87,18 +99,15 @@ class TwitterScatter {
             .append("g")
             .attr("transform",
                 "translate(" + (margin.left + 30) + "," + margin.top + ")");
-
-    
+        
+        
         d3.json(tweetsfile).then((tweets) => {
-            console.log("in json " + yAx)
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
             var data = [];
-            var vals = []
             for (var i = 0; i < filterResults.length; i++) {
                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
                 data.push(tweets[filterResults[i]])
-                //console.log([data[i]["favorites"]]);
             }
             
             // Zoom feature
@@ -161,7 +170,7 @@ class TwitterScatter {
                 .attr("height", height)
                 .style("fill", "none")
                 .style("pointer-events", "all")
-                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                //.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
                 .call(zoom);
 
 
@@ -192,7 +201,6 @@ class TwitterScatter {
                 .attr("r", 3)
                 .style("fill", "#00acee")
                 .on("mouseover", function (d) {
-                    console.log('fjdksl')
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
@@ -218,6 +226,9 @@ class TwitterScatter {
 
             var scat = scatter
                 .selectAll("circle");
+
+            // scatter.exit()
+            //     .remove()
 
             // Update chart when zooming
             function updateChart() {
@@ -261,4 +272,58 @@ class TwitterScatter {
     }
 
 }
+
+
+
+// /** REFERENCE FOR THE DATA UPDATE
+//  * Here we do data binding.
+//  */
+// const drawMyData = () => {
+//
+//     // The initial update set.
+//     // The second argument to data() is the
+//     // key function. This is how D3 can match
+//     // data points between updates. Here we just
+//     // use the value itself, but you'd
+//     // likely want to use some sort of primary key
+//     // in practice.
+//     const updateSet = d3.selectAll('div.dataPoint').data(myData, (d) => {
+//         return d
+//     });
+//
+//     // The enter set (any new data point).
+//     updateSet.enter()
+//         .append('div')
+//         .attr('class', 'dataPoint')
+//         .text((d) => {
+//             return d
+//         })
+//         .style('font-size', (d) =>{
+//             // Data driven font-size!
+//             return rScale(d)
+//         })
+//         .style('color', (d, i) => {
+//             if (i === 0) {
+//                 return 'black'
+//             }
+//             // Green if its bigger than the last value
+//             // we saw, red if its smaller.
+//             if (d > myData[i - 1]) {
+//                 return 'green'
+//             }
+//             return 'red';
+//         })
+//
+//
+//     updateSet
+//         .style('color', 'black')
+//
+//     // Any data point that disappeared.
+//     updateSet.exit()
+//         .remove()
+// }
+//
+//
+// drawMyData();
+
 module.exports = TwitterScatter;

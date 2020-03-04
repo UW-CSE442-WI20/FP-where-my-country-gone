@@ -2,40 +2,13 @@
 const d3 = require('d3');
 const Network = require('./Network');
 const TwitterScatter = require('./TwitterScatter');
-
-// You can include local JS files:
-const MyClass = require('./my-class');
-const myClassInstance = new MyClass();
-myClassInstance.sayHi();
-
-
-
 const networkInstance = new Network();
+const twitterScatterInstance = new TwitterScatter();
+
 let checked = new Set(['marcorubio', 'HillaryClinton']);
 let sentiments = new Set(['very pos', 'pos']);
 networkInstance.drawNetworkGraph('trump', new Date('2016.7.1'), new Date('2017.02.20'),
     checked, sentiments, '2016');
-
-
-
-const twitterScatterInstance = new TwitterScatter();
-let democrats = ['BarackObama', 'AOC'];
-let republicans = ['realDonaldTrump'];
-twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2016.10.01'),
-    new Date('2017.3.1'), sentiments, "favorites", '2016');
-
-// You can load JSON files directly via require.
-// Note this does not add a network request, it adds
-// the data directly to your JavaScript bundle.
-// const exampleData = require('./example-data.json');
-
-
-// // Anything you put in the static folder will be available
-// // over the network, e.g.
-// d3.csv('carbon-emissions.csv')
-//   .then((data) => {
-//     console.log('Dynamically loaded CSV data', data);
-//   })
 
 /////////////////////
 // Filtering
@@ -58,27 +31,29 @@ d3.select("#form")
         d3.event.preventDefault();
 
         // Get checked boxes for Democrats/Republicans
-        var checkedPeople = [];
+        var checkedDems = [];
         var democrats = document.getElementsByClassName("dem");
         for (var i = 0; i < democrats.length; i++) {
             if (democrats[i].checked) {
-                checkedPeople.push(democrats[i].value);
+                checkedDems.push(democrats[i].value);
             }
         }
+        var checkedReps = [];
         var republicans = document.getElementsByClassName("rep");
         for (var i = 0; i < republicans.length; i++) {
             if (republicans[i].checked) {
-                checkedPeople.push(republicans[i].value);
+                checkedReps.push(republicans[i].value);
             }
         }
-        console.log(checkedPeople);
+        console.log("checkedDems : " + checkedDems);
+        console.log("checkedRep: " + checkedReps);
 
         // Get checked boxes for sentiments
-        var checkedSentiments = [];
+        var checkedSentiments = new Set();
         var sentiments = document.getElementsByClassName("sentiment");
         for (var i = 0; i < sentiments.length; i++) {
             if (sentiments[i].checked) {
-                checkedSentiments.push(sentiments[i].value);
+                checkedSentiments.add(sentiments[i].value);
             }
         }
         console.log(checkedSentiments);
@@ -100,6 +75,9 @@ d3.select("#form")
                          document.getElementById("date-amount-end").value];
         console.log(popAmount);
         console.log(dateAmount);
+
+        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
+            new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);
     });
 
 
