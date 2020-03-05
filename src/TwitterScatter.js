@@ -113,9 +113,8 @@ class TwitterScatter {
             for (let i = 0; i < intermmediate.length; i++) {
                 let nextTweet = data[intermmediate[i]];
                 let tweetDate = new Date(nextTweet["date"]);
-                console.log(tweetDate)
                 if (tweetDate <= since || tweetDate >= until) {
-                    console.log("got a problem with the dates")
+                    //console.log("got a problem with the dates")
                     continue;
                 } else if (!sentiments.has(nextTweet['sentiment'])) {
                     continue;
@@ -468,10 +467,10 @@ class TwitterScatter {
             // Initial draw made with no zoom
             draw(d3.zoomIdentity)
 
-            function drawPoint(scaleX, scaleY, point, k) {
+            function drawPoint(scaleX, scaleY, d, k) {
                 
                 canv.beginPath();
-                canv.fillStyle = '#aaffaa';
+                canv.fillStyle = '#000000';
                 const px = scaleX(d["date"]);
                 const py = scaleY(d[yAx]);
 

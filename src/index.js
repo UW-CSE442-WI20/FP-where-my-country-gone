@@ -79,6 +79,8 @@ d3.select("#form")
         var d1 = new Date(2016, 10, 1);
         var d2 = new Date(2020, 4, 4)
         console.log("dateString", d1.toString())
+        
+        //// DRAW TWITTER SCATTER NEEDS A DATE STRING PASSED for SINCE AND UNTIL PARAMS
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
             d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod);
     });
