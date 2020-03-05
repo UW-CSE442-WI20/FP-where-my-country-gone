@@ -60,7 +60,7 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
-                this.drawScatter(searchResults, yAx, tweetfile);
+                this.drawScatter(searchResults, yAxis, tweetfile);
             });
         }
     }
