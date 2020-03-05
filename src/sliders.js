@@ -101,3 +101,7 @@ $('input[type=radio]').change(function() {
         $("#date-amount-end").val((new Date($("#slider-range2").slider("values", 1) * 1000)).toLocaleDateString("en-US"));
     }
 });
+
+$( "#sidenav" ).resizable({
+    handles: 'e'
+});

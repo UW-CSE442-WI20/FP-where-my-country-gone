@@ -1,8 +1,4 @@
-h2 {
-    font-family: trebuchet ms;
-}
-
-h4 {
+h2, h4 {
     font-family: trebuchet ms;
 }
 
@@ -26,7 +22,7 @@ input[type=text] {
 
 .slider-amount1, .slider-amount2, .slider-amount3, .slider-amount4 {
     text-align: center;
-    width: 80px;
+    width: 85px;
 }
 
 input[type=submit] {
@@ -57,7 +53,6 @@ input[type=submit]:hover {
     top: 0;
     left: 0;
     background-color: #eee;
-    overflow-x: hidden;
     padding-top: 20px;
 }
 
@@ -104,6 +99,7 @@ div.tooltip {
     margin-left: 300px;
     padding: 0px 10px;
 }
+
 .scatter-container {
     margin: auto;
     width: 900px;
@@ -113,6 +109,7 @@ div.tooltip {
 .svg-plot, .canvas-plot {
     position: absolute;
 }
+
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
