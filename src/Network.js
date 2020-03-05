@@ -63,6 +63,9 @@ class Network {
                      let nextNode = {"id":arr[i].word};
                      nodes.push(nextNode);
                      let len = arr[i].number;
+                     let nextLink = {"source":word, "target":arr[i].word, "size":len};
+                     links.push(nextLink);
+                     /*
                      for (let j = 0; j < len; j++) {
                          let nextLink = {"source":word, "target":arr[i].word, "id" : links.length - 1};
                          links.push(nextLink);
@@ -72,7 +75,7 @@ class Network {
                             linkMap[String(word)+String(arr[i].word)] = 1;
                          }
                         linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
-                     }
+                     }*/
                  }
                  console.log(nodes);
                  console.log(links);
@@ -90,7 +93,7 @@ class Network {
         context = canvas.getContext("2d"),
         width = canvas.width,
         height = canvas.height;
-        
+
         var graph = {nodes: nodes, links: links};
 
         var simulation = d3.forceSimulation()
