@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Final Project</title>
+    <link href="https://uw-cse442-wi20.github.io/FP-where-my-country-gone/style.07c4fcb6.css" rel="stylesheet">
+    <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  </head>
+  <body>
+    <div class="sidenav" id="sidenav">
+      <form id="form">
+        <h2>&nbsp;&nbsp;Filtering</h2>
+
+        <!-- Democrat/Republican selection -->
+        <button type="button" class="dropdown-btn">People</button>
+        <div class="dropdown-container">
+          <script>function toggle(source, className) {
+  var checkboxes = document.getElementsByClassName(className);
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}</script>
+
+          <h4>Democrats</h4>
+          <input type="checkbox" id="dem-all" onClick="toggle(this, 'dem')">
+          <label for="dem-all">Select All</label><br>
+          <input type="checkbox" class="dem" id="dem1" name="dem1" value="AOC">
+          <label for="dem1">Alexandria Ocasio-Cortez</label><br>
+          <input type="checkbox" class="dem" id="dem2" name="dem2" value="BarackObama">
+          <label for="dem2">Barack Obama</label><br>
+          <input type="checkbox" class="dem" id="dem3" name="dem3" value="BernieSanders">
+          <label for="dem3">Bernie Sanders</label><br>
+          <input type="checkbox" class="dem" id="dem4" name="dem4" value="BetoORourke">
+          <label for="dem4">Beto O'Rourke</label><br>
+          <input type="checkbox" class="dem" id="dem5" name="dem5" value="SenSchumer">
+          <label for="dem5">Chuck Schumer</label><br>
+          <input type="checkbox" class="dem" id="dem6" name="dem6" value="ewarren">
+          <label for="dem6">Elizabeth Warren</label><br>
+          <input type="checkbox" class="dem" id="dem7" name="dem7" value="HillaryClinton">
+          <label for="dem7">Hillary Clinton</label><br>
+          <input type="checkbox" class="dem" id="dem8" name="dem8" value="JoeBiden">
+          <label for="dem8">Joe Biden</label><br>
+          <input type="checkbox" class="dem" id="dem9" name="dem9" value="KamalaHarris">
+          <label for="dem9">Kamala Harris</label><br>
+          <input type="checkbox" class="dem" id="dem10" name="dem10" value="RepMaxineWaters">
+          <label for="dem10">Maxine Waters</label><br>
+
+          <h4>Republicans</h4>
+          <input type="checkbox" id="rep-all" onClick="toggle(this, 'rep')">
+          <label for="rep-all">Select All</label><br>
+          <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump">
+          <label for="rep1">Donald Trump</label><br>
+          <input type="checkbox" class="rep" id="rep2" name="rep2" value="Jim_Jordan">
+          <label for="rep2">Jim Jordan</label><br>
+          <input type="checkbox" class="rep" id="rep3" name="rep3" value="LindseyGrahamSC">
+          <label for="rep3">Lindsey Graham</label><br>
+          <input type="checkbox" class="rep" id="rep4" name="rep4" value="lisamurkowski">
+          <label for="rep4">Lisa Murkowski</label><br>
+          <input type="checkbox" class="rep" id="rep5" name="rep5" value="marcorubio">
+          <label for="rep5">Marco Rubio</label><br>
+          <input type="checkbox" class="rep" id="rep6" name="rep6" value="SpeakerRyan">
+          <label for="rep6">Paul Ryan</label><br>
+          <input type="checkbox" class="rep" id="rep7" name="rep7" value="RandPaul">
+          <label for="rep7">Rand Paul</label><br>
+          <input type="checkbox" class="rep" id="rep8" name="rep8" value="SteveScalise">
+          <label for="rep8">Steve Scalise</label><br>
+          <input type="checkbox" class="rep" id="rep9" name="rep9" value="tedcruz">
+          <label for="rep9">Ted Cruz</label><br>
+        </div>
+
+        <!-- Sentiment selection -->
+        <button type="button" class="dropdown-btn">Sentiment</button>
+        <div class="dropdown-container">
+          <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')">
+          <label for="sentiment-all">Select All</label><br>
+          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos">
+          <label for="strongpos">Strongly Positive</label><br>
+          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="pos">
+          <label for="slightpos">Slightly Positive</label><br>
+          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu">
+          <label for="neu">Neutral</label><br>
+          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="neg">
+          <label for="slightneg">Slightly Negative</label><br>
+          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg">
+          <label for="strongneg">Strongly Negative</label><br>
+        </div>
+
+        <!-- Election period selection -->
+        <button type="button" class="dropdown-btn">Election Period</button>
+        <div class="dropdown-container">
+          <div id="election-radios">
+              <input type="radio" class="election-period" id="2016" name="election-period" value="2016" required="">
+              <label for="2016">2016 Election</label><br>
+              <input type="radio" class="election-period" id="2020" name="election-period" value="2020">
+              <label for="2020">2020 Election</label><br>
+          </div>
+
+          <!-- Date slider -->
+          <p>
+            Please select an election period before using the Date slider.<br><br>
+            <label>Date Range:</label><br>
+            <input type="text" class="slider-amount2" id="date-amount-start" readonly="">
+            to
+            <input type="text" class="slider-amount2" id="date-amount-end" readonly="">
+          </p>
+          <div id="slider-range2"></div>
+        </div>
+
+        <br><br>
+
+        <button type="button" class="dropdown-btn">Scatter Plot Filters</button>
+        <div class="dropdown-container">
+          <div id="y-axis-radios">
+            <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required="">
+            <label for="fav"># of Favorites</label><br>
+            <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
+            <label for="2020"># of Retweets</label><br>
+            <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
+            <label for="2020"># of Replies</label><br>
+          </div>
+
+          <!-- Popularity slider -->
+          <p>
+            Please select a y-axis dimension before using the popularity slider.<br><br>
+            <label>Popularity Range:</label><br>
+            <input type="text" class="slider-amount1" id="pop-amount-start" readonly="">
+            to
+            <input type="text" class="slider-amount1" id="pop-amount-end" readonly="">
+            <label id="dimension-type"></label>
+          </p>
+          <div id="slider-range1"></div>
+          <br><br>
+        </div>
+        <br><br>
+
+        &nbsp;&nbsp;
+        <input type="submit" id="submit" value="Submit">
+      </form><br><br>
+    </div>
+    
+    <div class="main">
+      <div id="dataviz"></div>
+      <script src="https://uw-cse442-wi20.github.io/FP-where-my-country-gone/src.f0460ace.js"></script>
+      <script src="https://uw-cse442-wi20.github.io/FP-where-my-country-gone/sliders.b33eadbc.js"></script>
+      <canvas width="960" height="600"></canvas>
+      <div class="scatter-container"></div>
+      <script src="https://uw-cse442-wi20.github.io/FP-where-my-country-gone/Network.cf7af377.js"></script>
+      <script src="https://uw-cse442-wi20.github.io/FP-where-my-country-gone/TwitterScatter.78c40300.js"></script>
+    </div>
+  </body>
+</html>

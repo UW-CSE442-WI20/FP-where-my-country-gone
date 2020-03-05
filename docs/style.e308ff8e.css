@@ -1,0 +1,122 @@
+h2, h4 {
+    font-family: trebuchet ms;
+}
+
+p {
+    font-family: trebuchet ms;
+    font-size: 13px;
+}
+
+label {
+    font-family: trebuchet ms;
+}
+
+input[type=text] {
+    padding: 8px 10px;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 2px solid #00acee;
+    border-radius: 4px;
+    font-family: trebuchet ms;
+}
+
+.slider-amount1, .slider-amount2, .slider-amount3, .slider-amount4 {
+    text-align: center;
+    width: 85px;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 13px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+input[type=submit]:hover {
+    background-color: #009900;
+    border: none;
+    color: white;
+    padding: 13px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+.sidenav {
+    height: 100%;
+    width: 320px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #eee;
+    padding-top: 20px;
+}
+
+.dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-family: trebuchet ms;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.dropdown-btn:hover {
+    color: #00acee;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #eee;
+    padding-left: 8px;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    max-width: 200px;
+    height: auto;
+    padding: 2px;
+    font: 12px arial;
+    background: #ece6e4;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    text-align: center;
+}
+
+.main {
+    margin-left: 300px;
+    padding: 0px 10px;
+}
+
+.scatter-container {
+    margin: auto;
+    width: 900px;
+    height: 500px;
+}
+
+.svg-plot, .canvas-plot {
+    position: absolute;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+div.ui-slider-range.ui-widget-header {
+    background-color: #00acee;
+}
+
+/*# sourceMappingURL=/style.e308ff8e.css.map */

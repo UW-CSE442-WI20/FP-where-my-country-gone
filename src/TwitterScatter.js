@@ -122,24 +122,15 @@ class TwitterScatter {
                 indexes.push(intermmediate[i]);
             }
             
-            this.drawStats(indexes, tweetsfile);
+            
+            //console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             
         });
 
     }
-
-// {
-//     "date":"6/18/19 23:54",
-//     "username":"realDonaldTrump",
-//     "replies":8636,
-//     "retweets":8012,
-//     "favorites":49104,
-//     "text":"Join me LIVE tonight in Orlando, Florida at 8:00 P.M. Eastern as we kickoff #Trump2020. Enjoy!",
-//     "permalink":"https://twitter.com/realDonaldTrump/status/1141132100273418240",
-//     "sentiment":"very pos"
-// }
+    
 //
 //     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
 //         console.log(filterResults)
@@ -148,8 +139,8 @@ class TwitterScatter {
 //         var height = 700 - margin.top - margin.bottom;
 //         var wid = width + margin.left + margin.right;
 //         var hei = height + margin.top + margin.bottom;
-//
-//
+//        
+//        
 //         var svg = d3.select("#dataviz svg" );
 //         if(svg.size() == 0) {
 //             svg = d3.select("#dataviz")
@@ -162,8 +153,8 @@ class TwitterScatter {
 //                 .attr("transform",
 //                     "translate(" + (margin.left + 30) + "," + margin.top + ")");
 //         }
-//
-//
+//        
+//        
 //         d3.json(tweetsfile).then((tweets) => {
 //             // Convert to Date format
 //             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
@@ -172,7 +163,7 @@ class TwitterScatter {
 //                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
 //                 data.push(tweets[filterResults[i]])
 //             }
-//
+//            
 //             // Zoom feature
 //             var zoom = d3.zoom()
 //                 .scaleExtent([1, 20])
@@ -342,36 +333,62 @@ class TwitterScatter {
         var outerHeight = 500;
         var width = outerWidth - margin.left - margin.right;
         var height = outerHeight - margin.top - margin.bottom;
-        //var wid = width + margin.left + margin.right;
-        //var hei = height + margin.top + margin.bottom;
-
+        
         const container = d3.select('.scatter-container');
         let lastTransform = null;
 
         // Init SVG
-        const svgChart = container.append('svg:svg')
-            .attr('width', outerWidth)
-            .attr('height', outerHeight)
-            .attr('class', 'svg-plot')
-            .append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+        if(d3.select('.scatter-container svg g').size() == 0){
+            var svgChart = container.append('svg')
+                .attr('width', outerWidth)
+                .attr('height', outerHeight)
+                .attr('class', 'svg-plot')
+                .append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`)
+                .attr('class', 'g-class');
+        }else{
+            svgChart = d3.select('g-class')
+        }
+
 
         // Init Canvas
         if(d3.select('.scatter-container canvas').size() == 0){
             var canvasChart = container.append('canvas')
                 .attr('width', width)
                 .attr('height', height)
+                //.classed('.canvas-plot', true)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
                 .attr('class', 'canvas-plot');
+            
+            // hidden canvas
+            var hiddenCanvas = container.append('canvas')
+                .attr('width', width)
+                .attr('height', height)
+                //.classed('.hidden-canvas', true)
+                .style('margin-left', margin.left + 'px')
+                .style('margin-top', margin.top + 'px')
+                .attr('class', 'hidden-canvas');;
         }else{
-            canvasChart = d3.select('.scatter-container canvas');
+            canvasChart = d3.select('.canvas-plot');
+            hiddenCanvas = d3.select('.hidden-canvas')
         }
         
         const canv = canvasChart.node().getContext('2d');
         
         
-
+        var customBase = document.createElement('custom');
+        var custom = d3.select(customBase); // "virtual" SVG for tooltip with canvas
+        
+        /////////////////
+        //Define the div for the tooltip
+        var tooltip = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0)
+            .style("pointer-events", "none");
+        
+        
         // var svg = d3.select("#dataviz svg" );
         // if(svg.size() == 0) {
         //     svg = d3.select("#dataviz")
@@ -394,7 +411,7 @@ class TwitterScatter {
                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
                 data.push(tweets[filterResults[i]])
             }
-
+            
 
             // Add X axis
             var x = d3.scaleTime()
@@ -417,10 +434,12 @@ class TwitterScatter {
             const yAxis = svgChart.append("g")
                 .call(d3.axisLeft(y));
 
+            databind(data, x, y);
+
             // Text label for the x axis
             svgChart.append("text")
                 .attr('x', `${width / 2}`)
-                .attr('y', `${height + 40}`)
+                .attr('y', `${height -40}`)
                 .text('Axis X');
                 // .attr("transform",
                 //     "translate(" + (width / 2) + " ," +
@@ -443,8 +462,46 @@ class TwitterScatter {
                 // .style("font-family", "trebuchet ms")
                 // .text(yAx);
 
-            // Draw plot on canvas
-            //point = [x, y]
+
+            canvasChart.on('mousemove',function(){
+                draw(hiddenCanvas)
+                var mouseX = d3.event.layerX || d3.event.offsetX;
+                var mouseY = d3.event.layerY || d3.event.offsetY;
+                
+                var hiddenCtx = hiddenCanvas.node().getContext('2d');
+                var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
+                console.log("col ", col)
+                
+
+            })
+            
+            function databind(data, x, y){
+                var join = custom.selectAll('custom.circle')
+                            .data(data);
+                
+                var enterSel = join.enter()
+                        .append('custom')
+                        .attr('class', 'circle')
+                        .attr('x', function(d){
+                            return x(d["date"]);
+                        })
+                        .attr('y', function(d){
+                            return y(d[yAx]);
+                        }).attr("r", 2);
+
+                join.merge(enterSel)
+                    .transition()
+                    .attr('r', 3)
+                    .attr('fillStyle', '#000000');
+
+                var exitSel = join.exit().transition().attr('width', 0).attr('height', 0).remove();
+                                  
+            }
+
+
+            // Initial draw made with no zoom
+            draw(d3.zoomIdentity)
+
             function draw(transform) {
                 lastTransform = transform;
 
@@ -455,26 +512,22 @@ class TwitterScatter {
                 yAxis.call(d3.axisLeft(y).scale(scaleY));
 
                 canv.clearRect(0, 0, width, height);
-
-                data.forEach(d => {
+                var elements = custom.selectAll('custom.circle');
+                elements.each(function(d) {
                     drawPoint(scaleX, scaleY, d, transform.k);
                 });
             }
-
-            // Initial draw made with no zoom
-            draw(d3.zoomIdentity)
-
             function drawPoint(scaleX, scaleY, d, k) {
-                
                 canv.beginPath();
                 canv.fillStyle = '#000000';
                 const px = scaleX(d["date"]);
                 const py = scaleY(d[yAx]);
 
-                canv.arc(px, py, 1.2 * k, 0, 2 * Math.PI, true);
+                canv.arc(px, py, 2.5, 0, 2 * Math.PI, true);
                 canv.fill();
             }
 
+            
             const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
                 .on('zoom', () => {
                     const transform = d3.event.transform;
@@ -482,105 +535,9 @@ class TwitterScatter {
                     draw(transform);
                     canv.restore();
                 });
-
+            
             canvasChart.call(zoom_function);
-            /////////////////
-            //todo
-            // Define the div for the tooltip
-            // var tooltip = d3.select("body")
-            //     .append("div")
-            //     .attr("class", "tooltip")
-            //     .style("opacity", 0)
-            //     .style("pointer-events", "none");
-            /////////////////////
-            //todo
-            // svg.append("rect")
-            //     .attr("width", width)
-            //     .attr("height", height)
-            //     .style("fill", "none")
-            //     .style("pointer-events", "all")
-            //     //.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-            //     .call(zoom);
-
-            //
-            // var clip = svg.append("defs").append("svg:clipPath")
-            //     .attr("id", "clip")
-            //     .append("svg:rect")
-            //     .attr("width", width)
-            //     .attr("height", height - 20)
-            //     .attr("x", 10)
-            //     .attr("y", 0);
-            //
-            // var scatter = svg.append('g')
-            //     .attr("clip-path", "url(#clip)");
-            //
-            // var formatTime = d3.timeFormat("%m/%d/%y");
-            //
-            // //Add dots
-            // todo the tooltip event listeners are here. 
-            // scatter.selectAll("dot")
-            //     .data(data)
-            //     .enter()
-            //     .append("circle")
-            //     .attr("cx", function (d) {
-            //         return x(d["date"]);
-            //     })
-            //     .attr("cy", function (d) {
-            //         return y(d[yAx]);
-            //     })
-            //     .attr("r", 3)
-            //     .style("fill", "#00acee")
-            //     .on("mouseover", function (d) {
-            //         tooltip.transition()
-            //             .duration(200)
-            //             .style("opacity", .9);
-            //         tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAx])
-            //             .style("left", (d3.event.pageX) + "px")
-            //             .style("top", (d3.event.pageY - 28) + "px");
-            //     })
-            //     .on("mouseout", function (d) {
-            //         tooltip.transition()
-            //             .duration(500)
-            //             .style("opacity", 0);
-            //     });
-            //
-            // function(d) {
-            //     if(searchResults == null){return "#00acee"} //"#cc2400"
-            //     for (var i = 0; i < searchResults.length; i++) {
-            //         if (searchResults[i] != null && searchResults[i].getTime() === d.Date.getTime()) {
-            //             return "#00acee";
-            //         }
-            //     }
-            //     return "none";
-            // })
-            //
-            // var scat = scatter
-            //     .selectAll("circle");
-            //
-            // // scatter.exit()
-            // //     .remove()
-            //
-            // // Update chart when zooming
-            // function updateChart() {
-            //
-            //     // Recover the new scale
-            //     var newX = d3.event.transform.rescaleX(x);
-            //     var newY = d3.event.transform.rescaleY(y);
-            //
-            //     // Update axes with these new boundaries
-            //     xAxis.call(d3.axisBottom(newX))
-            //     yAxis.call(d3.axisLeft(newY))
-            //
-            //     // Update circle position
-            //
-            //     scat.attr('cx', function (d) {
-            //         return newX(d["date"])
-            //     })
-            //         .attr('cy', function (d) {
-            //             return newY(d[yAx])
-            //         });
-            // }
-
+            
         })
     }
 
@@ -591,16 +548,16 @@ class TwitterScatter {
             let userToSentiment = new Map();
             let userToInteractions = new Map();
             let totaltweets = indexes.length;
-            let overallsentiments = {"very neg": 0, "slight neg": 0, "neu": 0, "slight pos": 0, "very pos": 0};
-            let overallinteractions = {"replies": 0, "retweets": 0, "favorites": 0};
+            let overallsentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
+            let overallinteractions = {"replies":0, "retweets":0, "favorites":0};
             for (let i = 0; i < indexes.length; i++) {
                 let tweet = tweets[indexes[i]];
                 let username = tweet['username'];
                 if (!userToNumberOfTweets.has(username)) {
                     userToNumberOfTweets.set(username, 0);
-                    let sentiments = {"very neg": 0, "slight neg": 0, "neu": 0, "slight pos": 0, "very pos": 0};
+                    let sentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
                     userToSentiment.set(username, sentiments);
-                    let interactions = {"replies": 0, "retweets": 0, "favorites": 0};
+                    let interactions = {"replies":0, "retweets":0, "favorites":0};
                     userToInteractions.set(username, interactions);
                 }
                 userToNumberOfTweets.set(username, userToNumberOfTweets.get(username) + 1);
@@ -630,279 +587,37 @@ class TwitterScatter {
             let mapIter = userToNumberOfTweets.keys();
             let key = mapIter.next();
 
-            sentimentdataset.push({group: "all", category: "very neg", measure: overallsentiments['very neg']});
-            sentimentdataset.push({group: "all", category: "slight neg", measure: overallsentiments['slight neg']});
-            sentimentdataset.push({group: "all", category: "neu", measure: overallsentiments['neu']});
-            sentimentdataset.push({group: "all", category: "slight pos", measure: overallsentiments['slight pos']});
-            sentimentdataset.push({group: "all", category: "very pos", measure: overallsentiments['very pos']});
+            sentimentdataset.push({group:"all", category:"very neg", measure:overallsentiments['very neg']});
+            sentimentdataset.push({group:"all", category:"slight neg", measure:overallsentiments['slight neg']});
+            sentimentdataset.push({group:"all", category:"neu", measure:overallsentiments['neu']});
+            sentimentdataset.push({group:"all", category:"slight pos", measure:overallsentiments['slight pos']});
+            sentimentdataset.push({group:"all", category:"very pos", measure:overallsentiments['very pos']});
 
-            interactionsdataset.push({group: "all", category: "replies", measure: overallinteractions['replies']});
-            interactionsdataset.push({group: "all", category: "retweets", measure: overallinteractions['retweets']});
-            interactionsdataset.push({group: "all", category: "favorites", measure: overallinteractions['favorites']});
+            interactionsdataset.push({group:"all", category:"replies", measure:overallinteractions['replies']});
+            interactionsdataset.push({group:"all", category:"retweets", measure:overallinteractions['retweets']});
+            interactionsdataset.push({group:"all", category:"favorites", measure:overallinteractions['favorites']});
 
-            while (!key.done) {
+            while(!key.done) {
                 let keyitself = key.value;
                 let measurev = userToNumberOfTweets.get(keyitself) / totaltweets;
-                let nextpie = {category: keyitself, measure: measurev};
+                let nextpie = {category:keyitself, measure:measurev};
                 piedataset.push(nextpie);
 
                 let nextsentiments = userToSentiment.get(keyitself);
-                sentimentdataset.push({group: keyitself, category: "very neg", measure: nextsentiments['very neg']});
-                sentimentdataset.push({
-                    group: keyitself,
-                    category: "slight neg",
-                    measure: nextsentiments['slight neg']
-                });
-                sentimentdataset.push({group: keyitself, category: "neu", measure: nextsentiments['neu']});
-                sentimentdataset.push({
-                    group: keyitself,
-                    category: "slight pos",
-                    measure: nextsentiments['slight pos']
-                });
-                sentimentdataset.push({group: keyitself, category: "very pos", measure: nextsentiments['very pos']});
+                sentimentdataset.push({group:keyitself, category:"very neg", measure:nextsentiments['very neg']});
+                sentimentdataset.push({group:keyitself, category:"slight neg", measure:nextsentiments['slight neg']});
+                sentimentdataset.push({group:keyitself, category:"neu", measure:nextsentiments['neu']});
+                sentimentdataset.push({group:keyitself, category:"slight pos", measure:nextsentiments['slight pos']});
+                sentimentdataset.push({group:keyitself, category:"very pos", measure:nextsentiments['very pos']});
 
                 let nextinteractions = userToInteractions.get(keyitself);
-                interactionsdataset.push({group: keyitself, category: "replies", measure: nextinteractions['replies']});
-                interactionsdataset.push({
-                    group: keyitself,
-                    category: "retweets",
-                    measure: nextinteractions['retweets']
-                });
-                interactionsdataset.push({
-                    group: keyitself,
-                    category: "favorites",
-                    measure: nextinteractions['favorites']
-                });
+                interactionsdataset.push({group:keyitself, category:"replies", measure:nextinteractions['replies']});
+                interactionsdataset.push({group:keyitself, category:"retweets", measure:nextinteractions['retweets']});
+                interactionsdataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
                 key = mapIter.next();
             }
-            console.log(piedataset);
-            console.log(interactionsdataset);
-            console.log(sentimentdataset);
-            this.drawPieChart(piedataset);
         });
     }
-    /*
-    drawPieChart(dataset) {
-        var canvas = document.querySelector("canvas"),
-            context = canvas.getContext("2d"),
-            width = canvas.width,
-            height = canvas.height;
-
-
-        var data = dataset;
-
-        var colors = ['red','blue'];
-
-        var colorscale = d3.scaleLinear().domain([0,data.length]).range(colors);
-
-        var arc = d3.arc()
-            .innerRadius(45)
-            .outerRadius(100);
-
-        var arcOver = d3.arc()
-            .innerRadius(0)
-            .outerRadius(150 + 10);
-
-        var pie = d3.pie()
-            .value(function(d){ return d.value; });
-
-
-        var renderarcs = canvas.append('g')
-            .attr('transform','translate(440,200)')
-            .selectAll('.arc')
-            .data(pie(data))
-            .enter()
-            .append('g')
-            .attr('class',"arc");
-
-        renderarcs.append('path')
-            .attr('d',arc)
-            .attr('fill',function(d,i){ return colorscale(i); })
-            .on("mouseover", function(d) {
-                d3.select(this).transition()
-                    .duration(1000)
-                    .attr("d", arcOver);
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).transition()
-                    .duration(1000)
-                    .attr("d", arc);
-            });
-
-        renderarcs.append('text')
-            .attr('transform',function(d) {
-                var c = arc.centroid(d);
-                console.log(c);
-                return "translate(" + c[0] +"," + c[1]+ ")";
-            })
-            .text(function(d){ return d.value+"%"; });
-
-
-    }
-
-}*/
-/*
-function dsPieChart(dataset){
-
-    var 	width = 400,
-        height = 400,
-        outerRadius = Math.min(width, height) / 2,
-        innerRadius = outerRadius * .999,
-        // for animation
-        innerRadiusFinal = outerRadius * .5,
-        innerRadiusFinal3 = outerRadius* .45,
-        color = d3.scale.category20()    //builtin range of colors
-    ;
-
-    var vis = d3.select("#pieChart")
-        .append("svg:svg")              //create the SVG element inside the <body>
-        .data([dataset])                   //associate our data with the document
-        .attr("width", width)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-        .attr("height", height)
-        .append("svg:g")                //make a group to hold our pie chart
-        .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
-    ;
-
-    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-        .outerRadius(outerRadius).innerRadius(innerRadius);
-
-    // for animation
-    var arcFinal = d3.svg.arc().innerRadius(innerRadiusFinal).outerRadius(outerRadius);
-    var arcFinal3 = d3.svg.arc().innerRadius(innerRadiusFinal3).outerRadius(outerRadius);
-
-    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-        .value(function(d) { return d.measure; });    //we must tell it out to access the value of each element in our data array
-
-    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
-        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-        .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-        .attr("class", "slice")    //allow us to style things in the slices (like text)
-        .on("mouseover", mouseover)
-        .on("mouseout", mouseout)
-        .on("click", up)
-    ;
-
-    arcs.append("svg:path")
-        .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
-        .attr("d", arc)     //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-        .append("svg:title") //mouseover title showing the figures
-        .text(function(d) { return d.data.category + ": " + formatAsPercentage(d.data.measure); });
-
-    d3.selectAll("g.slice").selectAll("path").transition()
-        .duration(750)
-        .delay(10)
-        .attr("d", arcFinal )
-    ;
-
-    // Add a label to the larger arcs, translated to the arc centroid and rotated.
-    // source: http://bl.ocks.org/1305337#index.html
-    arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; })
-        .append("svg:text")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
-        .attr("transform", function(d) { return "translate(" + arcFinal.centroid(d) + ")rotate(" + angle(d) + ")"; })
-        //.text(function(d) { return formatAsPercentage(d.value); })
-        .text(function(d) { return d.data.category; })
-    ;
-
-    // Computes the label angle of an arc, converting from radians to degrees.
-    function angle(d) {
-        var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-        return a > 90 ? a - 180 : a;
-    }
-
-
-    // Pie chart title
-    vis.append("svg:text")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
-        .text("Revenue Share 2012")
-        .attr("class","title")
-    ;
-
-
-
-    function mouseover() {
-        d3.select(this).select("path").transition()
-            .duration(750)
-            //.attr("stroke","red")
-            //.attr("stroke-width", 1.5)
-            .attr("d", arcFinal3)
-        ;
-    }
-
-    function mouseout() {
-        d3.select(this).select("path").transition()
-            .duration(750)
-            //.attr("stroke","blue")
-            //.attr("stroke-width", 1.5)
-            .attr("d", arcFinal)
-        ;
-    }
-
-    function up(d, i) {
-
-        /* update bar chart when user selects piece of the pie chart
-        //updateBarChart(dataset[i].category);
-        updateBarChart(d.data.category, color(i));
-        updateLineChart(d.data.category, color(i));
-
-    }
-}*/
-
-//dsPieChart();
-
-
-// /** REFERENCE FOR THE DATA UPDATE
-//  * Here we do data binding.
-//  */
-// const drawMyData = () => {
-//
-//     // The initial update set.
-//     // The second argument to data() is the
-//     // key function. This is how D3 can match
-//     // data points between updates. Here we just
-//     // use the value itself, but you'd
-//     // likely want to use some sort of primary key
-//     // in practice.
-//     const updateSet = d3.selectAll('div.dataPoint').data(myData, (d) => {
-//         return d
-//     });
-//
-//     // The enter set (any new data point).
-//     updateSet.enter()
-//         .append('div')
-//         .attr('class', 'dataPoint')
-//         .text((d) => {
-//             return d
-//         })
-//         .style('font-size', (d) =>{
-//             // Data driven font-size!
-//             return rScale(d)
-//         })
-//         .style('color', (d, i) => {
-//             if (i === 0) {
-//                 return 'black'
-//             }
-//             // Green if its bigger than the last value
-//             // we saw, red if its smaller.
-//             if (d > myData[i - 1]) {
-//                 return 'green'
-//             }
-//             return 'red';
-//         })
-//
-//
-//     updateSet
-//         .style('color', 'black')
-//
-//     // Any data point that disappeared.
-//     updateSet.exit()
-//         .remove()
-// }
-//
-//
-// drawMyData();*/
+}
 
 module.exports = TwitterScatter;
