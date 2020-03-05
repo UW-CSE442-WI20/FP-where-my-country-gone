@@ -87,9 +87,10 @@ d3.select("#form")
         var popAmount = [document.getElementById("pop-amount-start").value,
             document.getElementById("pop-amount-end").value];
         console.log("Popularity range : " + popAmount);
-
-        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
-            new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);
+        var d1 = new Date(2016, 10, 1);
+        var d2 = new Date(2020, 4, 4)
+        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
+            d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod);
     });
 
 
