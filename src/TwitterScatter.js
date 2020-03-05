@@ -1,11 +1,11 @@
 const d3 = require('d3');
-
 class TwitterScatter {
-
-    constructor() {}
+    constructor() {
+    }
 
 
     drawTwitterSearch(politicians, since, until, sentiments, yAxis, period, input) {
+
         let wordmap;
         let tweetfile;
         if (period === '2016') {
@@ -60,21 +60,23 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
+                SummaryInstance.ShowStats()
                 this.drawScatter(searchResults, yAxis, tweetfile);
             });
         }
     }
 
     // params:
-    // democrats: the deomcrats selected.
-    // republicans: the republicans selected.
+    // democrats: the deomcrats selected as an array.
+    // republicans: the republicans selected as an array.
     // since: the lower bound date.
     // until: the upper bound date.
-    // sentiments: the sentiments selected.
+    // sentiments: the sentiments selected as a set.
     // yAxis: yAxis
     // period: the election period selected.
     
     drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period) {
+        /*
         since = new Date('2016.10.01')
         console.log("dem: " + democrats)
         console.log("rep: " + republicans)
@@ -82,9 +84,7 @@ class TwitterScatter {
         console.log("until :" + until)
         console.log("sentiments " + sentiments)
         console.log("yaxis" + yAxis)
-        console.log("period: " + period)
-        
-        //todo since and until are console logging as "invalid"
+        console.log("period: " + period)*/
 
         let indexes = [];
         let intermmediate = [];
@@ -115,16 +115,15 @@ class TwitterScatter {
             for (let i = 0; i < intermmediate.length; i++) {
                 let nextTweet = data[intermmediate[i]];
                 let tweetDate = new Date(nextTweet["date"]);
-                //todo true when expecting false, possibly the reason why an empty array gets passed to the draw fx?
-                console.log(!sentiments.has(nextTweet['sentiment']));
-                
-                if (tweetDate <= new Date(1,2, 2015) || tweetDate >= new Date(11, 1, 2020)) {
+
+                if (tweetDate <= since || tweetDate >= until) {
                     continue;
                 } else if (!sentiments.has(nextTweet['sentiment'])) {
                     continue;
                 }
                 indexes.push(intermmediate[i]);
             }
+            this.drawStats(indexes, tweetsfile);
             this.drawScatter(indexes, yAxis, tweetsfile);
             
         });
@@ -143,7 +142,7 @@ class TwitterScatter {
 // }
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
-        console.log(filterResults)
+        //console.log(filterResults)
         var margin = {top: 10, right: 30, bottom: 30, left: 60};
         var width = 1100 - margin.left - margin.right;
         var height = 700 - margin.top - margin.bottom;
@@ -332,6 +331,52 @@ class TwitterScatter {
         })
     }
 
+    drawStats(indexes, tweetsfile) {
+        d3.json(tweetsfile).then((tweets) => {
+            let userToNumberOfTweets = new Map();
+            let userToSentiment = new Map();
+            let userToInteractions = new Map();
+            let totaltweets = indexes.length;
+            for (let i = 0; i < indexes.length; i++) {
+                let tweet = tweets[indexes[i]];
+                let username = tweet['username'];
+                if (!userToNumberOfTweets.has(username)) {
+                    userToNumberOfTweets.set(username, 0);
+                    let sentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
+                    userToSentiment.set(username, sentiments);
+                    let interactions = {"replies":0, "retweets":0, "favorites":0};
+                    userToInteractions.set(username, interactions);
+                }
+                userToNumberOfTweets.set(username, userToNumberOfTweets.get(username) + 1);
+                let nextsentiments = userToSentiment.get(username);
+                nextsentiments[tweet['sentiment']] = nextsentiments[tweet['sentiment']] + 1;
+                userToSentiment.set(username, nextsentiments);
+
+                let nextinteractions = userToInteractions.get(username);
+                nextinteractions['replies'] = nextinteractions['replies'] + tweet['replies'];
+                nextinteractions['retweets'] = nextinteractions['retweets'] + tweet['retweets'];
+                nextinteractions['favorites'] = nextinteractions['favorites'] + tweet['favorites'];
+
+                userToInteractions.set(username, nextinteractions);
+            }
+
+
+            let piedataset = [];
+            let sentimentdataset = [];
+            let interactionsdataset = [];
+            let mapIter = userToNumberOfTweets.keys();
+            let key = mapIter.next();
+            while(!key.done) {
+                let keyitself = key.value;
+                let measure = userToNumberOfTweets.get(keyitself) / totaltweets;
+                let nextpie = {"category":keyitself, "measure":measure};
+                piedataset.push(nextpie);
+
+                key = mapIter.next();
+            }
+            console.log(piedataset);
+        });
+    }
 }
 
 

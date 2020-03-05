@@ -2,14 +2,20 @@
 const d3 = require('d3');
 const Network = require('./Network');
 const TwitterScatter = require('./TwitterScatter');
+
 const networkInstance = new Network();
 const twitterScatterInstance = new TwitterScatter();
 
 let checked = new Set(['marcorubio', 'HillaryClinton']);
-let sentiments = new Set(['very pos', 'pos']);
+let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
 networkInstance.drawNetworkGraph('trump', new Date('2016.7.1'), new Date('2017.02.20'),
     checked, sentiments, '2016');
 
+let democrats = ['BarackObama', 'AOC'];
+let republicans = ['realDonaldTrump'];
+
+twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2017.7.1'), new Date('2020.3.31'),
+    sentiments, 'favorites', 2020);
 /////////////////////
 // Filtering
 var dropdown = document.getElementsByClassName("dropdown-btn");
