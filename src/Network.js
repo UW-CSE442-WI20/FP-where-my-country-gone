@@ -58,13 +58,15 @@ class Network {
                  arr.sort(function(a, b){return a.number - b.number});
                  arr.reverse();
                  let nodes = [];
-                 nodes.push({"id":word});
+                 nodes.push({"id":word, "size" : 5});
                  for (let i = 0; i < 20; i++) {
-                     let nextNode = {"id":arr[i].word};
-                     nodes.push(nextNode);
                      let len = arr[i].number;
-                     let nextLink = {"source":word, "target":arr[i].word, "size":len};
+                     let nextLink = {"source":word, "target":arr[i].word};
+                     let nextNode = {"id":arr[i].word, "size":len};
+                     nodes.push(nextNode);
                      links.push(nextLink);
+                    //  in_degree += len;
+                    
                      /*
                      for (let j = 0; j < len; j++) {
                          let nextLink = {"source":word, "target":arr[i].word, "id" : links.length - 1};
@@ -138,17 +140,17 @@ class Network {
     
         function drawLink(d) {
             context.moveTo(d.source.x, d.source.y);
-            // context.lineTo(d.target.x, d.target.y);
-            var midX = (d.source.x + d.target.x) / 2,
-                midY = (d.source.y + d.target.y) / 2;
-            var factor = linkId[d.id] * 0.34;
-            context.quadraticCurveTo(midX + factor, midY + factor, d.target.x, d.target.y);
+            context.lineTo(d.target.x, d.target.y);
+            // var midX = (d.source.x + d.target.x) / 2,
+            //     midY = (d.source.y + d.target.y) / 2;
+            // var factor = linkId[d.id] * 0.34;
+            // context.quadraticCurveTo(midX + factor, midY + factor, d.target.x, d.target.y);
         }
           
         function drawNode(d) {
             context.moveTo(d.x + 3, d.y);
-            context.arc(d.x, d.y, 7, 0, 2 * Math.PI);
-            context.fillText(d.id, d.x+11, d.y+5);
+            context.arc(d.x, d.y, 5 + d.size * 0.25, 0, 2 * Math.PI);
+            context.fillText(d.id, d.x+ 5.2 + d.size * 0.25, d.y + 5.2 + d.size * 0.25);
         }
 
         // This function is run at each iteration of the force algorithm, updating the nodes position.
