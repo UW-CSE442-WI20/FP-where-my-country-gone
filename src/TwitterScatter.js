@@ -122,8 +122,7 @@ class TwitterScatter {
                 indexes.push(intermmediate[i]);
             }
             
-            
-            console.log("is this empty?", indexes)
+            this.drawStats(indexes, tweetsfile);
             //this.drawScatter(indexes, yAxis, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             
@@ -592,16 +591,16 @@ class TwitterScatter {
             let userToSentiment = new Map();
             let userToInteractions = new Map();
             let totaltweets = indexes.length;
-            let overallsentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
-            let overallinteractions = {"replies":0, "retweets":0, "favorites":0};
+            let overallsentiments = {"very neg": 0, "slight neg": 0, "neu": 0, "slight pos": 0, "very pos": 0};
+            let overallinteractions = {"replies": 0, "retweets": 0, "favorites": 0};
             for (let i = 0; i < indexes.length; i++) {
                 let tweet = tweets[indexes[i]];
                 let username = tweet['username'];
                 if (!userToNumberOfTweets.has(username)) {
                     userToNumberOfTweets.set(username, 0);
-                    let sentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
+                    let sentiments = {"very neg": 0, "slight neg": 0, "neu": 0, "slight pos": 0, "very pos": 0};
                     userToSentiment.set(username, sentiments);
-                    let interactions = {"replies":0, "retweets":0, "favorites":0};
+                    let interactions = {"replies": 0, "retweets": 0, "favorites": 0};
                     userToInteractions.set(username, interactions);
                 }
                 userToNumberOfTweets.set(username, userToNumberOfTweets.get(username) + 1);
@@ -631,39 +630,228 @@ class TwitterScatter {
             let mapIter = userToNumberOfTweets.keys();
             let key = mapIter.next();
 
-            sentimentdataset.push({group:"all", category:"very neg", measure:overallsentiments['very neg']});
-            sentimentdataset.push({group:"all", category:"slight neg", measure:overallsentiments['slight neg']});
-            sentimentdataset.push({group:"all", category:"neu", measure:overallsentiments['neu']});
-            sentimentdataset.push({group:"all", category:"slight pos", measure:overallsentiments['slight pos']});
-            sentimentdataset.push({group:"all", category:"very pos", measure:overallsentiments['very pos']});
+            sentimentdataset.push({group: "all", category: "very neg", measure: overallsentiments['very neg']});
+            sentimentdataset.push({group: "all", category: "slight neg", measure: overallsentiments['slight neg']});
+            sentimentdataset.push({group: "all", category: "neu", measure: overallsentiments['neu']});
+            sentimentdataset.push({group: "all", category: "slight pos", measure: overallsentiments['slight pos']});
+            sentimentdataset.push({group: "all", category: "very pos", measure: overallsentiments['very pos']});
 
-            interactionsdataset.push({group:"all", category:"replies", measure:overallinteractions['replies']});
-            interactionsdataset.push({group:"all", category:"retweets", measure:overallinteractions['retweets']});
-            interactionsdataset.push({group:"all", category:"favorites", measure:overallinteractions['favorites']});
+            interactionsdataset.push({group: "all", category: "replies", measure: overallinteractions['replies']});
+            interactionsdataset.push({group: "all", category: "retweets", measure: overallinteractions['retweets']});
+            interactionsdataset.push({group: "all", category: "favorites", measure: overallinteractions['favorites']});
 
-            while(!key.done) {
+            while (!key.done) {
                 let keyitself = key.value;
                 let measurev = userToNumberOfTweets.get(keyitself) / totaltweets;
-                let nextpie = {category:keyitself, measure:measurev};
+                let nextpie = {category: keyitself, measure: measurev};
                 piedataset.push(nextpie);
 
                 let nextsentiments = userToSentiment.get(keyitself);
-                sentimentdataset.push({group:keyitself, category:"very neg", measure:nextsentiments['very neg']});
-                sentimentdataset.push({group:keyitself, category:"slight neg", measure:nextsentiments['slight neg']});
-                sentimentdataset.push({group:keyitself, category:"neu", measure:nextsentiments['neu']});
-                sentimentdataset.push({group:keyitself, category:"slight pos", measure:nextsentiments['slight pos']});
-                sentimentdataset.push({group:keyitself, category:"very pos", measure:nextsentiments['very pos']});
+                sentimentdataset.push({group: keyitself, category: "very neg", measure: nextsentiments['very neg']});
+                sentimentdataset.push({
+                    group: keyitself,
+                    category: "slight neg",
+                    measure: nextsentiments['slight neg']
+                });
+                sentimentdataset.push({group: keyitself, category: "neu", measure: nextsentiments['neu']});
+                sentimentdataset.push({
+                    group: keyitself,
+                    category: "slight pos",
+                    measure: nextsentiments['slight pos']
+                });
+                sentimentdataset.push({group: keyitself, category: "very pos", measure: nextsentiments['very pos']});
 
                 let nextinteractions = userToInteractions.get(keyitself);
-                interactionsdataset.push({group:keyitself, category:"replies", measure:nextinteractions['replies']});
-                interactionsdataset.push({group:keyitself, category:"retweets", measure:nextinteractions['retweets']});
-                interactionsdataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
+                interactionsdataset.push({group: keyitself, category: "replies", measure: nextinteractions['replies']});
+                interactionsdataset.push({
+                    group: keyitself,
+                    category: "retweets",
+                    measure: nextinteractions['retweets']
+                });
+                interactionsdataset.push({
+                    group: keyitself,
+                    category: "favorites",
+                    measure: nextinteractions['favorites']
+                });
                 key = mapIter.next();
             }
+            console.log(piedataset);
+            console.log(interactionsdataset);
+            console.log(sentimentdataset);
+            this.drawPieChart(piedataset);
         });
     }
-}
+    /*
+    drawPieChart(dataset) {
+        var canvas = document.querySelector("canvas"),
+            context = canvas.getContext("2d"),
+            width = canvas.width,
+            height = canvas.height;
 
+
+        var data = dataset;
+
+        var colors = ['red','blue'];
+
+        var colorscale = d3.scaleLinear().domain([0,data.length]).range(colors);
+
+        var arc = d3.arc()
+            .innerRadius(45)
+            .outerRadius(100);
+
+        var arcOver = d3.arc()
+            .innerRadius(0)
+            .outerRadius(150 + 10);
+
+        var pie = d3.pie()
+            .value(function(d){ return d.value; });
+
+
+        var renderarcs = canvas.append('g')
+            .attr('transform','translate(440,200)')
+            .selectAll('.arc')
+            .data(pie(data))
+            .enter()
+            .append('g')
+            .attr('class',"arc");
+
+        renderarcs.append('path')
+            .attr('d',arc)
+            .attr('fill',function(d,i){ return colorscale(i); })
+            .on("mouseover", function(d) {
+                d3.select(this).transition()
+                    .duration(1000)
+                    .attr("d", arcOver);
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).transition()
+                    .duration(1000)
+                    .attr("d", arc);
+            });
+
+        renderarcs.append('text')
+            .attr('transform',function(d) {
+                var c = arc.centroid(d);
+                console.log(c);
+                return "translate(" + c[0] +"," + c[1]+ ")";
+            })
+            .text(function(d){ return d.value+"%"; });
+
+
+    }
+
+}*/
+/*
+function dsPieChart(dataset){
+
+    var 	width = 400,
+        height = 400,
+        outerRadius = Math.min(width, height) / 2,
+        innerRadius = outerRadius * .999,
+        // for animation
+        innerRadiusFinal = outerRadius * .5,
+        innerRadiusFinal3 = outerRadius* .45,
+        color = d3.scale.category20()    //builtin range of colors
+    ;
+
+    var vis = d3.select("#pieChart")
+        .append("svg:svg")              //create the SVG element inside the <body>
+        .data([dataset])                   //associate our data with the document
+        .attr("width", width)           //set the width and height of our visualization (these will be attributes of the <svg> tag
+        .attr("height", height)
+        .append("svg:g")                //make a group to hold our pie chart
+        .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+    ;
+
+    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
+        .outerRadius(outerRadius).innerRadius(innerRadius);
+
+    // for animation
+    var arcFinal = d3.svg.arc().innerRadius(innerRadiusFinal).outerRadius(outerRadius);
+    var arcFinal3 = d3.svg.arc().innerRadius(innerRadiusFinal3).outerRadius(outerRadius);
+
+    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
+        .value(function(d) { return d.measure; });    //we must tell it out to access the value of each element in our data array
+
+    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
+        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
+        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
+        .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
+        .attr("class", "slice")    //allow us to style things in the slices (like text)
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout)
+        .on("click", up)
+    ;
+
+    arcs.append("svg:path")
+        .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
+        .attr("d", arc)     //this creates the actual SVG path using the associated data (pie) with the arc drawing function
+        .append("svg:title") //mouseover title showing the figures
+        .text(function(d) { return d.data.category + ": " + formatAsPercentage(d.data.measure); });
+
+    d3.selectAll("g.slice").selectAll("path").transition()
+        .duration(750)
+        .delay(10)
+        .attr("d", arcFinal )
+    ;
+
+    // Add a label to the larger arcs, translated to the arc centroid and rotated.
+    // source: http://bl.ocks.org/1305337#index.html
+    arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; })
+        .append("svg:text")
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) { return "translate(" + arcFinal.centroid(d) + ")rotate(" + angle(d) + ")"; })
+        //.text(function(d) { return formatAsPercentage(d.value); })
+        .text(function(d) { return d.data.category; })
+    ;
+
+    // Computes the label angle of an arc, converting from radians to degrees.
+    function angle(d) {
+        var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+        return a > 90 ? a - 180 : a;
+    }
+
+
+    // Pie chart title
+    vis.append("svg:text")
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .text("Revenue Share 2012")
+        .attr("class","title")
+    ;
+
+
+
+    function mouseover() {
+        d3.select(this).select("path").transition()
+            .duration(750)
+            //.attr("stroke","red")
+            //.attr("stroke-width", 1.5)
+            .attr("d", arcFinal3)
+        ;
+    }
+
+    function mouseout() {
+        d3.select(this).select("path").transition()
+            .duration(750)
+            //.attr("stroke","blue")
+            //.attr("stroke-width", 1.5)
+            .attr("d", arcFinal)
+        ;
+    }
+
+    function up(d, i) {
+
+        /* update bar chart when user selects piece of the pie chart
+        //updateBarChart(dataset[i].category);
+        updateBarChart(d.data.category, color(i));
+        updateLineChart(d.data.category, color(i));
+
+    }
+}*/
+
+//dsPieChart();
 
 
 // /** REFERENCE FOR THE DATA UPDATE
@@ -715,6 +903,6 @@ class TwitterScatter {
 // }
 //
 //
-// drawMyData();
+// drawMyData();*/
 
 module.exports = TwitterScatter;
