@@ -9,8 +9,10 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
   <body>
-    <div class="sidenav">
+    <div class="sidenav" id="sidenav">
       <form id="form">
+        <h2>&nbsp;&nbsp;Filtering</h2>
+
         <!-- Democrat/Republican selection -->
         <button type="button" class="dropdown-btn">People</button>
         <div class="dropdown-container">
@@ -70,25 +72,20 @@
           <label for="rep9">Ted Cruz</label><br>
         </div>
 
-        <!-- Issue selection -->
-        <button type="button" class="dropdown-btn">Issues</button>
-        <div class="dropdown-container">
-        </div>
-
         <!-- Sentiment selection -->
         <button type="button" class="dropdown-btn">Sentiment</button>
         <div class="dropdown-container">
           <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')">
           <label for="sentiment-all">Select All</label><br>
-          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="Strongly Positive">
+          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos">
           <label for="strongpos">Strongly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="Slightly Positive">
+          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="pos">
           <label for="slightpos">Slightly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="neu" name="neu" value="Neutral">
+          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu">
           <label for="neu">Neutral</label><br>
-          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="Slightly Negative">
+          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="neg">
           <label for="slightneg">Slightly Negative</label><br>
-          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="Strongly Negative">
+          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg">
           <label for="strongneg">Strongly Negative</label><br>
         </div>
 
@@ -96,35 +93,52 @@
         <button type="button" class="dropdown-btn">Election Period</button>
         <div class="dropdown-container">
           <div id="election-radios">
-              <input type="radio" class="election-period1" id="2016" name="election-period" value="2016" checked>
+              <input type="radio" class="election-period" id="2016" name="election-period" value="2016" required>
               <label for="2016">2016 Election</label><br>
               <input type="radio" class="election-period" id="2020" name="election-period" value="2020">
               <label for="2020">2020 Election</label><br>
           </div>
+
+          <!-- Date slider -->
+          <p>
+            Please select an election period before using the Date slider.<br><br>
+            <label>Date Range:</label><br>
+            <input type="text" class="slider-amount2" id="date-amount-start" readonly>
+            to
+            <input type="text" class="slider-amount2" id="date-amount-end" readonly>
+          </p>
+          <div id="slider-range2"></div>
         </div>
 
-        <!-- Popularity slider -->
-        <p>
-          <label>Popularity Range:</label>
-          <input type="text" class="slider-amount1" id="pop-amount-start" readonly>
-          to
-          <input type="text" class="slider-amount1" id="pop-amount-end" readonly>
-        </p>
-        <div id="slider-range1"></div>
-        <br>
+        <br><br>
 
-        <!-- Date slider -->
-        <p>
-          Please select an election period before using the Date slider.<br>
-          <label>Date Range:</label>
-          <input type="text" class="slider-amount2" id="date-amount-start" readonly>
-          to
-          <input type="text" class="slider-amount2" id="date-amount-end" readonly>
-        </p>
-        <div id="slider-range2"></div>
-        <br>
+        <button type="button" class="dropdown-btn">Scatter Plot Filters</button>
+        <div class="dropdown-container">
+          <div id="y-axis-radios">
+            <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
+            <label for="fav"># of Favorites</label><br>
+            <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
+            <label for="2020"># of Retweets</label><br>
+            <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
+            <label for="2020"># of Replies</label><br>
+          </div>
 
-        <input type="submit" id="submit"  value="Submit">
+          <!-- Popularity slider -->
+          <p>
+            Please select a y-axis dimension before using the popularity slider.<br><br>
+            <label>Popularity Range:</label><br>
+            <input type="text" class="slider-amount1" id="pop-amount-start" readonly>
+            to
+            <input type="text" class="slider-amount1" id="pop-amount-end" readonly>
+            <label id="dimension-type"></label>
+          </p>
+          <div id="slider-range1"></div>
+          <br><br>
+        </div>
+        <br><br>
+
+        &nbsp;&nbsp;
+        <input type="submit" id="submit" value="Submit">
       </form><br><br>
     </div>
     
@@ -133,6 +147,7 @@
       <script src="./index.js"></script>
       <script src="sliders.js"></script>
       <canvas width="960" height="600"></canvas>
+      <div class="scatter-container"></div>
       <script src="Network.js"></script>
       <script src="TwitterScatter.js"></script>
     </div>
