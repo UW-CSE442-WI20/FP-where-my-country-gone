@@ -2,20 +2,14 @@
 const d3 = require('d3');
 const Network = require('./Network');
 const TwitterScatter = require('./TwitterScatter');
-
 const networkInstance = new Network();
 const twitterScatterInstance = new TwitterScatter();
 
 let checked = new Set(['marcorubio', 'HillaryClinton']);
-let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
+let sentiments = new Set(['very pos', 'pos']);
 networkInstance.drawNetworkGraph('trump', new Date('2016.7.1'), new Date('2017.02.20'),
     checked, sentiments, '2016');
 
-let democrats = ['BarackObama', 'AOC'];
-let republicans = ['realDonaldTrump'];
-
-twitterScatterInstance.drawTwitterScatter(democrats, republicans, new Date('2017.7.1'), new Date('2020.3.31'),
-    sentiments, 'favorites', 2020);
 /////////////////////
 // Filtering
 var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -62,7 +56,7 @@ d3.select("#form")
                 checkedSentiments.add(sentiments[i].value);
             }
         }
-        console.log(checkedSentiments);
+        console.log("checkedSentiments : " + checkedSentiments);
 
         // Get checked input for election period
         var checkedElectionPeriod;
@@ -72,18 +66,31 @@ d3.select("#form")
                 checkedElectionPeriod = electionPeriods[i].value;
             }
         }
-        console.log(checkedElectionPeriod);
+        console.log("checkedElectionPeriod : " + checkedElectionPeriod);
 
-        // Get popularity and Date amounts
-        var popAmount = [document.getElementById("pop-amount-start").value,
-                         document.getElementById("pop-amount-end").value];
+        // Get Date ranges
         var dateAmount = [document.getElementById("date-amount-start").value,
-                         document.getElementById("date-amount-end").value];
-        console.log(popAmount);
-        console.log(dateAmount);
+            document.getElementById("date-amount-end").value];
+        console.log("Date range : " + dateAmount);
 
-        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
-            new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);
+        // Get checked input for y-axis dimension choice
+        var checkedYDimension;
+        var yDimensions = document.getElementsByName("y-axis");
+        for (var i = 0; i < yDimensions.length; i++) {
+            if (yDimensions[i].checked) {
+                checkedYDimension = yDimensions[i].value;
+            }
+        }
+        console.log("checkedYDimension : " + checkedYDimension);
+
+        // Get favorites, retweets, and replies ranges
+        var popAmount = [document.getElementById("pop-amount-start").value,
+            document.getElementById("pop-amount-end").value];
+        console.log("Popularity range : " + popAmount);
+        var d1 = new Date(2016, 10, 1);
+        var d2 = new Date(2020, 4, 4)
+        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
+            d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod);
     });
 
 
