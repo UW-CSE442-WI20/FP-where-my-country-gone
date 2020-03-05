@@ -102,6 +102,14 @@ $('input[type=radio]').change(function() {
     }
 });
 
+// Add label to popularity display
+$('input[type=radio]').on('change', function() {
+    if (this.value !== "2016" && this.value !== "2020") {
+        $('#dimension-type').text(this.value);
+    }
+});
+
+// Make sidebar resizable
 $( "#sidenav" ).resizable({
     handles: 'e'
 });
