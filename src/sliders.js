@@ -110,6 +110,6 @@ $('input[type=radio]').on('change', function() {
 });
 
 // Make sidebar resizable
-$( "#sidenav" ).resizable({
+/*$("#sidenav").resizable({
     handles: 'e'
-});
+});*/

@@ -65,11 +65,11 @@ class TwitterScatter {
     }
 
     // params:
-    // democrats: the deomcrats selected.
-    // republicans: the republicans selected.
+    // democrats: the deomcrats selected as an array.
+    // republicans: the republicans selected as an array.
     // since: the lower bound date.
     // until: the upper bound date.
-    // sentiments: the sentiments selected.
+    // sentiments: the sentiments selected as a set.
     // yAxis: yAxis
     // period: the election period selected.
     
@@ -539,6 +539,84 @@ class TwitterScatter {
             canvasChart.call(zoom_function);
             
         })
+    }
+
+
+    drawStats(indexes, tweetsfile) {
+        d3.json(tweetsfile).then((tweets) => {
+            let userToNumberOfTweets = new Map();
+            let userToSentiment = new Map();
+            let userToInteractions = new Map();
+            let totaltweets = indexes.length;
+            let overallsentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
+            let overallinteractions = {"replies":0, "retweets":0, "favorites":0};
+            for (let i = 0; i < indexes.length; i++) {
+                let tweet = tweets[indexes[i]];
+                let username = tweet['username'];
+                if (!userToNumberOfTweets.has(username)) {
+                    userToNumberOfTweets.set(username, 0);
+                    let sentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
+                    userToSentiment.set(username, sentiments);
+                    let interactions = {"replies":0, "retweets":0, "favorites":0};
+                    userToInteractions.set(username, interactions);
+                }
+                userToNumberOfTweets.set(username, userToNumberOfTweets.get(username) + 1);
+
+                let nextsentiments = userToSentiment.get(username);
+                nextsentiments[tweet['sentiment']] = nextsentiments[tweet['sentiment']] + 1;
+                overallsentiments[tweet['sentiment']] = overallsentiments[tweet['sentiment']] + 1;
+                userToSentiment.set(username, nextsentiments);
+
+                let nextinteractions = userToInteractions.get(username);
+                nextinteractions['replies'] = nextinteractions['replies'] + tweet['replies'];
+                nextinteractions['retweets'] = nextinteractions['retweets'] + tweet['retweets'];
+                nextinteractions['favorites'] = nextinteractions['favorites'] + tweet['favorites'];
+
+                overallinteractions['replies'] = overallinteractions['replies'] + tweet['replies'];
+                overallinteractions['retweets'] = overallinteractions['retweets'] + tweet['retweets'];
+                overallinteractions['favorites'] = overallinteractions['favorites'] + tweet['favorites'];
+
+                userToInteractions.set(username, nextinteractions);
+            }
+            console.log(userToInteractions);
+            console.log(userToNumberOfTweets);
+            console.log(userToSentiment);
+            let piedataset = [];
+            let sentimentdataset = [];
+            let interactionsdataset = [];
+            let mapIter = userToNumberOfTweets.keys();
+            let key = mapIter.next();
+
+            sentimentdataset.push({group:"all", category:"very neg", measure:overallsentiments['very neg']});
+            sentimentdataset.push({group:"all", category:"slight neg", measure:overallsentiments['slight neg']});
+            sentimentdataset.push({group:"all", category:"neu", measure:overallsentiments['neu']});
+            sentimentdataset.push({group:"all", category:"slight pos", measure:overallsentiments['slight pos']});
+            sentimentdataset.push({group:"all", category:"very pos", measure:overallsentiments['very pos']});
+
+            interactionsdataset.push({group:"all", category:"replies", measure:overallinteractions['replies']});
+            interactionsdataset.push({group:"all", category:"retweets", measure:overallinteractions['retweets']});
+            interactionsdataset.push({group:"all", category:"favorites", measure:overallinteractions['favorites']});
+
+            while(!key.done) {
+                let keyitself = key.value;
+                let measurev = userToNumberOfTweets.get(keyitself) / totaltweets;
+                let nextpie = {category:keyitself, measure:measurev};
+                piedataset.push(nextpie);
+
+                let nextsentiments = userToSentiment.get(keyitself);
+                sentimentdataset.push({group:keyitself, category:"very neg", measure:nextsentiments['very neg']});
+                sentimentdataset.push({group:keyitself, category:"slight neg", measure:nextsentiments['slight neg']});
+                sentimentdataset.push({group:keyitself, category:"neu", measure:nextsentiments['neu']});
+                sentimentdataset.push({group:keyitself, category:"slight pos", measure:nextsentiments['slight pos']});
+                sentimentdataset.push({group:keyitself, category:"very pos", measure:nextsentiments['very pos']});
+
+                let nextinteractions = userToInteractions.get(keyitself);
+                interactionsdataset.push({group:keyitself, category:"replies", measure:nextinteractions['replies']});
+                interactionsdataset.push({group:keyitself, category:"retweets", measure:nextinteractions['retweets']});
+                interactionsdataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
+                key = mapIter.next();
+            }
+        });
     }
 }
 
