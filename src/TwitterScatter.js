@@ -4,6 +4,67 @@ class TwitterScatter {
 
     constructor() {}
 
+
+    drawTwitterSearch(politicians, since, until, sentiments, yAxis, period, input) {
+        let wordmap;
+        let tweetfile;
+        if (period === '2016') {
+            wordmap = require('./WordsToIds2016.json');
+            tweetfile = 'TweetsArray2016.json';
+        } else {
+            wordmap = require('./WordsToIds.json');
+            tweetfile = 'TweetsArray.json';
+        }
+        var tokens = input.trim().split(" ");
+        var searchResults = [];
+        let valid = true;
+        let regex = /[^A-Za-z_]/;
+        for (let i = 0; i < tokens.length; i++) {
+            tokens[i] = tokens[i].toLowerCase().trim().replace(regex, "");
+            if (wordmap[tokens[i]] == undefined) {
+                valid = false;
+            }
+        }
+        if (valid) {
+            d3.json(tweetfile).then((data) => {
+                let arr = wordmap[tokens[0]];
+                for (let i = 0; i < arr.length; i++) {
+                    // So that we store a copy rather than the references themselves
+                    let nextTweet = data[arr[i]];
+                    let tweetDate = new Date(nextTweet["date"]);
+                    let validtweet = true;
+                    if (tweetDate <= since || tweetDate >= until) {
+                        validtweet = false;
+                    } else if (!politicians.has(nextTweet['username'])) {
+                        validtweet = false;
+                    } else if (!sentiments.has(nextTweet['sentiment'])) {
+                        validtweet = false;
+                    }
+                    if (validtweet) {
+                        searchResults.push(arr[i]);
+                    }
+                }
+                for (let i = 1; i < tokens.length; i++) {
+                    let temp = [];  // Temp variable that holds valid dates.
+                    let nextArray = wordmap[tokens[i]];
+                    for (let j = 0; j < nextArray.length; j++) {
+                        // Iterate through the next token's dates
+                        for (let k = 0; k < searchResults.length; k++) {
+                            // Iterate through the dates in search result
+                            if (searchResults[k] == nextArray[j]) {
+                                // only push those dates that are already in search result in temp
+                                // as the results should be only the tweets that have all the words in the input.
+                                temp.push(searchResults[k]);
+                            }
+                        }
+                    }
+                    searchResults = temp;
+                }
+                this.drawScatter(searchResults, yAx, tweetfile);
+            });
+        }
+    }
+
     // params:
     // democrats: the deomcrats selected.
     // republicans: the republicans selected.
@@ -55,7 +116,7 @@ class TwitterScatter {
                 let nextTweet = data[intermmediate[i]];
                 let tweetDate = new Date(nextTweet["date"]);
                 //todo true when expecting false, possibly the reason why an empty array gets passed to the draw fx?
-                console.log(!sentiments.has(nextTweet['sentiment'])) 
+                console.log(!sentiments.has(nextTweet['sentiment']));
                 
                 if (tweetDate <= new Date(1,2, 2015) || tweetDate >= new Date(11, 1, 2020)) {
                     continue;
