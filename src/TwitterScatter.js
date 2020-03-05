@@ -74,16 +74,15 @@ class TwitterScatter {
     // period: the election period selected.
     
     drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period) {
-        since = new Date('2016.10.01')
+        since = new Date(since);
+        until = new Date(until);
         console.log("dem: " , democrats)
         console.log("rep: " , republicans)
-        console.log("since: " , new Date('2016.10.01'))
+        console.log("since: " , since)
         console.log("until :" , until)
         console.log("sentiments " , sentiments)
         console.log("yaxis" , yAxis)
         console.log("period: " , period)
-        
-        //todo since and until are console logging as "invalid"
 
         let indexes = [];
         let intermmediate = [];
@@ -114,16 +113,16 @@ class TwitterScatter {
             for (let i = 0; i < intermmediate.length; i++) {
                 let nextTweet = data[intermmediate[i]];
                 let tweetDate = new Date(nextTweet["date"]);
-                //todo true when expecting false, possibly the reason why an empty array gets passed to the draw fx?
-                console.log(!sentiments.has(nextTweet['sentiment'])) 
-                
-                if (tweetDate <= new Date(1,2, 2015) || tweetDate >= new Date(11, 1, 2020)) {
+                console.log(tweetDate)
+                if (tweetDate <= since || tweetDate >= until) {
+                    console.log("got a problem with the dates")
                     continue;
                 } else if (!sentiments.has(nextTweet['sentiment'])) {
                     continue;
                 }
                 indexes.push(intermmediate[i]);
             }
+            console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             

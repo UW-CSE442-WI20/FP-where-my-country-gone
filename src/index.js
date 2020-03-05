@@ -74,11 +74,13 @@ d3.select("#form")
         var dateAmount = [document.getElementById("date-amount-start").value,
                          document.getElementById("date-amount-end").value];
         console.log(popAmount);
-        console.log(dateAmount);
+        console.log("date amount", dateAmount);
         console.log("checked sentiments " , checkedSentiments)
-
-        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
-            new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);
+        var d1 = new Date(2016, 10, 1);
+        var d2 = new Date(2020, 4, 4)
+        console.log("dateString", d1.toString())
+        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
+            d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod);
     });
 
 
