@@ -75,6 +75,7 @@ d3.select("#form")
                          document.getElementById("date-amount-end").value];
         console.log(popAmount);
         console.log(dateAmount);
+        console.log("checked sentiments " , checkedSentiments)
 
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
             new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);

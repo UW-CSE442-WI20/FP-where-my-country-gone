@@ -104,7 +104,15 @@ div.tooltip {
     margin-left: 300px;
     padding: 0px 10px;
 }
+.scatter-container {
+    margin: auto;
+    width: 900px;
+    height: 500px;
+}
 
+.svg-plot, .canvas-plot {
+    position: absolute;
+}
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
