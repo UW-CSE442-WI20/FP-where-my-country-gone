@@ -1,9 +1,14 @@
+h2 {
+    font-family: trebuchet ms;
+}
+
 h4 {
     font-family: trebuchet ms;
 }
 
 p {
     font-family: trebuchet ms;
+    font-size: 13px;
 }
 
 label {
@@ -19,14 +24,14 @@ input[type=text] {
     font-family: trebuchet ms;
 }
 
-.slider-amount1 {
+.slider-amount1, .slider-amount3, .slider-amount4 {
     text-align: center;
-    width: 55px;
+    width: 80px;
 }
 
 .slider-amount2 {
     text-align: center;
-    width: 82px;
+    width: 77px;
 }
 
 input[type=submit] {

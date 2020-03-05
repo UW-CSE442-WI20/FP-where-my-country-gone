@@ -56,7 +56,7 @@ d3.select("#form")
                 checkedSentiments.add(sentiments[i].value);
             }
         }
-        console.log(checkedSentiments);
+        console.log("checkedSentiments : " + checkedSentiments);
 
         // Get checked input for election period
         var checkedElectionPeriod;
@@ -68,13 +68,21 @@ d3.select("#form")
         }
         console.log(checkedElectionPeriod);
 
-        // Get popularity and Date amounts
-        var popAmount = [document.getElementById("pop-amount-start").value,
-                         document.getElementById("pop-amount-end").value];
+        // Get Date ranges
         var dateAmount = [document.getElementById("date-amount-start").value,
-                         document.getElementById("date-amount-end").value];
-        console.log(popAmount);
-        console.log(dateAmount);
+            document.getElementById("date-amount-end").value];
+        console.log("Date range : " + dateAmount);
+
+        // Get favorites, retweets, and replies ranges
+        var favAmount = [document.getElementById("fav-amount-start").value,
+                         document.getElementById("fav-amount-end").value];
+        var rtAmount = [document.getElementById("rt-amount-start").value,
+            document.getElementById("rt-amount-end").value];
+        var repliesAmount = [document.getElementById("replies-amount-start").value,
+            document.getElementById("replies-amount-end").value];
+        console.log("Favorites range : " + favAmount);
+        console.log("Retweets range : " + rtAmount);
+        console.log("Replies range : " + repliesAmount);
 
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
             new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);
