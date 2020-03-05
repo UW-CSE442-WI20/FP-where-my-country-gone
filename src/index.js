@@ -73,12 +73,12 @@ d3.select("#form")
                          document.getElementById("pop-amount-end").value];
         var dateAmount = [document.getElementById("date-amount-start").value,
                          document.getElementById("date-amount-end").value];
-        console.log(popAmount);
-        console.log("date amount", dateAmount);
-        console.log("checked sentiments " , checkedSentiments)
+        //console.log(popAmount);
+        //console.log("date amount", dateAmount);
+        //console.log("checked sentiments " , checkedSentiments)
         var d1 = new Date(2016, 10, 1);
         var d2 = new Date(2020, 4, 4)
-        console.log("dateString", d1.toString())
+        //console.log("dateString", d1.toString())
         
         //// DRAW TWITTER SCATTER NEEDS A DATE STRING PASSED for SINCE AND UNTIL PARAMS
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),

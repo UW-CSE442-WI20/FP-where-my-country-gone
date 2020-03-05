@@ -76,13 +76,13 @@ class TwitterScatter {
     drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period) {
         since = new Date(since);
         until = new Date(until);
-        console.log("dem: " , democrats)
-        console.log("rep: " , republicans)
-        console.log("since: " , since)
-        console.log("until :" , until)
-        console.log("sentiments " , sentiments)
-        console.log("yaxis" , yAxis)
-        console.log("period: " , period)
+        // console.log("dem: " , democrats)
+        // console.log("rep: " , republicans)
+        // console.log("since: " , since)
+        // console.log("until :" , until)
+        // console.log("sentiments " , sentiments)
+        // console.log("yaxis" , yAxis)
+        // console.log("period: " , period)
 
         let indexes = [];
         let intermmediate = [];
@@ -121,6 +121,8 @@ class TwitterScatter {
                 }
                 indexes.push(intermmediate[i]);
             }
+            
+            
             console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
@@ -356,13 +358,17 @@ class TwitterScatter {
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         // Init Canvas
-        const canvasChart = container.append('canvas')
-            .attr('width', width)
-            .attr('height', height)
-            .style('margin-left', margin.left + 'px')
-            .style('margin-top', margin.top + 'px')
-            .attr('class', 'canvas-plot');
-
+        if(d3.select('.scatter-container canvas').size() == 0){
+            var canvasChart = container.append('canvas')
+                .attr('width', width)
+                .attr('height', height)
+                .style('margin-left', margin.left + 'px')
+                .style('margin-top', margin.top + 'px')
+                .attr('class', 'canvas-plot');
+        }else{
+            canvasChart = d3.select('.scatter-container canvas');
+        }
+        
         const canv = canvasChart.node().getContext('2d');
         
         
