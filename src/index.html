@@ -131,10 +131,20 @@
     </div>
     
     <div class = "main">
+      <!-- Network search -->
+      <form id="network-form">
+        <input type="text" id="network-input" placeholder="Enter a keyword...">
+        <input type="submit" id="network-submit" value="Search" >
+      </form>
       <div id="dataviz"></div>
       <script src="./index.js"></script>
       <script src="sliders.js"></script>
       <canvas width="960" height="600"></canvas>
+      <!-- Scatterplot search -->
+      <form id="scatter-form">
+        <input type="text" id="scatter-input" placeholder="Enter a keyword...">
+        <input type="submit" id="scatter-submit" value="Search" >
+      </form>
       <div class="scatter-container"></div>
       <script src="Network.js"></script>
       <script src="TwitterScatter.js"></script>

@@ -83,10 +83,6 @@ d3.select("#form")
         }
         console.log("checkedYDimension : " + checkedYDimension);
 
-        // Get favorites, retweets, and replies ranges
-        var popAmount = [document.getElementById("pop-amount-start").value,
-            document.getElementById("pop-amount-end").value];
-        console.log("Popularity range : " + popAmount);
         var d1 = new Date(2016, 10, 1);
         var d2 = new Date(2020, 4, 4)
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
