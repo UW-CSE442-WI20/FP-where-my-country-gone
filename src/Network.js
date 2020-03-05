@@ -3,6 +3,8 @@ class Network {
     constructor() {}
 
     drawNetworkGraph(word, since, until, politicians, sentiments, period) {
+        var linkMap = {};
+        var linkId = {};
         let graphfile;
         let tweetsfile;
         if (period === '2016') {
@@ -62,18 +64,24 @@ class Network {
                      nodes.push(nextNode);
                      let len = arr[i].number;
                      for (let j = 0; j < len; j++) {
-                         let nextLink = {"source":word, "target":arr[i].word};
+                         let nextLink = {"source":word, "target":arr[i].word, "id" : links.length - 1};
                          links.push(nextLink);
+                         if (linkMap[String(word)+String(arr[i].word)] != null) {
+                            linkMap[String(word)+String(arr[i].word)]++;
+                         } else {
+                            linkMap[String(word)+String(arr[i].word)] = 1;
+                         }
+                        linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
                      }
                  }
                  console.log(nodes);
                  console.log(links);
-                 this.drawNetwork(nodes, links);
+                 this.drawNetwork(nodes, links, linkId);
              });
          });
     }
 
-    drawNetwork(nodes, links) {
+    drawNetwork(nodes, links, linkId) {
         console.log("NODES", nodes);
         console.log("LINKS", links);
 
@@ -95,7 +103,7 @@ class Network {
 
         simulation.force("link")
             .links(links)
-            .distance(120);
+            .distance(200);
 
         d3.select(canvas)
             .call(d3.drag()
@@ -127,7 +135,11 @@ class Network {
     
         function drawLink(d) {
             context.moveTo(d.source.x, d.source.y);
-            context.lineTo(d.target.x, d.target.y);
+            // context.lineTo(d.target.x, d.target.y);
+            var midX = (d.source.x + d.target.x) / 2,
+                midY = (d.source.y + d.target.y) / 2;
+            var factor = linkId[d.id] * 0.34;
+            context.quadraticCurveTo(midX + factor, midY + factor, d.target.x, d.target.y);
         }
           
         function drawNode(d) {
