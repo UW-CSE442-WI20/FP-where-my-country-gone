@@ -66,23 +66,27 @@ d3.select("#form")
                 checkedElectionPeriod = electionPeriods[i].value;
             }
         }
-        console.log(checkedElectionPeriod);
+        console.log("checkedElectionPeriod : " + checkedElectionPeriod);
 
         // Get Date ranges
         var dateAmount = [document.getElementById("date-amount-start").value,
             document.getElementById("date-amount-end").value];
         console.log("Date range : " + dateAmount);
 
+        // Get checked input for y-axis dimension choice
+        var checkedYDimension;
+        var yDimensions = document.getElementsByName("y-axis");
+        for (var i = 0; i < yDimensions.length; i++) {
+            if (yDimensions[i].checked) {
+                checkedYDimension = yDimensions[i].value;
+            }
+        }
+        console.log("checkedYDimension : " + checkedYDimension);
+
         // Get favorites, retweets, and replies ranges
-        var favAmount = [document.getElementById("fav-amount-start").value,
-                         document.getElementById("fav-amount-end").value];
-        var rtAmount = [document.getElementById("rt-amount-start").value,
-            document.getElementById("rt-amount-end").value];
-        var repliesAmount = [document.getElementById("replies-amount-start").value,
-            document.getElementById("replies-amount-end").value];
-        console.log("Favorites range : " + favAmount);
-        console.log("Retweets range : " + rtAmount);
-        console.log("Replies range : " + repliesAmount);
+        var popAmount = [document.getElementById("pop-amount-start").value,
+            document.getElementById("pop-amount-end").value];
+        console.log("Popularity range : " + popAmount);
 
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, new Date('2016.10.01'),
             new Date('2017.3.1'), checkedSentiments, "favorites", checkedElectionPeriod);

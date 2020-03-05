@@ -24,14 +24,9 @@ input[type=text] {
     font-family: trebuchet ms;
 }
 
-.slider-amount1, .slider-amount3, .slider-amount4 {
+.slider-amount1, .slider-amount2, .slider-amount3, .slider-amount4 {
     text-align: center;
     width: 80px;
-}
-
-.slider-amount2 {
-    text-align: center;
-    width: 77px;
 }
 
 input[type=submit] {
