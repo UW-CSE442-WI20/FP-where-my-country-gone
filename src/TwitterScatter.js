@@ -425,14 +425,15 @@ class TwitterScatter {
                 .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
 
             // Add Y axis
-            var y = d3.scaleLinear()
+            var y = d3.scaleLog()
                 .domain(d3.extent(data, function (d) {
                     return d[yAx];
                 }))
-                .range([height, 0]).nice();
+                .range([height, 0]);
+                //.nice();
             
-            const yAxis = svgChart.append("g")
-                .call(d3.axisLeft(y));
+            var yAxis = svgChart.append("g")
+                .call(d3.axisLeft(y).tickFormat(d3.format("s")));
 
             databind(data, x, y);
 
