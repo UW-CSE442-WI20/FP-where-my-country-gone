@@ -125,7 +125,6 @@ class TwitterScatter {
             
             //console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
-            summaryStatsInstance.drawStats(indexes, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             
         });
