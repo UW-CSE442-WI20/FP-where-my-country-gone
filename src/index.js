@@ -7,12 +7,6 @@ const networkInstance = new Network();
 const twitterScatterInstance = new TwitterScatter();
 const summaryStatsInstance = new SummaryStats();
 
-
-let checked = new Set(['marcorubio', 'HillaryClinton', 'AOC', 'realDonaldTrump']);
-let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
-networkInstance.drawNetworkGraph('trump', new Date('2019.7.1'), new Date('2020.02.20'),
-    checked, sentiments, '2020', summaryStatsInstance);
-
 /////////////////////
 // Filtering
 var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -86,8 +80,14 @@ d3.select("#form")
         }
         console.log("checkedYDimension : " + checkedYDimension);
 
+        // Draw word network
+        var checkedPeople = new Set(checkedDems.concat(checkedReps));
         var d1 = new Date(dateAmount[0]);
         var d2 = new Date(dateAmount[1]);
+        networkInstance.drawNetworkGraph('trump', d1, d2,
+            checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+
+        // Draw scatterplot
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
             d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
