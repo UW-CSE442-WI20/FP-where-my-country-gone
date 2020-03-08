@@ -86,10 +86,10 @@ d3.select("#form")
         }
         console.log("checkedYDimension : " + checkedYDimension);
 
-        var d1 = new Date(2016, 10, 1);
-        var d2 = new Date(2020, 4, 4)
+        var d1 = new Date(dateAmount[0]);
+        var d2 = new Date(dateAmount[1]);
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
-            d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod, summaryStatsInstance);
+            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
 
 /*
