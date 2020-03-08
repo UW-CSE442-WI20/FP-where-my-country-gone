@@ -87,8 +87,8 @@ class SummaryStats {
             for (let i = 0; i < 5; i++) {
                 toptweets.push(idToPopularity[i].id);
             }
-            this.showTweets(toptweets);
             this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
+            this.showTweets(toptweets);
 
             // this.drawPie(piedataset);
             // this.dsBarChart("All", sentimentdataset);

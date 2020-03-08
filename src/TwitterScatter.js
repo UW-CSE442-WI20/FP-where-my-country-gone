@@ -4,7 +4,7 @@ class TwitterScatter {
 
     constructor() {}
     
-    drawTwitterSearch(politicians, since, until, sentiments, yAxis, period, input) {
+    drawTwitterSearch(politicians, since, until, sentiments, yAxis, period, input, summaryInstance) {
         let wordmap;
         let tweetfile;
         if (period === '2016') {
@@ -59,6 +59,7 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
+                //summaryInstance.drawStats(searchResults, tweetfile);
                 this.drawCanvasScatter(searchResults, yAxis, tweetfile);
             });
         }
@@ -73,7 +74,7 @@ class TwitterScatter {
     // yAxis: yAxis
     // period: the election period selected.
     
-    drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period) {
+    drawTwitterScatter(democrats, republicans, since, until, sentiments, yAxis, period, summaryInstance) {
         since = new Date(since);
         until = new Date(until);
         // console.log("dem: " , democrats)
@@ -125,6 +126,7 @@ class TwitterScatter {
             
             //console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
+            //summaryInstance.drawStats(indexes, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             
         });
