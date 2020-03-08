@@ -21,7 +21,7 @@ class Network {
                  if (data[word] == undefined) {
                      return;
                  }
-                 let indexes = [];
+                 let indexesSet = new Set();
                  let edges = data[word];
                  let keys = Object.keys(data[word]);
                  //let nodesSet = new Set();
@@ -41,7 +41,7 @@ class Network {
                              valid = false;
                          }
                          if (valid) {
-                             indexes.push(tweets[i]);
+                             indexesSet.add(tweets[i]);
                              if (!wordToNumber.has(key)) {
                                  wordToNumber.set(key, 0);
                              }
@@ -82,8 +82,7 @@ class Network {
                         linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
                      }*/
                  }
-                 console.log(nodes);
-                 console.log(links);
+                 let indexes = Array.from(indexesSet);
                  summaryStatsInstance.drawStats(indexes, tweetsfile);
                  this.drawNetwork(nodes, links, linkId);
              });

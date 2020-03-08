@@ -4,15 +4,20 @@ class SummaryStats {
     constructor() {}
 
     drawStats(indexes, tweetsfile) {
+        console.log(indexes);
         d3.json(tweetsfile).then((tweets) => {
             let userToNumberOfTweets = new Map();
             let userToSentiment = new Map();
             let userToInteractions = new Map();
             let totaltweets = indexes.length;
+            let idToPopularity = [];
             let overallsentiments = {"very neg":0, "slight neg":0, "neu":0, "slight pos":0, "very pos":0};
             let overallinteractions = {"replies":0, "retweets":0, "favorites":0};
             for (let i = 0; i < indexes.length; i++) {
                 let tweet = tweets[indexes[i]];
+                let popularity = tweet['replies'] + tweet['favorites'] + tweet['retweets'];
+                let popelement = {"id":tweet['id'], "popularity":popularity};
+                idToPopularity.push(popelement);
                 let username = tweet['username'];
                 if (!userToNumberOfTweets.has(username)) {
                     userToNumberOfTweets.set(username, 0);
@@ -39,9 +44,9 @@ class SummaryStats {
 
                 userToInteractions.set(username, nextinteractions);
             }
-            console.log(userToInteractions);
-            console.log(userToNumberOfTweets);
-            console.log(userToSentiment);
+            console.log(idToPopularity);
+            idToPopularity.sort(function(a, b){return a.popularity - b.popularity});
+            idToPopularity.reverse();
             let piedataset = [];
             let sentimentdataset = [];
             let interactionsdataset = [];
@@ -77,6 +82,12 @@ class SummaryStats {
                 interactionsdataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
                 key = mapIter.next();
             }
+            let toptweets = [];
+            console.log(idToPopularity);
+            for (let i = 0; i < 5; i++) {
+                toptweets.push(idToPopularity[i].id);
+            }
+            this.showTweets(toptweets);
             this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
 
             // this.drawPie(piedataset);
@@ -659,6 +670,43 @@ class SummaryStats {
     }
 
 
+    showTweets(toptweets) {
+        console.log(toptweets);
+        window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+
+
+
+// Wait for the asynchronous resources to load
+        twttr.ready(function (twttr) {
+            // Now bind our custom intent events
+            //twttr.events.bind('tweet', tweetIntentToAnalytics);
+            for (let i = 0; i < toptweets.length; i++) {
+                twttr.widgets.createTweet(toptweets[i],
+                    document.getElementById('twittercontainer'),
+                    {
+                        theme: 'light'
+                    }).then(function( el ) {
+                    console.log('Tweet added.');
+                });
+            }
+        });
+    }
 
 
 }
