@@ -2,13 +2,16 @@
 const d3 = require('d3');
 const Network = require('./Network');
 const TwitterScatter = require('./TwitterScatter');
+const SummaryStats = require('./SummaryStats');
 const networkInstance = new Network();
 const twitterScatterInstance = new TwitterScatter();
+const summaryStatsInstance = new SummaryStats();
 
-let checked = new Set(['marcorubio', 'HillaryClinton']);
-let sentiments = new Set(['very pos', 'pos']);
-networkInstance.drawNetworkGraph('trump', new Date('2016.7.1'), new Date('2017.02.20'),
-    checked, sentiments, '2016');
+
+let checked = new Set(['marcorubio', 'HillaryClinton', 'AOC', 'realDonaldTrump']);
+let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
+networkInstance.drawNetworkGraph('trump', new Date('2019.7.1'), new Date('2020.02.20'),
+    checked, sentiments, '2020', summaryStatsInstance);
 
 /////////////////////
 // Filtering
@@ -89,7 +92,7 @@ d3.select("#form")
             d2.toString(), checkedSentiments, "favorites", checkedElectionPeriod);
     });
 
-
+/*
 window.twttr = (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0],
         t = window.twttr || {};

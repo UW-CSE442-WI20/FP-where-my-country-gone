@@ -1,8 +1,9 @@
 const d3 = require('d3');
+
 class Network {
     constructor() {}
 
-    drawNetworkGraph(word, since, until, politicians, sentiments, period) {
+    drawNetworkGraph(word, since, until, politicians, sentiments, period, summaryStatsInstance) {
         var linkMap = {};
         var linkId = {};
         let graphfile;
@@ -20,6 +21,7 @@ class Network {
                  if (data[word] == undefined) {
                      return;
                  }
+                 let indexes = [];
                  let edges = data[word];
                  let keys = Object.keys(data[word]);
                  //let nodesSet = new Set();
@@ -39,6 +41,7 @@ class Network {
                              valid = false;
                          }
                          if (valid) {
+                             indexes.push(tweets[i]);
                              if (!wordToNumber.has(key)) {
                                  wordToNumber.set(key, 0);
                              }
@@ -81,6 +84,7 @@ class Network {
                  }
                  console.log(nodes);
                  console.log(links);
+                 summaryStatsInstance.drawStats(indexes, tweetsfile);
                  this.drawNetwork(nodes, links, linkId);
              });
          });

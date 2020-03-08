@@ -126,3 +126,53 @@ div.ui-slider-range.ui-widget-header {
     position: relative;
     left: 400px;
 }
+
+#pieChart {
+    position:relative;
+    left:400px;
+}
+
+#sentimentChart {
+    position:relative;
+    left:400px;
+}
+
+#interactionChart {
+    position:relative;
+    left:400px;
+}
+
+.title {
+    font-family: Verdana;
+    font-size: 15px;
+
+}
+.slice {
+    font-size: 10pt;
+    font-family: Verdana;
+    fill: black;
+font-weight: bold;
+}
+
+.axis text {
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.title {
+    font-family: Verdana;
+    font-size: 15px;
+
+}
+
+.xAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: black;
+}
+
+.yAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: white;
+}
