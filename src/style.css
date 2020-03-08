@@ -121,3 +121,8 @@ div.tooltip {
 div.ui-slider-range.ui-widget-header {
     background-color: #00acee;
 }
+
+#twittercontainer {
+    position: relative;
+    left: 400px;
+}
