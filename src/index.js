@@ -14,6 +14,11 @@ let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very n
   //  checked, sentiments, '2020', summaryStatsInstance);
 /////////////////////
 // Filtering
+
+var st = new Date(2016, 1, 1);
+var end = new Date(2016, 12, 31);
+
+twitterScatterInstance.drawTwitterScatter(['HillaryClinton'],['realDonaldTrump'], st.toString(), end.toString(), sentiments, "favorites", 2016, summaryStatsInstance)
 var dropdown = document.getElementsByClassName("dropdown-btn");
 for (var i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function() {
@@ -105,6 +110,7 @@ d3.select("#network-form")
 
 d3.select("#scatter-form")
     .on("submit", function() {
+        console.log("submit clicked")
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
@@ -118,10 +124,11 @@ d3.select("#scatter-form")
 
         // Get search input
         var scatterInput = document.getElementById("scatter-input").value;
+        console.log("scatter input ", scatterInput)
 
         // Draw scatterplot
-        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
-            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
+        twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
+            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
     });
 
 /*

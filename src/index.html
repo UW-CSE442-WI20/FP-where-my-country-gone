@@ -137,7 +137,7 @@
                 <!-- Scatterplot search -->
                 <form id="scatter-form">
                   &nbsp;&nbsp;Please select a Y-dimension:
-                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
+                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required checked>
                   <label for="fav"># of Favorites</label>
                   <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
                   <label for="2020"># of Retweets</label>
@@ -146,7 +146,7 @@
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
                 </form>
-                <div class="scatter-container"></div>
+                <div id="scatter-container"></div>
                 <script src="TwitterScatter.js"></script>
             </section>
         </div>
