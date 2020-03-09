@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="sidenav" id="sidenav">
-      <form id="form">
+      <form id="main-form">
         <h2>&nbsp;&nbsp;Filtering</h2>
 
         <!-- Democrat/Republican selection -->
@@ -136,9 +136,6 @@
         <input type="text" id="network-input" placeholder="Enter a keyword...">
         <input type="submit" id="network-submit" value="Search" >
       </form>
-      <div id="dataviz"></div>
-      <script src="./index.js"></script>
-      <script src="sliders.js"></script>
       <canvas width="960" height="600"></canvas>
 
       <!-- Scatterplot search -->
@@ -147,6 +144,10 @@
         <input type="submit" id="scatter-submit" value="Search" >
       </form>
       <div class="scatter-container"></div>
+
+      <div id="dataviz"></div>
+      <script src="./index.js"></script>
+      <script src="sliders.js"></script>
       <script src="Network.js"></script>
       <script src="TwitterScatter.js"></script>
     </div>

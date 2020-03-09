@@ -32,7 +32,7 @@ var d1;
 var d2;
 var checkedYDimension;
 
-d3.select("#form")
+d3.select("#main-form")
     .on("submit", function() {
         d3.event.preventDefault();
 
@@ -86,10 +86,6 @@ d3.select("#form")
             }
         }
         console.log("checkedYDimension : " + checkedYDimension);
-
-        // Draw scatterplot
-        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
-            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
 
 d3.select("#network-form")
@@ -104,6 +100,19 @@ d3.select("#network-form")
         checkedPeople = new Set(checkedDems.concat(checkedReps));
         networkInstance.drawNetworkGraph(networkInput, d1, d2,
             checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+    });
+
+d3.select("#scatter-form")
+    .on("submit", function() {
+        d3.event.preventDefault();
+
+        // Get search input
+        var scatterInput = document.getElementById("scatter-input").value;
+        console.log(scatterInput);
+
+        // Draw scatterplot
+        twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
+            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
 
 /*
