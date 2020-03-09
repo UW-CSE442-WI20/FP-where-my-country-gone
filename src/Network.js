@@ -12,7 +12,7 @@ class Network {
             graphfile = 'wordnetwork2016.json';
             tweetsfile = 'TweetsArray2016.json';
         } else {
-            graphfile = 'wordnetwork.json';
+            graphfile = 'wordnetwork2020.json';
             tweetsfile = 'TweetsArray.json';
         }
         console.log(since, until);
