@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="sidenav" id="sidenav">
-      <form id="form">
+      <form id="main-form">
         <h2>&nbsp;&nbsp;Filtering</h2>
 
         <!-- Democrat/Republican selection -->
@@ -109,25 +109,12 @@
           </p>
           <div id="slider-range2"></div>
         </div>
-
-        <br><br>
-
-        <button type="button" class="dropdown-btn">Scatter Plot Filters</button>
-        <div class="dropdown-container">
-          <div id="y-axis-radios">
-            <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
-            <label for="fav"># of Favorites</label><br>
-            <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
-            <label for="2020"># of Retweets</label><br>
-            <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
-            <label for="2020"># of Replies</label><br>
-          </div>
-        </div>
         <br><br>
 
         &nbsp;&nbsp;
-        <input type="submit" id="submit" value="Submit">
+        <input type="submit" id="submit" value="Submit"><br><br>
       </form><br><br>
+      <span id="result"></span>
     </div>
     
     <div class = "main">
@@ -148,16 +135,21 @@
             </section>
             <section role="tabpanel" id="panel2">
                 <!-- Scatterplot search -->
-                <div id="dataviz"></div>
                 <form id="scatter-form">
-                    <input type="text" id="scatter-input" placeholder="Enter a keyword...">
-                    <input type="submit" id="scatter-submit" value="Search" >
+                  &nbsp;&nbsp;Please select a Y-dimension:
+                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
+                  <label for="fav"># of Favorites</label>
+                  <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
+                  <label for="2020"># of Retweets</label>
+                  <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
+                  <label for="2020"># of Replies</label><br>
+                  <input type="text" id="scatter-input" placeholder="Enter a keyword...">
+                  <input type="submit" id="scatter-submit" value="Search" >
                 </form>
                 <div class="scatter-container"></div>
                 <script src="TwitterScatter.js"></script>
             </section>
         </div>
-
     </div>
     <div id="twittercontainer"></div>
     <div id="pieChart"></div>
@@ -166,5 +158,4 @@
     <script src="./index.js"></script>
     <script src="aria-tabs.js"></script>
   </body>
-
 </html>

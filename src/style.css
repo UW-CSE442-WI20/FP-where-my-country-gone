@@ -1,14 +1,17 @@
-h2, h4 {
+h2, h4, label, #scatter-form {
     font-family: trebuchet ms;
+}
+
+span {
+    font-family: trebuchet ms;
+    font-size: 13px;
+    font-style: italic;
+    color: #009900;
 }
 
 p {
     font-family: trebuchet ms;
     font-size: 13px;
-}
-
-label {
-    font-family: trebuchet ms;
 }
 
 input[type=text] {
@@ -128,18 +131,23 @@ div.ui-slider-range.ui-widget-header {
 }
 
 #pieChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:350px;
+    right:450px;
+    bottom:50px;
 }
 
 #sentimentChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:725px;
 }
 
 #interactionChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:1200px;
 }
 
 .title {
