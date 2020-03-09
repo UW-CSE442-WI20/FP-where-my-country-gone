@@ -74,8 +74,8 @@ d3.select("#form")
         console.log("checkedElectionPeriod : " + checkedElectionPeriod);
 
         // Get Date ranges
-        d1 = document.getElementById("date-amount-start").value;
-        d2 = document.getElementById("date-amount-end").value;
+        d1 = new Date(document.getElementById("date-amount-start").value);
+        d2 = new Date(document.getElementById("date-amount-end").value);
         console.log("Date range : " + d1 + ", " + d2);
 
         // Get checked input for y-axis dimension choice
@@ -88,8 +88,6 @@ d3.select("#form")
         console.log("checkedYDimension : " + checkedYDimension);
 
         // Draw scatterplot
-        d1 = new Date(2016, 10, 1);
-        d2 = new Date(2020, 4, 4);
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
             d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
