@@ -30,7 +30,6 @@ var checkedSentiments;
 var checkedElectionPeriod;
 var d1;
 var d2;
-var checkedYDimension;
 
 d3.select("#main-form")
     .on("submit", function() {
@@ -77,15 +76,6 @@ d3.select("#main-form")
         d1 = new Date(document.getElementById("date-amount-start").value);
         d2 = new Date(document.getElementById("date-amount-end").value);
         console.log("Date range : " + d1 + ", " + d2);
-
-        // Get checked input for y-axis dimension choice
-        var yDimensions = document.getElementsByName("y-axis");
-        for (var i = 0; i < yDimensions.length; i++) {
-            if (yDimensions[i].checked) {
-                checkedYDimension = yDimensions[i].value;
-            }
-        }
-        console.log("checkedYDimension : " + checkedYDimension);
     });
 
 d3.select("#network-form")
@@ -105,6 +95,16 @@ d3.select("#network-form")
 d3.select("#scatter-form")
     .on("submit", function() {
         d3.event.preventDefault();
+
+        // Get checked input for y-axis dimension choice
+        var checkedYDimension;
+        var yDimensions = document.getElementsByName("y-axis");
+        for (var i = 0; i < yDimensions.length; i++) {
+            if (yDimensions[i].checked) {
+                checkedYDimension = yDimensions[i].value;
+            }
+        }
+        console.log("checkedYDimension : " + checkedYDimension);
 
         // Get search input
         var scatterInput = document.getElementById("scatter-input").value;
