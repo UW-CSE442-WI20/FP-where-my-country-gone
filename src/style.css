@@ -131,12 +131,16 @@ div.ui-slider-range.ui-widget-header {
     display: inline-block;
 }
 
+
 #twittercontainer {
     position: absolute;
-    top: 0px;
     left: 1300px;
+    top: 800px;
     right: 0px;
     bottom:400px;
+    overflow: auto;
+    width: 600px;
+    height: 700px;
 }
 
 #pieChart {

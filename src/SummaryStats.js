@@ -114,7 +114,7 @@ class SummaryStats {
             d3.select("#twittercontainer").selectAll("*").remove();
 
             this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
-            //this.showTweets(toptweets);
+            this.showTweets(toptweets);
 
             // this.drawPie(piedataset);
             // this.dsBarChart("All", sentimentdataset);
