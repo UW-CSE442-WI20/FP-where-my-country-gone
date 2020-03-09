@@ -79,11 +79,11 @@
           <label for="sentiment-all">Select All</label><br>
           <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos">
           <label for="strongpos">Strongly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="pos">
+          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="slight pos">
           <label for="slightpos">Slightly Positive</label><br>
           <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu">
           <label for="neu">Neutral</label><br>
-          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="neg">
+          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="slight neg">
           <label for="slightneg">Slightly Negative</label><br>
           <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg">
           <label for="strongneg">Strongly Negative</label><br>
@@ -137,7 +137,7 @@
                 <!-- Scatterplot search -->
                 <form id="scatter-form">
                   &nbsp;&nbsp;Please select a Y-dimension:
-                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
+                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required checked>
                   <label for="fav"># of Favorites</label>
                   <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
                   <label for="2020"># of Retweets</label>
@@ -146,7 +146,7 @@
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
                 </form>
-                <div class="scatter-container"></div>
+                <div id="scatter-container"></div>
                 <script src="TwitterScatter.js"></script>
             </section>
         </div>

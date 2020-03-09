@@ -132,28 +132,31 @@ div.ui-slider-range.ui-widget-header {
 }
 
 #twittercontainer {
-    position: relative;
-    left: 400px;
+    position: absolute;
+    top: 0px;
+    left: 1300px;
+    right: 0px;
+    bottom:400px;
 }
 
 #pieChart {
     position:absolute;
-    top:1300px;
+    top:800px;
     left:350px;
-    right:450px;
+    right:750px;
     bottom:50px;
 }
 
 #sentimentChart {
     position:absolute;
-    top:1300px;
+    top:750px;
     left:725px;
 }
 
 #interactionChart {
     position:absolute;
-    top:1300px;
-    left:1200px;
+    top:1050px;
+    left:725px;
 }
 
 .title {
