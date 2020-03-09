@@ -88,6 +88,8 @@ d3.select("#form")
         console.log("checkedYDimension : " + checkedYDimension);
 
         // Draw scatterplot
+        d1 = new Date(2016, 10, 1);
+        d2 = new Date(2020, 4, 4);
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
             d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
     });
