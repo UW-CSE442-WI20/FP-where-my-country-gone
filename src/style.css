@@ -2,6 +2,13 @@ h2, h4, label, #scatter-form {
     font-family: trebuchet ms;
 }
 
+span {
+    font-family: trebuchet ms;
+    font-size: 13px;
+    font-style: italic;
+    color: #009900;
+}
+
 p {
     font-family: trebuchet ms;
     font-size: 13px;

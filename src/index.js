@@ -50,8 +50,6 @@ d3.select("#main-form")
                 checkedReps.push(republicans[i].value);
             }
         }
-        console.log("checkedDems : " + checkedDems);
-        console.log("checkedRep: " + checkedReps);
 
         // Get checked boxes for sentiments
         checkedSentiments = new Set();
@@ -61,7 +59,6 @@ d3.select("#main-form")
                 checkedSentiments.add(sentiments[i].value);
             }
         }
-        console.log("checkedSentiments : " + checkedSentiments);
 
         // Get checked input for election period
         var electionPeriods = document.getElementsByName("election-period");
@@ -70,13 +67,23 @@ d3.select("#main-form")
                 checkedElectionPeriod = electionPeriods[i].value;
             }
         }
-        console.log("checkedElectionPeriod : " + checkedElectionPeriod);
 
         // Get Date ranges
         d1 = new Date(document.getElementById("date-amount-start").value);
         d2 = new Date(document.getElementById("date-amount-end").value);
-        console.log("Date range : " + d1 + ", " + d2);
+
+        printFiltering(checkedDems, checkedReps, checkedSentiments, checkedElectionPeriod, d1, d2);
     });
+
+function printFiltering(checkedDems, checkedReps, checkedSentiments, checkedElectionPeriod, d1, d2) {
+    var result = "Your filtering has been successfully completed! Here are your selections:<br>";
+    result += "Selected Democrat(s): " + checkedDems + "<br>";
+    result += "Selected Republican(s): " + checkedReps + "<br>";
+    result += "Selected sentiment(s): " + checkedSentiments + "<br>";
+    result += "Selected election period: " + checkedElectionPeriod + "<br>";
+    result += "Selected date range: " + d1.toString() + " - " + d2.toString();
+    document.getElementById("result").innerHTML = result;
+}
 
 d3.select("#network-form")
     .on("submit", function() {
@@ -84,7 +91,6 @@ d3.select("#network-form")
 
         // Get search input
         var networkInput = document.getElementById("network-input").value;
-        console.log(networkInput);
 
         // Draw word network
         checkedPeople = new Set(checkedDems.concat(checkedReps));
@@ -104,11 +110,9 @@ d3.select("#scatter-form")
                 checkedYDimension = yDimensions[i].value;
             }
         }
-        console.log("checkedYDimension : " + checkedYDimension);
 
         // Get search input
         var scatterInput = document.getElementById("scatter-input").value;
-        console.log(scatterInput);
 
         // Draw scatterplot
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
