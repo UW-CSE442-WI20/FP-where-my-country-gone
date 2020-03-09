@@ -1,7 +1,27 @@
 const d3 = require('d3');
 
 class SummaryStats {
-    constructor() {}
+    //twttr;
+    constructor() {
+        window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+
+    }
 
     drawStats(indexes, tweetsfile) {
         console.log(indexes);
@@ -84,13 +104,15 @@ class SummaryStats {
             }
             let toptweets = [];
             console.log(idToPopularity);
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 4 && i < idToPopularity.length; i++) {
                 toptweets.push(idToPopularity[i].id);
             }
             //console.log(d3.select("#pieChart").selectAll("*"));
             d3.select("#pieChart").selectAll("*").remove();
             d3.select("#sentimentChart").selectAll("*").remove();
             d3.select("#interactionChart").selectAll("*").remove();
+            d3.select("#twittercontainer").selectAll("*").remove();
+
             this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
             //this.showTweets(toptweets);
 
@@ -681,26 +703,6 @@ class SummaryStats {
 
     showTweets(toptweets) {
         console.log(toptweets);
-        window.twttr = (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0],
-                t = window.twttr || {};
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://platform.twitter.com/widgets.js";
-            fjs.parentNode.insertBefore(js, fjs);
-
-            t._e = [];
-            t.ready = function(f) {
-
-                t._e.push(f);
-            };
-
-            return t;
-        }(document, "script", "twitter-wjs"));
-
-
-
 // Wait for the asynchronous resources to load
         twttr.ready(function (twttr) {
             // Now bind our custom intent events
