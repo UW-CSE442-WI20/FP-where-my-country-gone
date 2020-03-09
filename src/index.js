@@ -22,20 +22,29 @@ for (var i = 0; i < dropdown.length; i++) {
     });
 }
 /////////////////////
+// Filtering/search input
+var checkedDems;
+var checkedReps;
+var checkedPeople;
+var checkedSentiments;
+var checkedElectionPeriod;
+var d1;
+var d2;
+var checkedYDimension;
 
 d3.select("#form")
     .on("submit", function() {
         d3.event.preventDefault();
 
         // Get checked boxes for Democrats/Republicans
-        var checkedDems = [];
+        checkedDems = [];
         var democrats = document.getElementsByClassName("dem");
         for (var i = 0; i < democrats.length; i++) {
             if (democrats[i].checked) {
                 checkedDems.push(democrats[i].value);
             }
         }
-        var checkedReps = [];
+        checkedReps = [];
         var republicans = document.getElementsByClassName("rep");
         for (var i = 0; i < republicans.length; i++) {
             if (republicans[i].checked) {
@@ -46,7 +55,7 @@ d3.select("#form")
         console.log("checkedRep: " + checkedReps);
 
         // Get checked boxes for sentiments
-        var checkedSentiments = new Set();
+        checkedSentiments = new Set();
         var sentiments = document.getElementsByClassName("sentiment");
         for (var i = 0; i < sentiments.length; i++) {
             if (sentiments[i].checked) {
@@ -56,7 +65,6 @@ d3.select("#form")
         console.log("checkedSentiments : " + checkedSentiments);
 
         // Get checked input for election period
-        var checkedElectionPeriod;
         var electionPeriods = document.getElementsByName("election-period");
         for (var i = 0; i < electionPeriods.length; i++) {
             if (electionPeriods[i].checked) {
@@ -66,12 +74,11 @@ d3.select("#form")
         console.log("checkedElectionPeriod : " + checkedElectionPeriod);
 
         // Get Date ranges
-        var dateAmount = [document.getElementById("date-amount-start").value,
-            document.getElementById("date-amount-end").value];
-        console.log("Date range : " + dateAmount);
+        d1 = document.getElementById("date-amount-start").value;
+        d2 = document.getElementById("date-amount-end").value;
+        console.log("Date range : " + d1 + ", " + d2);
 
         // Get checked input for y-axis dimension choice
-        var checkedYDimension;
         var yDimensions = document.getElementsByName("y-axis");
         for (var i = 0; i < yDimensions.length; i++) {
             if (yDimensions[i].checked) {
@@ -80,16 +87,23 @@ d3.select("#form")
         }
         console.log("checkedYDimension : " + checkedYDimension);
 
-        // Draw word network
-        var checkedPeople = new Set(checkedDems.concat(checkedReps));
-        var d1 = new Date(dateAmount[0]);
-        var d2 = new Date(dateAmount[1]);
-        networkInstance.drawNetworkGraph('trump', d1, d2,
-            checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
-
         // Draw scatterplot
         twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps, d1.toString(),
             d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, summaryStatsInstance);
+    });
+
+d3.select("#network-form")
+    .on("submit", function() {
+        d3.event.preventDefault();
+
+        // Get search input
+        var networkInput = document.getElementById("network-input").value;
+        console.log(networkInput);
+
+        // Draw word network
+        checkedPeople = new Set(checkedDems.concat(checkedReps));
+        networkInstance.drawNetworkGraph(networkInput, d1, d2,
+            checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
     });
 
 /*
