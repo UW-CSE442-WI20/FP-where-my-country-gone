@@ -131,36 +131,36 @@ div.ui-slider-range.ui-widget-header {
     display: inline-block;
 }
 
-
+#summarycontainer {
+    position:relative;
+    left:350px;
+    height:600px;
+}
 #twittercontainer {
     position: absolute;
-    left: 1300px;
-    top: 800px;
-    right: 0px;
-    bottom:400px;
+    left: 925px;
     overflow: auto;
     width: 600px;
-    height: 700px;
+    height: 550px;
+    right:25px;
+    top:0px;
 }
 
 #pieChart {
     position:absolute;
-    top:800px;
-    left:350px;
-    right:750px;
-    bottom:50px;
+    margin-top:auto;
+    margin-bottom: auto;
 }
 
 #sentimentChart {
     position:absolute;
-    top:750px;
-    left:725px;
+    left:375px;
 }
 
 #interactionChart {
     position:absolute;
-    top:1050px;
-    left:725px;
+    top:275px;
+    left:375px;
 }
 
 .title {

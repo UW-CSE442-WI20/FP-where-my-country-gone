@@ -104,7 +104,7 @@ class SummaryStats {
             }
             let toptweets = [];
             console.log(idToPopularity);
-            for (let i = 0; i < 4 && i < idToPopularity.length; i++) {
+            for (let i = 0; i < 10 && i < idToPopularity.length; i++) {
                 toptweets.push(idToPopularity[i].id);
             }
             //console.log(d3.select("#pieChart").selectAll("*"));
