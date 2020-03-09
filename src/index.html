@@ -118,36 +118,44 @@
     </div>
     
     <div class = "main">
-      <!-- Network search -->
-      <form id="network-form">
-        <input type="text" id="network-input" placeholder="Enter a keyword...">
-        <input type="submit" id="network-submit" value="Search" >
-      </form>
-      <canvas width="960" height="600"></canvas>
-
-      <!-- Scatterplot search -->
-      <form id="scatter-form">
-        &nbsp;&nbsp;Please select a Y-dimension:
-        <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
-        <label for="fav"># of Favorites</label>
-        <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
-        <label for="2020"># of Retweets</label>
-        <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
-        <label for="2020"># of Replies</label><br>
-        <input type="text" id="scatter-input" placeholder="Enter a keyword...">
-        <input type="submit" id="scatter-submit" value="Search" >
-      </form>
-      <div class="scatter-container"></div>
-
-      <div id="dataviz"></div>
-      <script src="./index.js"></script>
-      <script src="sliders.js"></script>
-      <script src="Network.js"></script>
-      <script src="TwitterScatter.js"></script>
+        <div id="container">
+            <ul role="tablist">
+                <li><a role="tab" href="#panel1" aria-selected="true">Panel 1</a></li>
+                <li><a role="tab" href="#panel2">Panel 2</a></li>
+            </ul>
+            <section role="tabpanel" id="panel1">
+                <!-- Network search -->
+                <form id="network-form">
+                    <input type="text" id="network-input" placeholder="Enter a keyword...">
+                    <input type="submit" id="network-submit" value="Search" >
+                </form>
+                <script src="sliders.js"></script>
+                <canvas width="900" height="600"></canvas>
+                <script src="Network.js"></script>
+            </section>
+            <section role="tabpanel" id="panel2">
+                <!-- Scatterplot search -->
+                <form id="scatter-form">
+                  &nbsp;&nbsp;Please select a Y-dimension:
+                  <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required>
+                  <label for="fav"># of Favorites</label>
+                  <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
+                  <label for="2020"># of Retweets</label>
+                  <input type="radio" class="y-axis" id="replies" name="y-axis" value="replies">
+                  <label for="2020"># of Replies</label><br>
+                  <input type="text" id="scatter-input" placeholder="Enter a keyword...">
+                  <input type="submit" id="scatter-submit" value="Search" >
+                </form>
+                <div class="scatter-container"></div>
+                <script src="TwitterScatter.js"></script>
+            </section>
+        </div>
     </div>
     <div id="twittercontainer"></div>
     <div id="pieChart"></div>
     <div id="sentimentChart"></div>
     <div id="interactionChart"></div>
+    <script src="./index.js"></script>
+    <script src="aria-tabs.js"></script>
   </body>
 </html>
