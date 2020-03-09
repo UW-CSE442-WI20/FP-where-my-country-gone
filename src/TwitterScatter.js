@@ -59,8 +59,8 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
-                //summaryInstance.drawStats(searchResults, tweetfile);
-                this.drawCanvasScatter(searchResults, yAxis, tweetfile);
+                summaryInstance.drawStats(searchResults, tweetfile);
+                //this.drawCanvasScatter(searchResults, yAxis, tweetfile);
             });
         }
     }
@@ -126,7 +126,7 @@ class TwitterScatter {
             
             //console.log("is this empty?", indexes)
             //this.drawScatter(indexes, yAxis, tweetsfile);
-            //summaryInstance.drawStats(indexes, tweetsfile);
+            summaryInstance.drawStats(indexes, tweetsfile);
             this.drawCanvasScatter(indexes, yAxis, tweetsfile);
             
         });

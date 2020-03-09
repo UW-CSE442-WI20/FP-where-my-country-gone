@@ -7,6 +7,11 @@ const networkInstance = new Network();
 const twitterScatterInstance = new TwitterScatter();
 const summaryStatsInstance = new SummaryStats();
 
+
+let checked = new Set(['marcorubio', 'HillaryClinton', 'AOC', 'realDonaldTrump']);
+let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
+//networkInstance.drawNetworkGraph('trump', new Date('2019.7.1'), new Date('2020.02.20'),
+  //  checked, sentiments, '2020', summaryStatsInstance);
 /////////////////////
 // Filtering
 var dropdown = document.getElementsByClassName("dropdown-btn");

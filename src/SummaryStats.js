@@ -87,8 +87,12 @@ class SummaryStats {
             for (let i = 0; i < 5; i++) {
                 toptweets.push(idToPopularity[i].id);
             }
+            //console.log(d3.select("#pieChart").selectAll("*"));
+            d3.select("#pieChart").selectAll("*").remove();
+            d3.select("#sentimentChart").selectAll("*").remove();
+            d3.select("#interactionChart").selectAll("*").remove();
             this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
-            this.showTweets(toptweets);
+            //this.showTweets(toptweets);
 
             // this.drawPie(piedataset);
             // this.dsBarChart("All", sentimentdataset);
@@ -106,6 +110,8 @@ class SummaryStats {
             fdat = d3.timeFormat("%d d"),
             fmon = d3.timeFormat("%b")
         ;
+        //d3.selectAll("g > *").remove();
+        //svg.selectAll("*").remove();
         function drawPie() {
             var width = 400;
             var height = 400;
@@ -205,8 +211,11 @@ class SummaryStats {
 
                 /* update bar chart when user selects piece of the pie chart */
                 //updateBarChart(dataset[i].category);
-                updateSentimentChart(d.data.category, color(i));
-                updateInteractionsChart(d.data.category, color(i));
+                let category = d.data.category;
+                let colorx = color(i);
+                updateInteractionsChart(category, colorx);
+                updateSentimentChart(category, colorx);
+                //updateInteractionsChart(d.data.category, color(i));
             }
         }
 
@@ -454,7 +463,7 @@ class SummaryStats {
 
         function interactiondsBarChartBasics() {
 
-            var margin = {top: 30, right: 5, bottom: 20, left: 50},
+            var margin = {top: 30, right: 5, bottom: 20, left: 45},
                 width = 500 - margin.left - margin.right,
                 height = 250 - margin.top - margin.bottom,
                 colorBar = d3.schemeDark2,
@@ -507,7 +516,7 @@ class SummaryStats {
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-                .attr("id","barChartPlot")
+                .attr("id","interactionChartPlot")
             ;
 
             var plot = svg
@@ -618,7 +627,7 @@ class SummaryStats {
 
             var svg = d3.select("#interactionChart svg");
 
-            var plot = d3.select("#barChartPlot")
+            var plot = d3.select("#interactionChartPlot")
                 .datum(currentDatasetBarChart)
             ;
 
