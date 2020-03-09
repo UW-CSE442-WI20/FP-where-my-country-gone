@@ -90,12 +90,22 @@ d3.select("#main-form")
     });
 
 function printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2) {
-    var result = "Your filtering has been successfully completed! Here are your selections:<br>";
-    result += "Selected Democrat(s): " + checkedDems + "<br>";
-    result += "Selected Republican(s): " + checkedReps + "<br>";
-    result += "Selected Sentiment(s): " + checkedSentimentsList + "<br>";
-    result += "Selected Election Period: " + checkedElectionPeriod + "<br>";
-    result += "Selected Date Range: " + date1 + " - " + date2 + "<br>";
+    var dems = [];
+    var reps = [];
+    for (var i = 0; i < checkedDems.length; i++) {
+        dems.push("@" + checkedDems[i]);
+    }
+    for (var i = 0; i < checkedReps.length; i++) {
+        reps.push("@" + checkedReps[i]);
+    }
+
+    var result = "&nbsp;<b>Your filtering has been successfully completed!<br>&nbsp;Here are your selections:</b><br>";
+    result += "&nbsp;<u>Democrat(s)</u>: " + dems + "<br>";
+    result += "&nbsp;<u>Republican(s)</u>: " + reps + "<br>";
+    result += "&nbsp;<u>Sentiment(s)</u>: " + checkedSentimentsList + "<br>";
+    result += "&nbsp;<u>Election Period</u>: " + checkedElectionPeriod + "<br>";
+    result += "&nbsp;<u>Date Range</u>: " + date1 + " - " + date2 + "<br>";
+    result = result.replace(/,/g, ", ");
     document.getElementById("result").innerHTML = result;
 }
 
