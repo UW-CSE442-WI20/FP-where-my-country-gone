@@ -128,18 +128,23 @@ div.ui-slider-range.ui-widget-header {
 }
 
 #pieChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:350px;
+    right:450px;
+    bottom:50px;
 }
 
 #sentimentChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:725px;
 }
 
 #interactionChart {
-    position:relative;
-    left:400px;
+    position:absolute;
+    top:1300px;
+    left:1200px;
 }
 
 .title {
