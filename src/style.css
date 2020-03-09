@@ -32,7 +32,7 @@ input[type=submit] {
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 13px 20px;
+    padding: 12px 20px;
     margin: 4px 2px;
     cursor: pointer;
     font-family: trebuchet ms;
@@ -42,7 +42,7 @@ input[type=submit]:hover {
     background-color: #009900;
     border: none;
     color: white;
-    padding: 13px 20px;
+    padding: 12px 20px;
     margin: 4px 2px;
     cursor: pointer;
     font-family: trebuchet ms;
@@ -53,13 +53,14 @@ input[type=submit]:hover {
     width: 320px;
     overflow-x: hidden;
     min-width: 150px;
-    max-width: 400px;
+    max-width: 320px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: #eee;
     padding-top: 20px;
+    word-wrap: break-word;
 }
 
 .dropdown-btn {
@@ -123,6 +124,11 @@ div.tooltip {
 
 div.ui-slider-range.ui-widget-header {
     background-color: #00acee;
+}
+
+#slider-range2 {
+    width: 283px;
+    display: inline-block;
 }
 
 #twittercontainer {

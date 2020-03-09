@@ -58,10 +58,12 @@ d3.select("#main-form")
 
         // Get checked boxes for sentiments
         checkedSentiments = new Set();
+        var checkedSentimentsList = [];
         var sentiments = document.getElementsByClassName("sentiment");
         for (var i = 0; i < sentiments.length; i++) {
             if (sentiments[i].checked) {
                 checkedSentiments.add(sentiments[i].value);
+                checkedSentimentsList.push(sentiments[i].value);
             }
         }
 
@@ -74,19 +76,21 @@ d3.select("#main-form")
         }
 
         // Get Date ranges
-        d1 = new Date(document.getElementById("date-amount-start").value);
-        d2 = new Date(document.getElementById("date-amount-end").value);
+        var date1 = document.getElementById("date-amount-start").value;
+        var date2 = document.getElementById("date-amount-end").value;
+        d1 = new Date(date1);
+        d2 = new Date(date2);
 
-        printFiltering(checkedDems, checkedReps, checkedSentiments, checkedElectionPeriod, d1, d2);
+        printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2);
     });
 
-function printFiltering(checkedDems, checkedReps, checkedSentiments, checkedElectionPeriod, d1, d2) {
+function printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2) {
     var result = "Your filtering has been successfully completed! Here are your selections:<br>";
     result += "Selected Democrat(s): " + checkedDems + "<br>";
     result += "Selected Republican(s): " + checkedReps + "<br>";
-    result += "Selected sentiment(s): " + checkedSentiments + "<br>";
-    result += "Selected election period: " + checkedElectionPeriod + "<br>";
-    result += "Selected date range: " + d1.toString() + " - " + d2.toString();
+    result += "Selected Sentiment(s): " + checkedSentimentsList + "<br>";
+    result += "Selected Election Period: " + checkedElectionPeriod + "<br>";
+    result += "Selected Date Range: " + date1 + " - " + date2 + "<br>";
     document.getElementById("result").innerHTML = result;
 }
 
