@@ -323,7 +323,6 @@ class TwitterScatter {
 
 
     drawCanvasScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
-        console.log('filter results', filterResults)
         var margin = {top: 10, right: 30, bottom: 30, left: 60};
         var outerWidth = 900;
         var outerHeight = 500;
@@ -364,17 +363,18 @@ class TwitterScatter {
                 //.classed('.hidden-canvas', true)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
-                .attr('class', 'hidden-canvas');;
+                .attr('class', 'hidden-canvas');
         }else{
             canvasChart = d3.select('.canvas-plot');
             hiddenCanvas = d3.select('.hidden-canvas')
         }
         
         const canv = canvasChart.node().getContext('2d');
-        
-        
+
+        // "virtual" SVG for tooltip with canvas
         var customBase = document.createElement('custom');
-        var custom = d3.select(customBase); // "virtual" SVG for tooltip with canvas
+        var custom = d3.select(customBase); 
+        
         
         /////////////////
         //Define the div for the tooltip
@@ -397,7 +397,26 @@ class TwitterScatter {
         //         .attr("transform",
         //             "translate(" + (margin.left + 30) + "," + margin.top + ")");
         // }
+        // map to track color the nodes.
+        var colorToNode = {};
+        // function to create new colors for picking
+        var nextCol = 1;
+        //console.log("next col 11111", nextCol);
+        function genColor(){
+            var ret = [];
+            //console.log(" next col ", nextCol);
+            if (nextCol < 16777215){
+                ret.push(nextCol & 0xff); //R
+                ret.push((nextCol & 0xff00) >> 8); //G
+                ret.push((nextCol & 0xff0000) >> 16); //B
 
+                nextCol += 1;
+            }
+            //console.log('ret ', ret);
+            var col = "rgb(" + ret.join(',') + ")";
+            //console.log("col ", col)
+            return col;
+        }
 
         d3.json(tweetsfile).then((tweets) => {
             // Convert to Date format
@@ -429,7 +448,7 @@ class TwitterScatter {
                 //.nice();
             
             var yAxis = svgChart.append("g")
-                .call(d3.axisLeft(y).tickFormat(d3.format("s")));
+                .call(d3.axisLeft(y).tickFormat(d3.format("d")));
 
             databind(data, x, y);
 
@@ -460,8 +479,9 @@ class TwitterScatter {
                 // .text(yAx);
 
 
-            canvasChart.on('mousemove',function(){
-                draw(hiddenCanvas)
+            d3.select('.canvas-plot').on('mousemove',function(){
+                console.log("hidden canvas ", hiddenCanvas)
+                //draw(hiddenCanvas)
                 var mouseX = d3.event.layerX || d3.event.offsetX;
                 var mouseY = d3.event.layerY || d3.event.offsetY;
                 
@@ -471,6 +491,7 @@ class TwitterScatter {
                 
 
             })
+
             
             function databind(data, x, y){
                 var join = custom.selectAll('custom.circle')
@@ -485,21 +506,30 @@ class TwitterScatter {
                         .attr('y', function(d){
                             return y(d[yAx]);
                         }).attr("r", 2);
-
+                //console.log('enter sel', enterSel);
                 join.merge(enterSel)
                     .transition()
-                    .attr('r', 3)
-                    .attr('fillStyle', '#000000');
+                    .attr('fillStyleHidden', function(d){
+                        console.log("d", d);
+                        if (!d.hiddenCol){
+                            d.hiddenCol = genColor();
+                            console.log("hidden col ", d.hiddenCol);
+                            colorToNode[d.hiddenCol] = d;
+                        }
+                        return d.hiddenCol;
+                    });
 
-                var exitSel = join.exit().transition().attr('width', 0).attr('height', 0).remove();
+                //var exitSel = join.exit().transition().attr('width', 0).attr('height', 0).remove();
                                   
             }
 
 
             // Initial draw made with no zoom
-            draw(d3.zoomIdentity)
+            //console.log("zoom identity?", d3.zoomIdentity)
+            draw(d3.zoomIdentity, canvasChart, false)
 
-            function draw(transform) {
+            function draw(transform, canvas, hidden) {
+                console.log(transform)
                 lastTransform = transform;
 
                 const scaleX = transform.rescaleX(x);
@@ -507,16 +537,17 @@ class TwitterScatter {
 
                 xAxis.call(d3.axisBottom(x).scale(scaleX));
                 yAxis.call(d3.axisLeft(y).scale(scaleY));
-
-                canv.clearRect(0, 0, width, height);
+                var can = canvas.node().getContext('2d');
+                can.clearRect(0, 0, width, height);
                 var elements = custom.selectAll('custom.circle');
                 elements.each(function(d) {
+                    var node = d3.select(this);
+                    can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'black';
                     drawPoint(scaleX, scaleY, d);
                 });
             }
             function drawPoint(scaleX, scaleY, d) {
                 canv.beginPath();
-                canv.fillStyle = '#000000';
                 var px = scaleX(d["date"]);
                 var py = scaleY(d[yAx]);
 
@@ -529,7 +560,7 @@ class TwitterScatter {
                 .on('zoom', () => {
                     const transform = d3.event.transform;
                     canv.save();
-                    draw(transform);
+                    draw(transform, canvasChart, false);
                     canv.restore();
                 });
             
