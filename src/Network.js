@@ -4,10 +4,10 @@ class Network {
     constructor() {}
 
     drawNetworkGraph(word, since, until, politicians, sentiments, period, summaryStatsInstance) {
-        var linkMap = {};
-        var linkId = {};
         let graphfile;
         let tweetsfile;
+        var maxOccurences = 0;
+
         if (period === '2016') {
             graphfile = 'wordnetwork2016.json';
             tweetsfile = 'TweetsArray2016.json';
@@ -61,13 +61,14 @@ class Network {
                  arr.sort(function(a, b){return a.number - b.number});
                  arr.reverse();
                  let nodes = [];
-                 nodes.push({"id":word, "size" : 5});
+                 nodes.push({"id":word, "size" : 45});
                  for (let i = 0; i < 20; i++) {
                      let len = arr[i].number;
                      let nextLink = {"source":word, "target":arr[i].word};
                      let nextNode = {"id":arr[i].word, "size":len};
                      nodes.push(nextNode);
                      links.push(nextLink);
+                     maxOccurences += len;
                     //  in_degree += len;
                     
                      /*
@@ -84,12 +85,12 @@ class Network {
                  }
                  let indexes = Array.from(indexesSet);
                  summaryStatsInstance.drawStats(indexes, tweetsfile);
-                 this.drawNetwork(nodes, links, linkId);
+                 this.drawNetwork(nodes, links, maxOccurences);
              });
          });
     }
 
-    drawNetwork(nodes, links, linkId) {
+    drawNetwork(nodes, links, maxOccurences) {
         console.log("NODES", nodes);
         console.log("LINKS", links);
 
@@ -151,9 +152,10 @@ class Network {
         }
           
         function drawNode(d) {
+            console.log("PCT IS", d.size / maxOccurences);
             context.moveTo(d.x + 3, d.y);
-            context.arc(d.x, d.y, 5 + d.size * 0.25, 0, 2 * Math.PI);
-            context.fillText(d.id, d.x+ 5.2 + d.size * 0.25, d.y + 5.2 + d.size * 0.25);
+            context.arc(d.x, d.y, 5 + d.size / maxOccurences * 75, 0, 2 * Math.PI + 0.5);
+            context.fillText(d.id, d.x+ 5.2 + d.size / maxOccurences * 75, d.y + 5.2 + d.size / maxOccurences * 75);
         }
 
         // This function is run at each iteration of the force algorithm, updating the nodes position.
