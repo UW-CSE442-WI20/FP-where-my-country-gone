@@ -334,7 +334,7 @@ class TwitterScatter {
         let lastTransform = null;
 
         // Init SVG
-        if(d3.select('.scatter-container svg g').size() == 0){
+        if(d3.select('#scatter-container svg g').size() == 0){
             var svgChart = container.append('svg')
                 .attr('width', outerWidth)
                 .attr('height', outerHeight)
@@ -467,7 +467,7 @@ class TwitterScatter {
                 
                 var hiddenCtx = hiddenCanvas.node().getContext('2d');
                 var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
-                console.log("col ", col)
+                //console.log("col ", col)
                 
 
             })
@@ -502,26 +502,23 @@ class TwitterScatter {
             function draw(transform) {
                 lastTransform = transform;
 
-                const scaleX = transform.x;
-                const scaleY = transform.y;
+                const scaleX = transform.rescaleX(x);
+                const scaleY = transform.rescaleY(y);
 
-                //xAxis.call(d3.axisBottom(x).scale(transform.k));
-                //yAxis.call(d3.axisLeft(y).scale(transform.k));
+                xAxis.call(d3.axisBottom(x).scale(scaleX));
+                yAxis.call(d3.axisLeft(y).scale(scaleY));
 
                 canv.clearRect(0, 0, width, height);
                 var elements = custom.selectAll('custom.circle');
                 elements.each(function(d) {
-                    console.log("print date " , scxsad["date"])
-                    var x = transform.d["date"];
-                    var y = transform.d[yAx];
-                    drawPoint(x, y);
+                    drawPoint(scaleX, scaleY, d);
                 });
             }
-            function drawPoint(px, py) {
+            function drawPoint(scaleX, scaleY, d) {
                 canv.beginPath();
-                //canv.fillStyle = '#000000';
-                //const px = scaleX(d["date"]);
-                //const py = scaleY(d[yAx]);
+                canv.fillStyle = '#000000';
+                var px = scaleX(d["date"]);
+                var py = scaleY(d[yAx]);
 
                 canv.arc(px, py, 2.5, 0, 2 * Math.PI, true);
                 canv.fill();
