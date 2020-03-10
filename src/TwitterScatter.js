@@ -411,6 +411,7 @@ class TwitterScatter {
         }
 
         d3.json(tweetsfile).then((tweets) => {
+            
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
             var data = [];
@@ -418,7 +419,6 @@ class TwitterScatter {
                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
                 data.push(tweets[filterResults[i]])
             }
-            
 
             // Add X axis
             var x = d3.scaleTime()
@@ -426,7 +426,6 @@ class TwitterScatter {
                     return d["date"];
                 }))
                 .range([0, width]).nice();
-            
             const xAxis = svgChart.append("g")
                 .attr("transform", `translate(0, ${height})`)
                 .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
@@ -436,11 +435,10 @@ class TwitterScatter {
                 .domain(d3.extent(data, function (d) {
                     return d[yAx];
                 }))
-                .range([height, 0]);
-                //.nice();
-            
+                .range([height, 0])
+                .nice();
             var yAxis = svgChart.append("g")
-                .call(d3.axisLeft(y).tickFormat(d3.format("d")));
+                .call(d3.axisLeft(y).tickFormat(d3.format("d")).ticks(5));
 
             // Text label for the x axis
             svgChart.append("text")
