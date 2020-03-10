@@ -145,6 +145,11 @@ d3.select("#scatter-form")
             d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
     });
 
+
+d3.select("#option").on("click", function() {
+    d3.event.preventDefault();
+    summaryStatsInstance.updateData();
+});
 /*
 window.twttr = (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0],

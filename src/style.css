@@ -140,16 +140,17 @@ div.ui-slider-range.ui-widget-header {
     position: absolute;
     left: 925px;
     overflow: auto;
-    width: 600px;
+    width: 475px;
     height: 550px;
     right:25px;
     top:0px;
+    border: 5px solid #00acee;
 }
 
 #pieChart {
     position:absolute;
-    margin-top:auto;
-    margin-bottom: auto;
+    margin-top:75px;
+    margin-bottom: 50px;
 }
 
 #sentimentChart {
@@ -159,7 +160,7 @@ div.ui-slider-range.ui-widget-header {
 
 #interactionChart {
     position:absolute;
-    top:275px;
+    top:320px;
     left:375px;
 }
 
@@ -252,4 +253,9 @@ section[role='tabpanel'] {
   background: #f9f9f9;
   padding: .5rem;
   margin-bottom: 1rem;
+}
+
+
+#clear {
+    background-color: #00acee;
 }
