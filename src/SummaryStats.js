@@ -20,9 +20,19 @@ class SummaryStats {
 
             return t;
         }(document, "script", "twitter-wjs"));
+        this.piedataset_;
+        this.interactiondataset_;
+        this.sentimentdataset_;
 
     }
 
+
+    updateData() {
+        d3.select("#pieChart").selectAll("*").remove();
+        d3.select("#sentimentChart").selectAll("*").remove();
+        d3.select("#interactionChart").selectAll("*").remove();
+        this.drawSummaries(this.piedataset_, this.sentimentdataset_, this.interactiondataset_);
+    }
     drawStats(indexes, tweetsfile) {
         console.log(indexes);
         d3.json(tweetsfile).then((tweets) => {
@@ -69,7 +79,7 @@ class SummaryStats {
             idToPopularity.reverse();
             let piedataset = [];
             let sentimentdataset = [];
-            let interactionsdataset = [];
+            let interactiondataset = [];
             let mapIter = userToNumberOfTweets.keys();
             let key = mapIter.next();
 
@@ -79,9 +89,9 @@ class SummaryStats {
             sentimentdataset.push({group:"All", category:"slight pos", measure:overallsentiments['slight pos']});
             sentimentdataset.push({group:"All", category:"very pos", measure:overallsentiments['very pos']});
 
-            interactionsdataset.push({group:"All", category:"replies", measure:overallinteractions['replies']});
-            interactionsdataset.push({group:"All", category:"retweets", measure:overallinteractions['retweets']});
-            interactionsdataset.push({group:"All", category:"favorites", measure:overallinteractions['favorites']});
+            interactiondataset.push({group:"All", category:"replies", measure:overallinteractions['replies']});
+            interactiondataset.push({group:"All", category:"retweets", measure:overallinteractions['retweets']});
+            interactiondataset.push({group:"All", category:"favorites", measure:overallinteractions['favorites']});
 
             while(!key.done) {
                 let keyitself = key.value;
@@ -97,14 +107,14 @@ class SummaryStats {
                 sentimentdataset.push({group:keyitself, category:"very pos", measure:nextsentiments['very pos']});
 
                 let nextinteractions = userToInteractions.get(keyitself);
-                interactionsdataset.push({group:keyitself, category:"replies", measure:nextinteractions['replies']});
-                interactionsdataset.push({group:keyitself, category:"retweets", measure:nextinteractions['retweets']});
-                interactionsdataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
+                interactiondataset.push({group:keyitself, category:"replies", measure:nextinteractions['replies']});
+                interactiondataset.push({group:keyitself, category:"retweets", measure:nextinteractions['retweets']});
+                interactiondataset.push({group:keyitself, category:"favorites", measure:nextinteractions['favorites']});
                 key = mapIter.next();
             }
             let toptweets = [];
             console.log(idToPopularity);
-            for (let i = 0; i < 4 && i < idToPopularity.length; i++) {
+            for (let i = 0; i < 10 && i < idToPopularity.length; i++) {
                 toptweets.push(idToPopularity[i].id);
             }
             //console.log(d3.select("#pieChart").selectAll("*"));
@@ -113,8 +123,12 @@ class SummaryStats {
             d3.select("#interactionChart").selectAll("*").remove();
             d3.select("#twittercontainer").selectAll("*").remove();
 
-            this.drawSummaries(piedataset, sentimentdataset, interactionsdataset);
-            //this.showTweets(toptweets);
+            this.piedataset_ = piedataset;
+            this.sentimentdataset_ = sentimentdataset;
+            this.interactiondataset_ = interactiondataset;
+
+            this.drawSummaries(piedataset, sentimentdataset, interactiondataset);
+            this.showTweets(toptweets);
 
             // this.drawPie(piedataset);
             // this.dsBarChart("All", sentimentdataset);
@@ -711,7 +725,7 @@ class SummaryStats {
                 twttr.widgets.createTweet(toptweets[i],
                     document.getElementById('twittercontainer'),
                     {
-                        theme: 'light'
+                        theme: 'dark'
                     }).then(function( el ) {
                     console.log('Tweet added.');
                 });
