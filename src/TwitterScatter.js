@@ -330,7 +330,7 @@ class TwitterScatter {
         var height = outerHeight - margin.top - margin.bottom;
         
         const container = d3.select('.scatter-container');
-        let lastTransform = null;
+        //let lastTransform = null;
 
         // Init SVG
         if(d3.select('#scatter-container svg g').size() == 0){
@@ -369,7 +369,7 @@ class TwitterScatter {
             hiddenCanvas = d3.select('.hidden-canvas')
         }
         
-        let canv = canvasChart.node().getContext('2d');
+        //let canv = canvasChart.node().getContext('2d');
 
         // "virtual" SVG for tooltip with canvas
         var customBase = document.createElement('custom');
@@ -477,16 +477,16 @@ class TwitterScatter {
 
 
             databind(data, x, y);
-            //draw(d3.zoomIdenity, canvasChart, false);
+            draw(canvasChart, false);
             
             d3.select('.canvas-plot').on('mousemove',function(){
-                draw(d3.zoomIdentity, hiddenCanvas,true);
+                draw(hiddenCanvas,true);
                 //draw(d3.zoomIdentity, canvasChart, false);
                 
                 var mouseX = d3.event.layerX || d3.event.offsetX;
                 var mouseY = d3.event.layerY || d3.event.offsetY;
 
-                var hiddenCtx = canvasChart.node().getContext('2d');
+                var hiddenCtx = hiddenCanvas.node().getContext('2d');
                 //console.log('image data' , hiddenCtx.getImageData(mouseX, mouseY, 1, 1).data);
                 var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
                 var colKey = "rgb(" + col[0] + "," + col[1] + "," + col[2] + ")";
@@ -495,18 +495,16 @@ class TwitterScatter {
                 //console.log('get that data' , colorToNode.colKey);
                 
                 var nodeData = colorToNode.get(colKey);
-                console.log()
-                console.log("col to node" , colorToNode)
-                console.log("nodeData in the if ", nodeData)
+                console.log();
+                console.log("col to node" , colorToNode);
+                console.log("nodeData in the if ", nodeData);
                 if (nodeData){
-                    //console.log(nodeData);
-                    console.log('tooltip size check' , d3.select('.tooltip').size() == 0);
-                    
-                    d3.select('.tooltip')
+                    console.log("node data in tooltip " , nodeData);
+                    d3.select('#tooltip')
                         .style('opacity', 0.8)
                         .style('top', d3.event.pageY + 5 + 'px')
                         .style('left', d3.event.pageX + 5 + 'px')
-                        .text(nodeData);
+                        .text("@" + nodeData["username"] + ": " + nodeData["text"]);
                 } else {
                     d3.select('#tooltip')
                         .style('opacity', 0);
@@ -528,10 +526,13 @@ class TwitterScatter {
                         .attr('y', function(d){
                             return y(d[yAx]);
                         }).attr("r", 2);
+                        //.on("mouseover", function(d){
+                            //console.log("enter d" , d);
+                
                 //console.log('enter sel', enterSel);
                 join.merge(enterSel)
                     .transition()
-                    .attr('fillstylehidden', function(d){
+                    .attr('fillStyleHidden', function(d){
                         //console.log("d", d);
                         if (!d.hiddenCol){
                             d.hiddenCol = genColor();
@@ -548,51 +549,63 @@ class TwitterScatter {
 
 
             // Initial draw made with no zoom
-            draw(d3.zoomIdentity, canvasChart, false);
+            draw(canvasChart, false);
             //draw(d3.zoomIdentity, hiddenCanvas, true);
-            function draw(transform, canvas, hidden) {
-                lastTransform = transform;
+            function draw(canvas, hidden) {
+                
+                ///////////////// ZOOOOOOOOM STUFFFFFFFF
+                //lastTransform = transform;
 
-                const scaleX = transform.rescaleX(x);
-                const scaleY = transform.rescaleY(y);
+                //const scaleX = transform.rescaleX(x);
+                //const scaleY = transform.rescaleY(y);
 
-                xAxis.call(d3.axisBottom(x).scale(scaleX));
-                yAxis.call(d3.axisLeft(y).scale(scaleY));
+                //xAxis.call(d3.axisBottom(x).scale(scaleX));
+                //yAxis.call(d3.axisLeft(y).scale(scaleY));
                 
                 var can = canvas.node().getContext('2d');
                 can.clearRect(0, 0, width, height);
                 
                 var elements = custom.selectAll('custom.circle');
                 elements.each(function(d) {
+                    //console.log("in each " , d)
                     var node = d3.select(this);
                     
-                    can.fillStyle = hidden ? node.attr('fillsylehidden') : 'steelblue';
+                    can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'steelblue';
                     //console.log("node rgb", node.attr('fillstylehidden'));
-                    var theRGB =  node.attr('fillstylehidden');
+                    var theRGB =  node.attr('fillStyleHidden');
+                    var theData = colorToNode.get(theRGB);
+                    //console.log(theRGB);
+
+                    can.beginPath();
+                    can.arc(x(d['date']), y(d[yAx]), 2.5, 0, 2*Math.PI);
+                    can.fill();
                     //var theData = col
-                    drawPoint(can, scaleX, scaleY, d);
+                    
+                    //drawPoint(can, scaleX, scaleY, d);
                 });
             }
-            function drawPoint(context, scaleX, scaleY, d) {
-                context.beginPath();
-                var px = scaleX(d["date"]);
-                var py = scaleY(d[yAx]);
-
-                context.arc(px, py, 2.5, 0, 2 * Math.PI, true);
-                context.fill();
-            }
-
+            // function drawPoint(context, scaleX, scaleY, d) {
+            //     context.beginPath();
+            //     var px = scaleX(d["date"]);
+            //     var py = scaleY(d[yAx]);
+            //
+            //     context.arc(px, py, 2.5, 0, 2 * Math.PI, true);
+            //     context.fill();
+            // }
+            //
             
-            const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
-                .on('zoom', () => {
-                    let transform = d3.event.transform;
-                    canv.save();
-                    draw(transform, canvasChart, false);
-                    draw(transform, hiddenCanvas, true)
-                    canv.restore();
-                });
+            ///////////////// ZOOOOOOOOM STUFFFFFFFF
+            //
+            // const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
+            //     .on('zoom', () => {
+            //         let transform = d3.event.transform;
+            //         canv.save();
+            //         draw(transform, canvasChart, false);
+            //         draw(transform, hiddenCanvas, true)
+            //         canv.restore();
+            //     });
             
-            canvasChart.call(zoom_function);
+            //canvasChart.call(zoom_function);
             //hiddenCanvas.call(zoom_function);
             
         })
