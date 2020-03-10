@@ -45,48 +45,55 @@ d3.select("#main-form")
     .on("submit", function() {
         d3.event.preventDefault();
 
-        // Get checked boxes for Democrats/Republicans
-        checkedDems = [];
-        var democrats = document.getElementsByClassName("dem");
-        for (var i = 0; i < democrats.length; i++) {
-            if (democrats[i].checked) {
-                checkedDems.push(democrats[i].value);
+        // Check that there has been at least one selection from each of the filtering options
+        if ($('#dropdown-container-1 :checkbox:checked').length == 0 ||
+            $('#dropdown-container-2 :checkbox:checked').length == 0 ||
+            $('#dropdown-container-3 :radio:checked').length == 0) {
+            alert("Please select at least one option from each of the filtering criteria.");
+        } else {
+            // Get checked boxes for Democrats/Republicans
+            checkedDems = [];
+            var democrats = document.getElementsByClassName("dem");
+            for (var i = 0; i < democrats.length; i++) {
+                if (democrats[i].checked) {
+                    checkedDems.push(democrats[i].value);
+                }
             }
-        }
-        checkedReps = [];
-        var republicans = document.getElementsByClassName("rep");
-        for (var i = 0; i < republicans.length; i++) {
-            if (republicans[i].checked) {
-                checkedReps.push(republicans[i].value);
+            checkedReps = [];
+            var republicans = document.getElementsByClassName("rep");
+            for (var i = 0; i < republicans.length; i++) {
+                if (republicans[i].checked) {
+                    checkedReps.push(republicans[i].value);
+                }
             }
-        }
 
-        // Get checked boxes for sentiments
-        checkedSentiments = new Set();
-        var checkedSentimentsList = [];
-        var sentiments = document.getElementsByClassName("sentiment");
-        for (var i = 0; i < sentiments.length; i++) {
-            if (sentiments[i].checked) {
-                checkedSentiments.add(sentiments[i].value);
-                checkedSentimentsList.push(sentiments[i].value);
+            // Get checked boxes for sentiments
+            checkedSentiments = new Set();
+            var checkedSentimentsList = [];
+            var sentiments = document.getElementsByClassName("sentiment");
+            for (var i = 0; i < sentiments.length; i++) {
+                if (sentiments[i].checked) {
+                    checkedSentiments.add(sentiments[i].value);
+                    checkedSentimentsList.push(sentiments[i].value);
+                }
             }
-        }
 
-        // Get checked input for election period
-        var electionPeriods = document.getElementsByName("election-period");
-        for (var i = 0; i < electionPeriods.length; i++) {
-            if (electionPeriods[i].checked) {
-                checkedElectionPeriod = electionPeriods[i].value;
+            // Get checked input for election period
+            var electionPeriods = document.getElementsByName("election-period");
+            for (var i = 0; i < electionPeriods.length; i++) {
+                if (electionPeriods[i].checked) {
+                    checkedElectionPeriod = electionPeriods[i].value;
+                }
             }
+
+            // Get Date ranges
+            var date1 = document.getElementById("date-amount-start").value;
+            var date2 = document.getElementById("date-amount-end").value;
+            d1 = new Date(date1);
+            d2 = new Date(date2);
+
+            printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2);
         }
-
-        // Get Date ranges
-        var date1 = document.getElementById("date-amount-start").value;
-        var date2 = document.getElementById("date-amount-end").value;
-        d1 = new Date(date1);
-        d2 = new Date(date2);
-
-        printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2);
     });
 
 function printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2) {

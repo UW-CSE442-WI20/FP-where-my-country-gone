@@ -15,7 +15,7 @@
 
         <!-- Democrat/Republican selection -->
         <button type="button" class="dropdown-btn">People</button>
-        <div class="dropdown-container">
+        <div class="dropdown-container" id="dropdown-container-1">
           <script>
             function toggle(source, className) {
               let checkboxes = document.getElementsByClassName(className);
@@ -74,7 +74,7 @@
 
         <!-- Sentiment selection -->
         <button type="button" class="dropdown-btn">Sentiment</button>
-        <div class="dropdown-container">
+        <div class="dropdown-container" id="dropdown-container-2">
           <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')">
           <label for="sentiment-all">Select All</label><br>
           <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos">
@@ -91,9 +91,9 @@
 
         <!-- Election period selection -->
         <button type="button" class="dropdown-btn">Election Period</button>
-        <div class="dropdown-container">
+        <div class="dropdown-container" id="dropdown-container-3">
           <div id="election-radios">
-              <input type="radio" class="election-period" id="2016" name="election-period" value="2016" required>
+              <input type="radio" class="election-period" id="2016" name="election-period" value="2016">
               <label for="2016">2016 Election</label><br>
               <input type="radio" class="election-period" id="2020" name="election-period" value="2020">
               <label for="2020">2020 Election</label><br>
