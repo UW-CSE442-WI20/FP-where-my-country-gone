@@ -369,7 +369,7 @@ class TwitterScatter {
             hiddenCanvas = d3.select('.hidden-canvas')
         }
         
-        const canv = canvasChart.node().getContext('2d');
+        let canv = canvasChart.node().getContext('2d');
 
         // "virtual" SVG for tooltip with canvas
         var customBase = document.createElement('custom');
@@ -377,13 +377,7 @@ class TwitterScatter {
         
         
         /////////////////
-        //Define the div for the tooltip
-        var tooltip = d3.select("body")
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0)
-            .style("pointer-events", "none");
-        
+
         
         // var svg = d3.select("#scatter-container svg" );
         // if(svg.size() == 0) {
@@ -398,12 +392,11 @@ class TwitterScatter {
         //             "translate(" + (margin.left + 30) + "," + margin.top + ")");
         // }
         // map to track color the nodes.
-        var colorToNode = {};
+        let colorToNode = new Map();
         // function to create new colors for picking
-        var nextCol = 1;
-        //console.log("next col 11111", nextCol);
+        let nextCol = 1;
         function genColor(){
-            var ret = [];
+            let ret = [];
             //console.log(" next col ", nextCol);
             if (nextCol < 16777215){
                 ret.push(nextCol & 0xff); //R
@@ -413,8 +406,7 @@ class TwitterScatter {
                 nextCol += 1;
             }
             //console.log('ret ', ret);
-            var col = "rgb(" + ret.join(',') + ")";
-            //console.log("col ", col)
+            let col = "rgb(" + ret.join(',') + ")";
             return col;
         }
 
@@ -450,8 +442,6 @@ class TwitterScatter {
             var yAxis = svgChart.append("g")
                 .call(d3.axisLeft(y).tickFormat(d3.format("d")));
 
-            databind(data, x, y);
-
             // Text label for the x axis
             svgChart.append("text")
                 .attr('x', `${width / 2}`)
@@ -478,17 +468,49 @@ class TwitterScatter {
                 // .style("font-family", "trebuchet ms")
                 // .text(yAx);
 
+            //Define the div for the tooltip
+            var tooltip = canvasChart
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("pointer-events", "none");
 
+
+            databind(data, x, y);
+            //draw(d3.zoomIdenity, canvasChart, false);
+            
             d3.select('.canvas-plot').on('mousemove',function(){
-                console.log("hidden canvas ", hiddenCanvas)
-                //draw(hiddenCanvas)
+                draw(d3.zoomIdentity, hiddenCanvas,true);
+                //draw(d3.zoomIdentity, canvasChart, false);
+                
                 var mouseX = d3.event.layerX || d3.event.offsetX;
                 var mouseY = d3.event.layerY || d3.event.offsetY;
-                
-                var hiddenCtx = hiddenCanvas.node().getContext('2d');
+
+                var hiddenCtx = canvasChart.node().getContext('2d');
+                //console.log('image data' , hiddenCtx.getImageData(mouseX, mouseY, 1, 1).data);
                 var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
-                //console.log("col ", col)
+                var colKey = "rgb(" + col[0] + "," + col[1] + "," + col[2] + ")";
+                console.log('col Key ' + "\"" + colKey + "\"")
+                console.log('existsw', colorToNode.has(colKey));
+                //console.log('get that data' , colorToNode.colKey);
                 
+                var nodeData = colorToNode.get(colKey);
+                console.log()
+                console.log("col to node" , colorToNode)
+                console.log("nodeData in the if ", nodeData)
+                if (nodeData){
+                    //console.log(nodeData);
+                    console.log('tooltip size check' , d3.select('.tooltip').size() == 0);
+                    
+                    d3.select('.tooltip')
+                        .style('opacity', 0.8)
+                        .style('top', d3.event.pageY + 5 + 'px')
+                        .style('left', d3.event.pageX + 5 + 'px')
+                        .text(nodeData);
+                } else {
+                    d3.select('#tooltip')
+                        .style('opacity', 0);
+                }
 
             })
 
@@ -509,12 +531,13 @@ class TwitterScatter {
                 //console.log('enter sel', enterSel);
                 join.merge(enterSel)
                     .transition()
-                    .attr('fillStyleHidden', function(d){
-                        console.log("d", d);
+                    .attr('fillstylehidden', function(d){
+                        //console.log("d", d);
                         if (!d.hiddenCol){
                             d.hiddenCol = genColor();
-                            console.log("hidden col ", d.hiddenCol);
-                            colorToNode[d.hiddenCol] = d;
+                            let mykey = d.hiddenCol;
+                            console.log("add mykey ", mykey);
+                            colorToNode.set(mykey, d);
                         }
                         return d.hiddenCol;
                     });
@@ -525,11 +548,9 @@ class TwitterScatter {
 
 
             // Initial draw made with no zoom
-            //console.log("zoom identity?", d3.zoomIdentity)
-            draw(d3.zoomIdentity, canvasChart, false)
-
+            draw(d3.zoomIdentity, canvasChart, false);
+            //draw(d3.zoomIdentity, hiddenCanvas, true);
             function draw(transform, canvas, hidden) {
-                console.log(transform)
                 lastTransform = transform;
 
                 const scaleX = transform.rescaleX(x);
@@ -537,34 +558,42 @@ class TwitterScatter {
 
                 xAxis.call(d3.axisBottom(x).scale(scaleX));
                 yAxis.call(d3.axisLeft(y).scale(scaleY));
+                
                 var can = canvas.node().getContext('2d');
                 can.clearRect(0, 0, width, height);
+                
                 var elements = custom.selectAll('custom.circle');
                 elements.each(function(d) {
                     var node = d3.select(this);
-                    can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'black';
-                    drawPoint(scaleX, scaleY, d);
+                    
+                    can.fillStyle = hidden ? node.attr('fillsylehidden') : 'steelblue';
+                    //console.log("node rgb", node.attr('fillstylehidden'));
+                    var theRGB =  node.attr('fillstylehidden');
+                    //var theData = col
+                    drawPoint(can, scaleX, scaleY, d);
                 });
             }
-            function drawPoint(scaleX, scaleY, d) {
-                canv.beginPath();
+            function drawPoint(context, scaleX, scaleY, d) {
+                context.beginPath();
                 var px = scaleX(d["date"]);
                 var py = scaleY(d[yAx]);
 
-                canv.arc(px, py, 2.5, 0, 2 * Math.PI, true);
-                canv.fill();
+                context.arc(px, py, 2.5, 0, 2 * Math.PI, true);
+                context.fill();
             }
 
             
             const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
                 .on('zoom', () => {
-                    const transform = d3.event.transform;
+                    let transform = d3.event.transform;
                     canv.save();
                     draw(transform, canvasChart, false);
+                    draw(transform, hiddenCanvas, true)
                     canv.restore();
                 });
             
             canvasChart.call(zoom_function);
+            //hiddenCanvas.call(zoom_function);
             
         })
     }
