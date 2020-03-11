@@ -323,7 +323,7 @@ class TwitterScatter {
 
 
     drawCanvasScatter(filterResults, yAx, tweetsfile) {
-        var margin = {top: 10, right: 30, bottom: 30, left: 60};
+        var margin = {top: 10, right: 30, bottom: 60, left: 80};
         var outerWidth = 900;
         var outerHeight = 500;
         var width = outerWidth - margin.left - margin.right;
@@ -351,7 +351,6 @@ class TwitterScatter {
             var canvasChart = container.append('canvas')
                 .attr('width', width)
                 .attr('height', height)
-                //.classed('.canvas-plot', true)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
                 .attr('class', 'canvas-plot');
@@ -360,7 +359,6 @@ class TwitterScatter {
             var hiddenCanvas = container.append('canvas')
                 .attr('width', width)
                 .attr('height', height)
-                //.classed('.hidden-canvas', true)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
                 .style('display', 'none')
@@ -431,28 +429,19 @@ class TwitterScatter {
             // Text label for the x axis
             svgChart.append("text")
                 .attr('x', `${width / 2}`)
-                .attr('y', `${height -40}`)
-                .text('Axis X');
-                // .attr("transform",
-                //     "translate(" + (width / 2) + " ," +
-                //     (height + margin.top + 20) + ")")
-                // .style("text-anchor", "middle")
-                // .style("font-family", "trebuchet ms")
-                // .text("Date");
+                .attr('y', `${height + 50}`)
+                .style("text-anchor", "middle")
+                .style("font-family", "trebuchet ms")
+                .text("Date");
 
             // Text label for the y axis
             svgChart.append("text")
                 .attr('x', `-${height / 2}`)
                 .attr('dy', '-3.5em')
                 .attr('transform', 'rotate(-90)')
-                .text('Axis Y');
-                // .attr("transform", "rotate(-90)")
-                // .attr("y", 0 - margin.left)
-                // .attr("x", 0 - (height / 2))
-                // .attr("dy", "1em")
-                // .style("text-anchor", "middle")
-                // .style("font-family", "trebuchet ms")
-                // .text(yAx);
+                .text(yAx)
+                .style("text-anchor", "middle")
+                .style("font-family", "trebuchet ms");
 
             databind(data, x, y);
 
