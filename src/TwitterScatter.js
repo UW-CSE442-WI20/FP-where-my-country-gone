@@ -376,28 +376,12 @@ class TwitterScatter {
         var custom = d3.select(customBase); 
         
         
-        /////////////////
-
-        
-        // var svg = d3.select("#scatter-container svg" );
-        // if(svg.size() == 0) {
-        //     svg = d3.select("#scatter-container")
-        //         .append("svg")
-        //         .attr('preserveAspectRatio', 'xMinYMin meet')
-        //         .attr('viewBox', "0 0 " + wid + " " + hei)
-        //         //.attr("width", width + margin.left + margin.right)
-        //         //.attr("height", height + margin.top + margin.bottom)
-        //         .append("g1")
-        //         .attr("transform",
-        //             "translate(" + (margin.left + 30) + "," + margin.top + ")");
-        // }
         // map to track color the nodes.
         let colorToNode = new Map();
         // function to create new colors for picking
         let nextCol = 1;
         function genColor(){
             let ret = [];
-            //console.log(" next col ", nextCol);
             if (nextCol < 16777215){
                 ret.push(nextCol & 0xff); //R
                 ret.push((nextCol & 0xff00) >> 8); //G
@@ -405,7 +389,6 @@ class TwitterScatter {
 
                 nextCol += 1;
             }
-            //console.log('ret ', ret);
             let col = "rgb(" + ret.join(',') + ")";
             return col;
         }
@@ -429,16 +412,20 @@ class TwitterScatter {
             const xAxis = svgChart.append("g")
                 .attr("transform", `translate(0, ${height})`)
                 .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
-
+            
             // Add Y axis
+            let maxY = d3.max(data, function(d){
+                return d[yAx];
+            })
             var y = d3.scaleLog()
-                .domain(d3.extent(data, function (d) {
+                // .domain([0, maxY])
+                .domain(d3.extent(data, function(d){
                     return d[yAx];
                 }))
                 .range([height, 0])
                 .nice();
             var yAxis = svgChart.append("g")
-                .call(d3.axisLeft(y).tickFormat(d3.format("d")).ticks(5));
+                .call(d3.axisLeft(y).tickFormat(d3.format(".0s")).ticks(5));
 
             // Text label for the x axis
             svgChart.append("text")
@@ -465,14 +452,6 @@ class TwitterScatter {
                 // .style("text-anchor", "middle")
                 // .style("font-family", "trebuchet ms")
                 // .text(yAx);
-
-            //Define the div for the tooltip
-            var tooltip = canvasChart
-                .append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-
 
             databind(data, x, y);
             draw(canvasChart, false);
@@ -511,7 +490,7 @@ class TwitterScatter {
             })
 
             
-            function databind(data, x, y){
+            function databind(data, x, y){ //x and y are the d3 axis
                 var join = custom.selectAll('custom.circle')
                             .data(data);
                 
@@ -524,29 +503,25 @@ class TwitterScatter {
                         .attr('y', function(d){
                             return y(d[yAx]);
                         }).attr("r", 2);
-                        //.on("mouseover", function(d){
-                            //console.log("enter d" , d);
                 
-                //console.log('enter sel', enterSel);
                 join.merge(enterSel)
                     .transition()
                     .attr('fillStyleHidden', function(d){
-                        //console.log("d", d);
+                        //adds a key hiddenCol to the data and sets value to the generated RGB color. 
+                        //saves RGB:node mapping in colorToNode 
+                        //this RBG is filed in the "virtual SVG" as attr fillStyleHidden
                         if (!d.hiddenCol){
                             d.hiddenCol = genColor();
                             let mykey = d.hiddenCol;
-                            console.log("add mykey ", mykey);
                             colorToNode.set(mykey, d);
                         }
                         return d.hiddenCol;
                     });
-
-                //var exitSel = join.exit().transition().attr('width', 0).attr('height', 0).remove();
                                   
             }
 
 
-            // Initial draw made with no zoom
+            // Initial draw to visible canvas
             draw(canvasChart, false);
             //draw(d3.zoomIdentity, hiddenCanvas, true);
             function draw(canvas, hidden) {
@@ -563,11 +538,12 @@ class TwitterScatter {
                 var can = canvas.node().getContext('2d');
                 can.clearRect(0, 0, width, height);
                 
-                var elements = custom.selectAll('custom.circle');
+                var elements = custom.selectAll('custom.circle'); //from the databind
                 elements.each(function(d) {
-                    //console.log("in each " , d)
+                    console.log("this is d", d);
                     var node = d3.select(this);
-                    
+                    console.log("this is node", colorToNode.get(node.attr('fillstylehidden')));
+
                     can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'steelblue';
                     //console.log("node rgb", node.attr('fillstylehidden'));
                     var theRGB =  node.attr('fillStyleHidden');
@@ -575,7 +551,7 @@ class TwitterScatter {
                     //console.log(theRGB);
 
                     can.beginPath();
-                    can.arc(x(d['date']), y(d[yAx]), 2.5, 0, 2*Math.PI);
+                    can.arc(x(d['date']), y(d[yAx]), 2, 0, 2*Math.PI);
                     can.fill();
                     //var theData = col
                     
