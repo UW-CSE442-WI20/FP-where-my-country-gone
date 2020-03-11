@@ -273,3 +273,20 @@ div#tooltip {
     opacity: 0;
     z-index: 1;
 }
+
+i {
+    border: solid #818181;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.arrow-right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
