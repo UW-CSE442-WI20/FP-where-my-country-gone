@@ -152,11 +152,12 @@ class Network {
         }
           
         function drawNode(d) {
-            console.log("PCT IS", d.size / maxOccurences);
+            //console.log("PCT IS", d.size / maxOccurences);
             context.moveTo(d.x, d.y);
             context.arc(d.x, d.y, 5 + d.size / maxOccurences * 75, -0.5, 2 * Math.PI, false);
             // context.fill();
             context.fillText(d.id, d.x+ 6 + d.size / maxOccurences * 75, d.y + 6 + d.size / maxOccurences * 75);
+
         }
 
         // This function is run at each iteration of the force algorithm, updating the nodes position.
