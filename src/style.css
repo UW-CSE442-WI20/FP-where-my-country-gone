@@ -1,16 +1,18 @@
-h2, h4, label, #scatter-form {
+h1, h3, h4, label, span, p, #scatter-form, #dropdown-container-1 {
     font-family: trebuchet ms;
 }
 
+h1 {
+    text-align: center;
+}
+
 span {
-    font-family: trebuchet ms;
     font-size: 13px;
     font-style: italic;
     color: #009900;
 }
 
 p {
-    font-family: trebuchet ms;
     font-size: 13px;
 }
 
