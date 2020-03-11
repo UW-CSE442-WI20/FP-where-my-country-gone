@@ -329,7 +329,11 @@ class TwitterScatter {
         var width = outerWidth - margin.left - margin.right;
         var height = outerHeight - margin.top - margin.bottom;
         
-        const container = d3.select('.scatter-container');
+        
+        const container = d3.select('.scatter-container')
+            .attr('preserveAspectRatio', 'xMinYMin meet')
+            .attr('viewBox', "0 0 " + width + " " + height);
+        //container.style("width", '100%');
         let lastTransform = null;
 
         // Init SVG
@@ -340,7 +344,8 @@ class TwitterScatter {
                 .attr('class', 'svg-plot')
                 .append('g')
                 .attr('transform', `translate(${margin.left}, ${margin.top})`)
-                .attr('class', 'g-class');
+                .attr('class', 'g-class')
+                .attr('preserveAspectRatio', 'xMinYMin meet');
         }else{
             svgChart = d3.select('g-class')
         }
@@ -353,16 +358,20 @@ class TwitterScatter {
                 .attr('height', height)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
-                .attr('class', 'canvas-plot');
+                .attr('class', 'canvas-plot')
+                //.style('display', 'none')
+                .attr('preserveAspectRatio', 'xMinYMin meet');
             
             // hidden canvas
-            var hiddenCanvas = container.append('canvas')
+            var hiddenCanvas = //container.append('canvas')
+            d3.select('#page2').append('canvas')
                 .attr('width', width)
                 .attr('height', height)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
-                .style('display', 'none')
-                .attr('class', 'hidden-canvas');
+                //.style('display', 'none')
+                .attr('class', 'hidden-canvas')
+                .attr('preserveAspectRatio', 'xMinYMin meet');
         }else{
             canvasChart = d3.select('.canvas-plot');
             hiddenCanvas = d3.select('.hidden-canvas')
@@ -377,6 +386,7 @@ class TwitterScatter {
         
         // map to track color the nodes.
         let colorToNode = new Map();
+        let nodeToColor = new Map();
         // function to create new colors for picking
         let nextCol = 1;
         function genColor(){
@@ -396,7 +406,7 @@ class TwitterScatter {
             
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
-            var data = [];
+            let data = [];
             for (var i = 0; i < filterResults.length; i++) {
                 tweets[filterResults[i]]["date"] = parseTime(tweets[filterResults[i]]["date"]);
                 data.push(tweets[filterResults[i]])
@@ -446,20 +456,24 @@ class TwitterScatter {
             databind(data, x, y);
 
             // Initial draw to visible canvas
-            draw(d3.zoomIdentity, canvasChart, false);
             draw(d3.zoomIdentity, hiddenCanvas, true);
+            draw(d3.zoomIdentity, canvasChart, false);
+
 
 
 
             d3.select('.canvas-plot').on('mousemove',function(){
-                draw(d3.zoomIdentity, hiddenCanvas,true);
-                draw(d3.zoomIdentity, canvasChart, false);
+                // draw(lastTransform, hiddenCanvas,true);
+                // draw(lastTransform, canvasChart, false);
                 
                 var mouseX = d3.event.layerX || d3.event.offsetX;
                 var mouseY = d3.event.layerY || d3.event.offsetY;
 
                 var hiddenCtx = hiddenCanvas.node().getContext('2d');
+                
                 var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
+                //hiddenCtx.fillStyle = 'green';
+                //hiddenCtx.fillRect(mouseX, mouseY, 1, 1);
                 var colKey = "rgb(" + col[0] + "," + col[1] + "," + col[2] + ")";
                 //console.log('col Key ' + "\"" + colKey + "\"")
                 //console.log('existsw', colorToNode.has(colKey));
@@ -473,7 +487,8 @@ class TwitterScatter {
                         .style('opacity', 0.8)
                         .style('top', d3.event.pageY + 5 + 'px')
                         .style('left', d3.event.pageX + 5 + 'px')
-                        .text("@" + nodeData["username"] + ": " + nodeData["text"] + " " + yAx + nodeData[yAx] + " date " + nodeData["date"]);
+                        .text('date ' + nodeData['date'] + 'rgb ' + colKey)
+                        //.text("@" + nodeData["username"] + ": " + nodeData["text"] + " " + yAx + nodeData[yAx] + " date " + nodeData["date"]);
                 } else {
                     d3.select('#tooltip')
                         .style('opacity', 0);
@@ -483,33 +498,50 @@ class TwitterScatter {
 
             
             function databind(data, x, y){ //x and y are the d3 axis
-                var join = custom.selectAll('custom.circle')
-                            .data(data);
+                data.sort(function(a, b){
+                    return b['date']-a['date'];
+                });
                 
-                var enterSel = join.enter()
-                        .append('custom')
-                        .attr('class', 'circle')
-                        .attr('x', function(d){
-                            return x(d["date"]);
-                        })
-                        .attr('y', function(d){
-                            return y(d[yAx]);
-                        }).attr("r", 2);
+                data.forEach(function(d){
+                    let myColor = genColor();
+                    colorToNode.set(myColor, d);
+                    
+                    let myDataID = d['id'];
+                    nodeToColor.set(myDataID, myColor);
+                })
                 
-                join.merge(enterSel)
-                    .transition()
-                    .attr('fillStyleHidden', function(d){
-                        //adds a key hiddenCol to the data and sets value to the generated RGB color. 
-                        //saves RGB:node mapping in colorToNode 
-                        //this RBG is filed in the "virtual SVG" as attr fillStyleHidden
-                        if (!d.hiddenCol){
-                            d.hiddenCol = genColor();
-                            let mykey = d.hiddenCol;
-                            colorToNode.set(mykey, d);
-                        }
-                        return d.hiddenCol;
-                    });
-                                  
+                //////// CUSTOM CIRCLE IMPLEMENTATION
+                // var join = custom.selectAll('custom.circle')
+                //             .data(data);
+                //
+                //
+                //
+                // var enterSel = join.enter()
+                //         .append('custom')
+                //         .attr('class', 'circle')
+                //         // .attr('x', function(d){
+                //         //     return x(d["date"]);
+                //         // })
+                //         // .attr('y', function(d){
+                //         //     return y(d[yAx]);
+                //         // }).attr("r", 2);
+                //
+                // join.merge(enterSel)
+                //     //.transition()
+                //     .attr('fillStyleHidden', function(d){
+                //         //adds a key hiddenCol to the data and sets value to the generated RGB color. 
+                //         //saves RGB:node mapping in colorToNode 
+                //         //this RBG is filed in the "virtual SVG" as attr fillStyleHidden
+                //         if (!d.hiddenCol){
+                //             let myKey = genColor();
+                //             console.log(colorToNode.has(myKey))
+                //             d.hiddenCol = myKey;
+                //             //let mykey = d.hiddenCol;
+                //             colorToNode.set(myKey, d);
+                //         }
+                //         return d.hiddenCol;
+                //     });
+                //                  
             }
             
             function draw(transform, canvas, hidden) {
@@ -521,26 +553,36 @@ class TwitterScatter {
                 const scaleY = transform.rescaleY(y);
 
                 xAxis.call(d3.axisBottom(x).scale(scaleX));
-                yAxis.call(d3.axisLeft(y).scale(scaleY));
+                yAxis.call(d3.axisLeft(y).scale(scaleY).tickFormat(d3.format(".0s")).ticks(5));
+                // var yAxis = svgChart.append("g")
+                //     .call(d3.axisLeft(y).tickFormat(d3.format(".0s")).ticks(5));
                 
                 var can = canvas.node().getContext('2d');
                 can.clearRect(0, 0, width, height);
                 
-                var elements = custom.selectAll('custom.circle'); //from the databind
-                elements.each(function(d) {
-                    var node = d3.select(this);
-                    can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'steelblue';
-                    var theRGB =  node.attr('fillStyleHidden');
-                    var theData = colorToNode.get(theRGB);
-                    //console.log(theRGB);
-
+                data.forEach(function(d){
+                    let color = nodeToColor.get(d['id']);
+                    can.fillStyle = hidden ? color : 'steelblue';
+                    can.strokeStyle = hidden ? color : 'steelblue';
                     can.beginPath();
-                    //can.arc(x(d['date']), y(d[yAx]), 2, 0, 2*Math.PI);
-                    can.arc(scaleX(d['date']), scaleY(d[yAx]), 2, 0, 2*Math.PI); //zoom version?
+                    can.arc(scaleX(d['date']), scaleY(d[yAx]), 5, 0, 2*Math.PI);
                     can.fill();
+                });
+                
+                // var elements = custom.selectAll('custom.circle'); //from the databind
+                // elements.each(function(d) {
+                //     var node = d3.select(this);
+                //     can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'steelblue';
+                //     var theRGB =  node.attr('fillStyleHidden');
+                //     var theData = colorToNode.get(theRGB);
+                //
+                //     can.beginPath();
+                //     //can.arc(x(d['date']), y(d[yAx]), 2, 0, 2*Math.PI);
+                //     can.arc(scaleX(d['date']), scaleY(d[yAx]), 2, 0, 2*Math.PI); //zoom version?
+                //     can.fill();
                     
                     //drawPoint(can, scaleX, scaleY, d);
-                });
+                //});
             }
             
             /////////////// ZOOOOOOOOM STUFFFFFFFF
@@ -553,22 +595,12 @@ class TwitterScatter {
                     
                     context.save();
                     context2.save();
-                    draw(transform, canvasChart, false);
+                    draw(transform, canvasChart,false);
                     draw(transform, hiddenCanvas, true)
                     context.restore();
                     context2.restore();
                 });
             canvasChart.call(zoom_function);
-
-            // function drawPoint(context, scaleX, scaleY, d) {
-            //     context.beginPath();
-            //     var px = scaleX(d["date"]);
-            //     var py = scaleY(d[yAx]);
-            //
-            //     context.arc(px, py, 2.5, 0, 2 * Math.PI, true);
-            //     context.fill();
-            // }
-            //
             
         })
     }
