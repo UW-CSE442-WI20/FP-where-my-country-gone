@@ -51,6 +51,11 @@ $('input[type=radio]').on('change', function() {
     }
 });
 
+// Change dropdown arrow
+$('.dropdown-btn').click(function(){
+    $(this).children('i').toggleClass("arrow-right arrow-down");
+});
+
 // Make sidebar resizable
 /*$("#sidenav").resizable({
     handles: 'e'
