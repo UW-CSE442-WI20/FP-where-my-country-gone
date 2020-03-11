@@ -363,6 +363,7 @@ class TwitterScatter {
                 //.classed('.hidden-canvas', true)
                 .style('margin-left', margin.left + 'px')
                 .style('margin-top', margin.top + 'px')
+                .style('display', 'none')
                 .attr('class', 'hidden-canvas');
         }else{
             canvasChart = d3.select('.canvas-plot');
@@ -462,7 +463,7 @@ class TwitterScatter {
 
 
             d3.select('.canvas-plot').on('mousemove',function(){
-                //draw(hiddenCanvas,true);
+                draw(d3.zoomIdentity, hiddenCanvas,true);
                 draw(d3.zoomIdentity, canvasChart, false);
                 
                 var mouseX = d3.event.layerX || d3.event.offsetX;
@@ -483,7 +484,7 @@ class TwitterScatter {
                         .style('opacity', 0.8)
                         .style('top', d3.event.pageY + 5 + 'px')
                         .style('left', d3.event.pageX + 5 + 'px')
-                        .text("@" + nodeData["username"] + ": " + nodeData["text"]);
+                        .text("@" + nodeData["username"] + ": " + nodeData["text"] + " " + yAx + nodeData[yAx] + " date " + nodeData["date"]);
                 } else {
                     d3.select('#tooltip')
                         .style('opacity', 0);
