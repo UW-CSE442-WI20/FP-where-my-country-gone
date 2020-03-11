@@ -120,10 +120,11 @@
     <div class = "main">
         <div id="container">
             <ul role="tablist">
-                <li><a role="tab" href="#panel1" aria-selected="true">Panel 1</a></li>
-                <li><a role="tab" href="#panel2">Panel 2</a></li>
+                <li><a role="tab" href="#page1" aria-selected="true">Word Network</a></li>
+                <li><a role="tab" href="#page2">Twitter Scatter</a></li>
+                <li><a role="tab" href="#page3">How to use (Instructions)</a></li>
             </ul>
-            <section role="tabpanel" id="panel1">
+            <section role="tabpanel" id="page1">
                 <!-- Network search -->
                 <form id="network-form">
                     <input type="text" id="network-input" placeholder="Enter a keyword...">
@@ -133,7 +134,7 @@
                 <canvas width="900" height="600"></canvas>
                 <script src="Network.js"></script>
             </section>
-            <section role="tabpanel" id="panel2">
+            <section role="tabpanel" id="page2">
                 <!-- Scatterplot search -->
                 <form id="scatter-form">
                   &nbsp;&nbsp;Please select a Y-dimension:
@@ -149,6 +150,45 @@
                 <div class="scatter-container"></div>
                 <div id='tooltip'></div>
                 <script src="TwitterScatter.js"></script>
+            </section>
+            <section role="tabpanel" id="page3">
+                <p>*Where My Country Gone?* is an interactive dashboard intended to help any user
+                    learn more about the role of twietter in the American politcs scene with data visualization.
+                </p>
+                <h4>With Network graph you can visualize most common words that are concurrently used with word of choice.
+                    It can be intereacted with via drag.
+                </h4>
+                <h4>The Twitter Scatter plots scatter of each tweet in filtered data as a node (axis of choice used)</h4>
+                <h4>The Tweet Filtering allows filtering of tweets to get specific subset of data of interest.</h4>
+                
+                <h2>How to use the dashboard:</h2>
+                <ol>
+                    <li>Select set of political individuals to analyze their tweets</li>
+                    <li>Specify tweets of sentiment level that you wish to analyze. 
+                      Each tweet has been categorized to 5 sentiment levels ranging from negative to
+                      positive based on Microsoft's NLTK package. 
+                    </li>
+                    <li>Select Date. Since the dashboard handles twitter data of
+                      American polticians, it handles two significant evenets: 2016 and
+                      2020 elections. The user can select an election period and further Specify
+                      the date.
+                    </li>
+                    <li>Once the filters are set, press submit! A green text block below will
+                      verify that a search was successful.
+                    </li>
+                    <li>
+                      The word network requires a word to be searched
+                    </li>
+                    <li>
+                      Select the "Twitter Scatter" tab to visualize tweets as a scatterplot,
+                      its tooltip allows you to highlight specific tweets from the plot.
+                    </li>
+                    <li>
+                      The summary stats provide more information about the data that has been
+                      filtered. 
+                    </li>
+                </ol>
+                <p>Thank you for using Where My Country Gone?, and have fun!</p>
             </section>
         </div>
     </div>

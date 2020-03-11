@@ -153,9 +153,11 @@ class Network {
           
         function drawNode(d) {
             //console.log("PCT IS", d.size / maxOccurences);
-            context.moveTo(d.x + 3, d.y);
-            context.arc(d.x, d.y, 5 + d.size / maxOccurences * 75, 0, 2 * Math.PI + 0.5);
-            context.fillText(d.id, d.x+ 5.2 + d.size / maxOccurences * 75, d.y + 5.2 + d.size / maxOccurences * 75);
+            context.moveTo(d.x, d.y);
+            context.arc(d.x, d.y, 5 + d.size / maxOccurences * 75, -0.5, 2 * Math.PI, false);
+            // context.fill();
+            context.fillText(d.id, d.x+ 6 + d.size / maxOccurences * 75, d.y + 6 + d.size / maxOccurences * 75);
+
         }
 
         // This function is run at each iteration of the force algorithm, updating the nodes position.
@@ -170,8 +172,8 @@ class Network {
             context.beginPath();
             graph.nodes.forEach(drawNode);
             context.fill();
-            context.strokeStyle = "#fff";
-            context.stroke();
+            // context.strokeStyle = "#fff";
+            // context.stroke();
         }
 
     }
