@@ -322,7 +322,7 @@ class TwitterScatter {
     // }
 
 
-    drawCanvasScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
+    drawCanvasScatter(filterResults, yAx, tweetsfile) {
         var margin = {top: 10, right: 30, bottom: 30, left: 60};
         var outerWidth = 900;
         var outerHeight = 500;
@@ -330,7 +330,7 @@ class TwitterScatter {
         var height = outerHeight - margin.top - margin.bottom;
         
         const container = d3.select('.scatter-container');
-        //let lastTransform = null;
+        let lastTransform = null;
 
         // Init SVG
         if(d3.select('#scatter-container svg g').size() == 0){
@@ -454,29 +454,31 @@ class TwitterScatter {
                 // .text(yAx);
 
             databind(data, x, y);
-            draw(canvasChart, false);
-            
+
+            // Initial draw to visible canvas
+            draw(d3.zoomIdentity, canvasChart, false);
+            draw(d3.zoomIdentity, hiddenCanvas, true);
+
+
+
             d3.select('.canvas-plot').on('mousemove',function(){
-                draw(hiddenCanvas,true);
-                //draw(d3.zoomIdentity, canvasChart, false);
+                //draw(hiddenCanvas,true);
+                draw(d3.zoomIdentity, canvasChart, false);
                 
                 var mouseX = d3.event.layerX || d3.event.offsetX;
                 var mouseY = d3.event.layerY || d3.event.offsetY;
 
                 var hiddenCtx = hiddenCanvas.node().getContext('2d');
-                //console.log('image data' , hiddenCtx.getImageData(mouseX, mouseY, 1, 1).data);
                 var col = hiddenCtx.getImageData(mouseX, mouseY, 1, 1,).data;
                 var colKey = "rgb(" + col[0] + "," + col[1] + "," + col[2] + ")";
-                console.log('col Key ' + "\"" + colKey + "\"")
-                console.log('existsw', colorToNode.has(colKey));
+                //console.log('col Key ' + "\"" + colKey + "\"")
+                //console.log('existsw', colorToNode.has(colKey));
                 //console.log('get that data' , colorToNode.colKey);
                 
                 var nodeData = colorToNode.get(colKey);
-                console.log();
-                console.log("col to node" , colorToNode);
-                console.log("nodeData in the if ", nodeData);
+                //console.log("col to node" , colorToNode);
+                //console.log("nodeData in the if ", nodeData);
                 if (nodeData){
-                    console.log("node data in tooltip " , nodeData);
                     d3.select('#tooltip')
                         .style('opacity', 0.8)
                         .style('top', d3.event.pageY + 5 + 'px')
@@ -519,45 +521,55 @@ class TwitterScatter {
                     });
                                   
             }
-
-
-            // Initial draw to visible canvas
-            draw(canvasChart, false);
-            //draw(d3.zoomIdentity, hiddenCanvas, true);
-            function draw(canvas, hidden) {
+            
+            function draw(transform, canvas, hidden) {
                 
-                ///////////////// ZOOOOOOOOM STUFFFFFFFF
-                //lastTransform = transform;
+                /////////////// ZOOOOOOOOM STUFFFFFFFF
+                lastTransform = transform;
 
-                //const scaleX = transform.rescaleX(x);
-                //const scaleY = transform.rescaleY(y);
+                const scaleX = transform.rescaleX(x);
+                const scaleY = transform.rescaleY(y);
 
-                //xAxis.call(d3.axisBottom(x).scale(scaleX));
-                //yAxis.call(d3.axisLeft(y).scale(scaleY));
+                xAxis.call(d3.axisBottom(x).scale(scaleX));
+                yAxis.call(d3.axisLeft(y).scale(scaleY));
                 
                 var can = canvas.node().getContext('2d');
                 can.clearRect(0, 0, width, height);
                 
                 var elements = custom.selectAll('custom.circle'); //from the databind
                 elements.each(function(d) {
-                    console.log("this is d", d);
                     var node = d3.select(this);
-                    console.log("this is node", colorToNode.get(node.attr('fillstylehidden')));
-
                     can.fillStyle = hidden ? node.attr('fillStyleHidden') : 'steelblue';
-                    //console.log("node rgb", node.attr('fillstylehidden'));
                     var theRGB =  node.attr('fillStyleHidden');
                     var theData = colorToNode.get(theRGB);
                     //console.log(theRGB);
 
                     can.beginPath();
-                    can.arc(x(d['date']), y(d[yAx]), 2, 0, 2*Math.PI);
+                    //can.arc(x(d['date']), y(d[yAx]), 2, 0, 2*Math.PI);
+                    can.arc(scaleX(d['date']), scaleY(d[yAx]), 2, 0, 2*Math.PI); //zoom version?
                     can.fill();
-                    //var theData = col
                     
                     //drawPoint(can, scaleX, scaleY, d);
                 });
             }
+            
+            /////////////// ZOOOOOOOOM STUFFFFFFFF
+
+            const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
+                .on('zoom', () => {
+                    let transform = d3.event.transform;
+                    let context = canvasChart.node().getContext('2d');
+                    let context2 = hiddenCanvas.node().getContext('2d');
+                    
+                    context.save();
+                    context2.save();
+                    draw(transform, canvasChart, false);
+                    draw(transform, hiddenCanvas, true)
+                    context.restore();
+                    context2.restore();
+                });
+            canvasChart.call(zoom_function);
+
             // function drawPoint(context, scaleX, scaleY, d) {
             //     context.beginPath();
             //     var px = scaleX(d["date"]);
@@ -567,20 +579,6 @@ class TwitterScatter {
             //     context.fill();
             // }
             //
-            
-            ///////////////// ZOOOOOOOOM STUFFFFFFFF
-            //
-            // const zoom_function = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width, height]])
-            //     .on('zoom', () => {
-            //         let transform = d3.event.transform;
-            //         canv.save();
-            //         draw(transform, canvasChart, false);
-            //         draw(transform, hiddenCanvas, true)
-            //         canv.restore();
-            //     });
-            
-            //canvasChart.call(zoom_function);
-            //hiddenCanvas.call(zoom_function);
             
         })
     }
