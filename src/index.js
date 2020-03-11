@@ -40,6 +40,9 @@ var checkedSentiments;
 var checkedElectionPeriod;
 var d1;
 var d2;
+var checkedYDimension = 'favorites';
+var networkInput = 'america';
+var scatterInput = 'america';
 
 d3.select("#main-form")
     .on("submit", function() {
@@ -92,7 +95,17 @@ d3.select("#main-form")
             d1 = new Date(date1);
             d2 = new Date(date2);
 
+            // Confirm successful filtering
             printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2);
+
+            // Draw word network
+            checkedPeople = new Set(checkedDems.concat(checkedReps));
+            networkInstance.drawNetworkGraph(networkInput, d1, d2,
+                checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+
+            // Draw scatterplot
+            twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
+                d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
         }
     });
 
@@ -121,7 +134,7 @@ d3.select("#network-form")
         d3.event.preventDefault();
 
         // Get search input
-        var networkInput = document.getElementById("network-input").value;
+        networkInput = document.getElementById("network-input").value;
 
         // Draw word network
         checkedPeople = new Set(checkedDems.concat(checkedReps));
@@ -135,7 +148,6 @@ d3.select("#scatter-form")
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
-        var checkedYDimension;
         var yDimensions = document.getElementsByName("y-axis");
         for (var i = 0; i < yDimensions.length; i++) {
             if (yDimensions[i].checked) {
@@ -144,7 +156,7 @@ d3.select("#scatter-form")
         }
 
         // Get search input
-        var scatterInput = document.getElementById("scatter-input").value;
+        scatterInput = document.getElementById("scatter-input").value;
         console.log("scatter input ", scatterInput)
 
         // Draw scatterplot
