@@ -8,15 +8,22 @@ const twitterScatterInstance = new TwitterScatter();
 const summaryStatsInstance = new SummaryStats();
 
 // Initial view
-let checked = new Set(['HillaryClinton', 'realDonaldTrump']);
-let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
-let st = new Date(2016, 8, 1);
-let end = new Date(2017, 1, 1);
-networkInstance.drawNetworkGraph('america', st, end,
-    checked, sentiments, '2016', summaryStatsInstance);
+var checkedDems = ['HillaryClinton'];
+var checkedReps = ['realDonaldTrump'];
+var checkedPeople = new Set(checkedDems.concat(checkedReps));
+var checkedSentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);;
+var checkedElectionPeriod = '2016';
+var d1 = new Date(2016, 8, 1);
+var d2 = new Date(2017, 1, 1);
+var checkedYDimension = 'favorites';
+var networkInput = 'america';
+var scatterInput = 'america';
 
-twitterScatterInstance.drawTwitterScatter(['HillaryClinton'],['realDonaldTrump'],
-    st.toString(), end.toString(), sentiments, "favorites", 2016, summaryStatsInstance);
+networkInstance.drawNetworkGraph(networkInput, d1, d2,
+    checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+
+twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
+    d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, 2016, summaryStatsInstance);
 
 /////////////////////
 // Filtering
@@ -35,16 +42,6 @@ for (var i = 0; i < dropdown.length; i++) {
 
 /////////////////////
 // Filtering/search input
-var checkedDems;
-var checkedReps;
-var checkedPeople;
-var checkedSentiments;
-var checkedElectionPeriod;
-var d1;
-var d2;
-var checkedYDimension = 'favorites';
-var networkInput = 'america';
-var scatterInput = 'america';
 
 d3.select("#main-form")
     .on("submit", function() {
