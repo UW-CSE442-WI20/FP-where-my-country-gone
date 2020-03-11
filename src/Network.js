@@ -61,7 +61,6 @@ class Network {
                  arr.sort(function(a, b){return a.number - b.number});
                  arr.reverse();
                  let nodes = [];
-                 nodes.push({"id":word, "size" : 45});
                  for (let i = 0; i < 20; i++) {
                      let len = arr[i].number;
                      let nextLink = {"source":word, "target":arr[i].word};
@@ -83,6 +82,7 @@ class Network {
                         linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
                      }*/
                  }
+                 nodes.push({"id":word, "size" : maxOccurences / 3});
                  let indexes = Array.from(indexesSet);
                  summaryStatsInstance.drawStats(indexes, tweetsfile);
                  this.drawNetwork(nodes, links, maxOccurences);
@@ -154,9 +154,9 @@ class Network {
         function drawNode(d) {
             //console.log("PCT IS", d.size / maxOccurences);
             context.moveTo(d.x, d.y);
-            context.arc(d.x, d.y, 5 + d.size / maxOccurences * 75, -0.5, 2 * Math.PI, false);
+            context.arc(d.x, d.y, 5 + d.size / maxOccurences * 60, -0.5, 2 * Math.PI, false);
             // context.fill();
-            context.fillText(d.id, d.x+ 6 + d.size / maxOccurences * 75, d.y + 6 + d.size / maxOccurences * 75);
+            context.fillText(d.id, d.x+ 6 + d.size / maxOccurences * 60, d.y + 6 + d.size / maxOccurences * 60);
 
         }
 
