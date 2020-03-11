@@ -1,5 +1,10 @@
-h2, h4, label, #scatter-form {
+h3, h4, label, #scatter-form, #dropdown-container-1 {
     font-family: trebuchet ms;
+}
+
+h1 {
+    font-family: trebuchet ms;
+    text-align: center;
 }
 
 span {
