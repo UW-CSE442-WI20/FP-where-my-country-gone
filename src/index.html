@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Where My Country Gone?</title>
+    <title>Final Project</title>
     <link href="style.css" rel="stylesheet">
     <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" >
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -10,10 +10,8 @@
   </head>
   <body>
     <div class="sidenav" id="sidenav">
-      <h1>Where My Country Gone?</h1>
-      <br>
       <form id="main-form">
-        <h3>&nbsp;&nbsp;Tweet Filtering</h3>
+        <h2>&nbsp;&nbsp;Tweet Filtering</h2>
 
         <!-- Democrat/Republican selection -->
         <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
@@ -27,7 +25,7 @@
             }
           </script>
 
-          <b>Democrats</b><br>
+          <h4>Democrats</h4>
           <input type="checkbox" id="dem-all" onClick="toggle(this, 'dem')">
           <label for="dem-all">Select All</label><br>
           <input type="checkbox" class="dem" id="dem1" name="dem1" value="AOC">
@@ -49,9 +47,9 @@
           <input type="checkbox" class="dem" id="dem9" name="dem9" value="KamalaHarris">
           <label for="dem9">Kamala Harris</label><br>
           <input type="checkbox" class="dem" id="dem10" name="dem10" value="RepMaxineWaters">
-          <label for="dem10">Maxine Waters</label><br><br>
+          <label for="dem10">Maxine Waters</label><br>
 
-          <b>Republicans</b><br>
+          <h4>Republicans</h4>
           <input type="checkbox" id="rep-all" onClick="toggle(this, 'rep')">
           <label for="rep-all">Select All</label><br>
           <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump" checked>

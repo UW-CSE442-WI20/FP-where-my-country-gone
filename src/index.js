@@ -143,6 +143,7 @@ d3.select("#network-form")
 
 d3.select("#scatter-form")
     .on("submit", function() {
+        console.log("submit clicked");
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
@@ -155,6 +156,7 @@ d3.select("#scatter-form")
 
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
+        console.log("scatter input ", scatterInput);
 
         // Draw scatterplot
         twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
