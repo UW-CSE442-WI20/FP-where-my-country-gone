@@ -11,7 +11,14 @@ span {
     font-family: trebuchet ms;
     font-size: 13px;
     font-style: italic;
+}
+
+#result {
     color: #009900;
+}
+
+#no-result-network, #no-result-scatter {
+    color: red;
 }
 
 p {
@@ -273,7 +280,7 @@ div#tooltip {
     position: absolute;
     display: inline-block;
     padding: 10px;
-    font-family: 'Open Sans' sans-serif;
+    font-family: trebuchet ms;
     color: #000;
     background-color: #fff;
     border: 1px solid #999;

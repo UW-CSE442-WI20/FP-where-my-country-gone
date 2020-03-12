@@ -62,6 +62,9 @@ class TwitterScatter {
                 //summaryInstance.drawStats(searchResults, tweetfile);
                 this.drawScatter(searchResults, yAxis, tweetfile);
             });
+        } else {
+            var result = "No results found for keyword <b>" + input + "</b>. Please try again!";
+            document.getElementById("no-result-scatter").innerHTML = result;
         }
     }
 
