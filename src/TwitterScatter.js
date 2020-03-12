@@ -59,7 +59,6 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
-                //summaryInstance.drawStats(searchResults, tweetfile);
                 this.drawScatter(searchResults, yAxis, tweetfile);
             });
         }
@@ -115,7 +114,7 @@ class TwitterScatter {
                 }
                 indexes.push(intermmediate[i]);
             }
-            //this.drawCanvasScatter(indexes, yAxis, tweetsfile);
+            console.log("here in TS.js");
             this.drawScatter(indexes, yAxis, tweetsfile);
             
         });
@@ -125,13 +124,15 @@ class TwitterScatter {
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
         console.log("svg draw" , filterResults);
+        console.log('my yax', yAx);
         var margin = {top: 10, right: 30, bottom: 30, left:80};
         var width = 1100 - margin.left - margin.right;
         var height = 700 - margin.top - margin.bottom;
         var wid = width + margin.left + margin.right;
         var hei = height + margin.top + margin.bottom;
         var svg;
-
+        d3.select('#scatter-container svg').remove();
+        
         svg = d3.select("#scatter-container svg" );
         if(svg.size() == 0) {
             svg = d3.select("#scatter-container")
@@ -186,6 +187,7 @@ class TwitterScatter {
             // Add Y axis
             var y = d3.scaleLog()
                 .domain(d3.extent(data, function (d) {
+                    console.log('here is d[yAx]', d[yAx]);
                     return d[yAx];
                 }))
                 .range([height - 20, 0]).nice();
@@ -251,6 +253,7 @@ class TwitterScatter {
                     return x(d["date"]);
                 })
                 .attr("cy", function (d) {
+                    console.log('d[yAx] is zero?', d[yAx] == 0);
                     return y(d[yAx]);
                 })
                 .attr("r", 3)
