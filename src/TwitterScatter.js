@@ -185,7 +185,7 @@ class TwitterScatter {
                 .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
 
             // Add Y axis
-            var y = d3.scaleLog()
+            var y = d3.scaleLinear()
                 .domain(d3.extent(data, function (d) {
                     console.log('here is d[yAx]', d[yAx]);
                     return d[yAx];
