@@ -5,17 +5,34 @@
     <title>Final Project</title>
     <link href="style.css" rel="stylesheet">
     <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" >
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
   <body>
     <div class="sidenav" id="sidenav">
       <h1>Where My Country Gone?</h1><br>
+        <button class="accordion">How to use</button>
+        <div class="panel">
+            <ol>
+                <li>Select politicians to focus on.</li>
+                <li>Select the sentiments that you prefer to include.</li>
+                <li>Select an election period and a range of dates.</li>
+                <li>Press submit and you will see a green text block verifying your filters</li>
+                <li>Then you can play around with the word network, the twitter scatterplot and the summary statistics</li>
+            </ol>
+        </div>
       <form id="main-form">
-        <h3>&nbsp;&nbsp;Tweet Filtering</h3>
-
-        <!-- Democrat/Republican selection -->
-        <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
+          <h3>&nbsp;&nbsp;Tweet Filtering </h3>
+          <div id="tweetfilteringinfo" style="display: inline;">
+              <span id='tooltipClick'
+                    title='The tweet filtering allows filtering of tweets to get specific subset of data of interest.'>
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
+              </span>
+          </div>
+          <!-- Democrat/Republican selection -->
+        <button title='Here you can select a set of people from both political parties to analyze their tweets.'
+                type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
         <div class="dropdown-container" id="dropdown-container-1">
           <script>
             function toggle(source, className) {
@@ -74,7 +91,8 @@
         </div>
 
         <!-- Sentiment selection -->
-        <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Sentiment</button>
+        <button title="Here you can select the sentiment levels that you would like to focus on. Each tweet has been categorized to 5 sentiment levels ranging from very negative to very positive based on Microsoft's NLTK package."
+                type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Sentiment</button>
         <div class="dropdown-container" id="dropdown-container-2">
           <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')" checked>
           <label for="sentiment-all">Select All</label><br>
@@ -91,7 +109,8 @@
         </div>
 
         <!-- Election period selection -->
-        <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Election Period</button>
+        <button title="Here you can select two signifcant events: the 2016 and 2020 selections. After you select the election periodthat you want analyze, you can select a date range from those periods."
+                type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Election Period</button>
         <div class="dropdown-container" id="dropdown-container-3">
           <div id="election-radios">
               <input type="radio" class="election-period" id="2016" name="election-period" value="2016" checked>
@@ -117,7 +136,7 @@
       </form><br>
       <span id="result"></span><br><br><br>
     </div>
-    
+
     <div class = "main">
         <div id="container">
             <ul role="tablist">
@@ -130,6 +149,10 @@
                 <form id="network-form">
                     <input type="text" id="network-input" placeholder="Enter a keyword...">
                     <input type="submit" id="network-submit" value="Search" >
+                    <span id='tooltipClick2'
+                          title='The word network requires a word to be searched. With Network graph you can visualize most common words that are concurrently used with word of choice. It can be intereacted with via drag. The size of the nodes is proportional to the number of tweets that word and the word you searched for have in common.'>
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
+              </span>
                 </form>
                 <script src="sliders.js"></script>
                 <canvas width="900" height="600"></canvas>
@@ -148,6 +171,10 @@
                   <label for="2020"># of Replies</label><br>
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
+                    <span id='tooltipClick3'
+                          title='The Twitter Scatter plots scatter of each tweet in filtered data as a node (axis of choice used). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
+              </span>
                 </form>
                 <div id="scatter-container"></div>
                 <div id='tooltip'></div>
@@ -195,10 +222,18 @@
         </div>
     </div>
     <div id="summarycontainer">
-      <div id="twittercontainer"></div>
+        <div id="twittercontainerouter">
+            <h3>Top 10 Tweets from the filtered dataset</h3>
+            <div id="twittercontainer">
+            </div>
+        </div>
       <div id="pieChart"></div>
       <div id="option">
         <input type="button" id="clear" value="Overall"/>
+          <span id='tooltipClick4'
+                title='The following visualizations give additional views to the dataset. It shows you a donut chart to see how much the politicians you selected tweet compared to others. It also shows the overall sentiment and interaction distribution. You can also drill down on a certain politician and you can see their respective distributions. Additionally, we show you the top 10 tweets from the filtered dataset, in which you can actively interact with.'>
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
+              </span>
       </div>
       <div id="sentimentChart"></div>
       <div id="interactionChart"></div>
