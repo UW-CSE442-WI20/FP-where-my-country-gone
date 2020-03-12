@@ -1,10 +1,14 @@
-h3, h4, label, #scatter-form, #dropdown-container-1 {
+* {
     font-family: trebuchet ms;
 }
 
 h1 {
     font-family: trebuchet ms;
     text-align: center;
+}
+
+h3 {
+    color: #444;
 }
 
 span {
@@ -52,6 +56,26 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #009900;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+#clear {
+    background-color: #00acee;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+#clear:hover {
+    background-color: #009cde;
     border: none;
     color: white;
     padding: 12px 20px;
@@ -181,36 +205,36 @@ div.ui-slider-range.ui-widget-header {
 }
 
 .title {
-    font-family: Verdana;
+    font-family: trebuchet ms;
     font-size: 15px;
 
 }
 .slice {
     font-size: 10pt;
-    font-family: Verdana;
+    font-family: trebuchet ms;
     fill: black;
 font-weight: bold;
 }
 
 .axis text {
-    font-family: Verdana;
+    font-family: trebuchet ms;
     font-size: 11px;
 }
 
 .title {
-    font-family: Verdana;
+    font-family: trebuchet ms;
     font-size: 15px;
 
 }
 
 .xAxis {
-    font-family: verdana;
+    font-family: trebuchet ms;
     font-size: 11px;
     fill: black;
 }
 
 .yAxis {
-    font-family: verdana;
+    font-family: trebuchet ms;
     font-size: 11px;
     fill: white;
 }
@@ -271,11 +295,6 @@ section[role='tabpanel'] {
   margin-bottom: 1rem;
 }
 
-
-#clear {
-    background-color: #00acee;
-}
-
 div#tooltip {
     position: absolute;
     display: inline-block;
@@ -318,7 +337,7 @@ i {
     border: none;
     outline: none;
     transition: 0.4s;
-    font-family: Verdana;
+    font-family: trebuchet ms;
     font-size: 25px;
 }
 
@@ -332,7 +351,7 @@ i {
     padding: 0 18px;
     display: none;
     overflow: hidden;
-    font-family: Verdana;
+    font-family: trebuchet ms;
     font-size: 15px;
 
 }

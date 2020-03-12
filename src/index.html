@@ -15,18 +15,20 @@
         <button class="accordion">How to use</button>
         <div class="panel">
             <ol>
-                <li>Select politicians to focus on.</li>
-                <li>Select the sentiments that you prefer to include.</li>
+                <li>Make sure that you are using Google Chrome for the best experience!</li>
+                <li>Select politicians of interest to focus on.</li>
+                <li>Select the sentiments that you prefer to include. Each tweet in the dataset has been analyzed using the VADER sentiment analysis tool and has been classified into one of the five sentiment categories (see below).</li>
                 <li>Select an election period and a range of dates.</li>
-                <li>Press submit and you will see a green text block verifying your filters</li>
-                <li>Then you can play around with the word network, the twitter scatterplot and the summary statistics</li>
+                <li>Press submit. If the filtering was successful, you will see a green text block verifying your filters.</li>
+                <li>Then you can play around with the word network, the twitter scatterplot and the summary statistics!</li>
             </ol>
         </div>
+      <br><br>
       <form id="main-form">
           <h3>&nbsp;&nbsp;Tweet Filtering </h3>
           <div id="tweetfilteringinfo" style="display: inline;">
               <span id='tooltipClick'
-                    title='The tweet filtering allows filtering of tweets to get specific subset of data of interest.'>
+                    title='The tweet filtering allows filtering of tweets to a get specific subset of data of interest. Some defaults have been pre-selected below as an example. However, you are free to change these or select other data of interest.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
               </span>
           </div>
@@ -168,7 +170,7 @@
                     <input type="text" id="network-input" placeholder="Enter a keyword...">
                     <input type="submit" id="network-submit" value="Search" >
                     <span id='tooltipClick2'
-                          title='The word network requires a word to be searched. With Network graph you can visualize most common words that are concurrently used with word of choice. It can be intereacted with via drag. The size of the nodes is proportional to the number of tweets that word and the word you searched for have in common.'>
+                          title='The word network requires a word to be searched. With Network graph you can visualize the most common words that are concurrently used with the word of choice. It can be intereacted with via drag. The size of the nodes is proportional to the number of tweets that word and the word you searched for have in common.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
                     &nbsp;<span id="no-result-network"></span>
               </span>
@@ -191,7 +193,7 @@
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
                     <span id='tooltipClick3'
-                          title='The Twitter Scatter plots scatter of each tweet in filtered data as a node (axis of choice used). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
+                          title='The Twitter Scatter plots scatter of each tweet in the filtered data as a node (axis of choice used). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
                   &nbsp;<span id="no-result-scatter"></span>
               </span>
@@ -251,7 +253,7 @@
       <div id="option">
         <input type="button" id="clear" value="Reset"/>
           <span id='tooltipClick4'
-                title='The following visualizations give additional views to the dataset. It shows you a donut chart to see how much the politicians you selected tweet compared to others. It also shows the overall sentiment and interaction distribution. You can also drill down on a certain politician and you can see their respective distributions. Additionally, we show you the top 10 tweets from the filtered dataset, in which you can actively interact with.'>
+                title="The following visualizations give additional views to the dataset. It shows you a donut chart to see how much the politicians you selected tweet compared to others (hover over a slice to view the politician's percentage). It also shows the overall sentiment and interaction distribution. You can also drill down on a certain politician and you can see their respective distributions. Additionally, we show you the top 10 tweets from the filtered dataset, in which you can actively interact with.">
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
               </span>
       </div>
