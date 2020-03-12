@@ -117,7 +117,6 @@ class TwitterScatter {
                 }
                 indexes.push(intermmediate[i]);
             }
-            console.log("here in TS.js");
             this.drawScatter(indexes, yAxis, tweetsfile);
             
         });
@@ -128,6 +127,7 @@ class TwitterScatter {
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
         console.log("svg draw" , filterResults);
         console.log('my yax', yAx);
+        console.log('tweets file ' , tweetsfile);
         var margin = {top: 10, right: 30, bottom: 30, left:80};
         var width = 1100 - margin.left - margin.right;
         var height = 700 - margin.top - margin.bottom;
@@ -137,28 +137,20 @@ class TwitterScatter {
         d3.select('#scatter-container svg').remove();
         
         svg = d3.select("#scatter-container svg" );
+        
         if(svg.size() == 0) {
             svg = d3.select("#scatter-container")
                 .append("svg")
                 .attr('preserveAspectRatio', 'xMinYMin meet')
-                .attr('viewBox', "0 0 " + (wid) +  " " + (hei))
+                .attr('viewBox', "0 0 " + (wid) + " " + (hei))
                 // .attr("width", width + margin.left + margin.right)
                 // .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
-                
+
         }
         
-        // svg.append("g1")
-        //     .attr("transform",
-        //         "translate(" + (margin.left + 30) + "," + margin.top + ")");
-        // svg.append("text").attr("transform",
-        //     "translate(" + (width/2) + " ," + (height/2) + ")")
-        //     .style("text-anchor", "middle")
-        //     .style("font-family", "trebuchet ms").text("Date");
-
-
         d3.json(tweetsfile).then((tweets) => {
             // Convert to Date format
             var parseTime = d3.timeParse("%m/%d/%y %H:%M");
@@ -171,8 +163,6 @@ class TwitterScatter {
             // Zoom feature
             var zoom = d3.zoom()
                 .scaleExtent([1, 20])
-                //translateExtent insert bounds
-                //or restrict zoom to one axis
                 .translateExtent([[0, 0], [width, height]])
                 .extent([[0, 0], [width, height]])
                 .on("zoom", zoomed);
@@ -183,16 +173,26 @@ class TwitterScatter {
                     return d["date"];
                 }))
                 .range([0, width]);
+            
             var xAxis = svg.append("g")
                 .attr("transform", "translate(0," + (height - 20) + ")")
                 .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b %Y")));
 
             // Add Y axis
-            var y = d3.scaleLinear()
-                .domain(d3.extent(data, function (d) {
-                    console.log('here is d[yAx]', d[yAx]);
-                    return d[yAx];
-                }))
+            let yMin = d3.min(data, function(d){
+                return d[yAx];
+            });
+            if(yMin == 0){
+                yMin = 1;
+            }
+            let yMax = d3.max(data, function (d) {
+                return d[yAx];
+            });
+            if(yMax == 0){
+                yMax = 1;
+            }
+            var y = d3.scaleLog()
+                .domain([yMin, yMax])
                 .range([height - 20, 0]).nice();
 
             var yAxis = svg.append("g")
@@ -239,7 +239,7 @@ class TwitterScatter {
                 .append("svg:rect")
                 .attr("width", width)
                 .attr("height", height - 20)
-                .attr("x", 10)
+                .attr("x", 0)
                 .attr("y", 0);
 
             var scatter = svg.append('g')
@@ -256,7 +256,6 @@ class TwitterScatter {
                     return x(d["date"]);
                 })
                 .attr("cy", function (d) {
-                    console.log('d[yAx] is zero?', d[yAx] == 0);
                     return y(d[yAx]);
                 })
                 .attr("r", 3)
