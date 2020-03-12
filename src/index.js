@@ -135,9 +135,14 @@ d3.select("#network-form")
         // Get search input
         networkInput = document.getElementById("network-input").value;
 
-        // Draw word network
-        networkInstance.drawNetworkGraph(networkInput, d1, d2,
-            checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+        if (networkInput.indexOf(' ') >= 0) {
+            var result = "Cannot search for multi-word inputs. Please try again!";
+            document.getElementById("no-result-network").innerHTML = result;
+        } else {
+            // Draw word network
+            networkInstance.drawNetworkGraph(networkInput, d1, d2,
+                checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+        }
     });
 
 d3.select("#scatter-form")
