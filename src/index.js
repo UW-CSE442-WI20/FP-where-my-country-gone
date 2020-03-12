@@ -68,6 +68,7 @@ d3.select("#main-form")
                     checkedReps.push(republicans[i].value);
                 }
             }
+            checkedPeople = new Set(checkedDems.concat(checkedReps));
 
             // Get checked boxes for sentiments
             checkedSentiments = new Set();
@@ -98,13 +99,12 @@ d3.select("#main-form")
             printFiltering(checkedDems, checkedReps, checkedSentimentsList, checkedElectionPeriod, date1, date2);
 
             // Draw word network
-            checkedPeople = new Set(checkedDems.concat(checkedReps));
             networkInstance.drawNetworkGraph(networkInput, d1, d2,
                 checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
 
             // Draw scatterplot
-            twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
-                d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
+            twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
+                d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, 2016, summaryStatsInstance);
         }
     });
 
@@ -136,7 +136,6 @@ d3.select("#network-form")
         networkInput = document.getElementById("network-input").value;
 
         // Draw word network
-        checkedPeople = new Set(checkedDems.concat(checkedReps));
         networkInstance.drawNetworkGraph(networkInput, d1, d2,
             checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
     });
@@ -159,8 +158,8 @@ d3.select("#scatter-form")
         console.log("scatter input ", scatterInput);
 
         // Draw scatterplot
-        twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
-            d2.toString(), checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
+        twitterScatterInstance.drawTwitterSearch(checkedPeople, d1, d2,
+            checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
     });
 
 

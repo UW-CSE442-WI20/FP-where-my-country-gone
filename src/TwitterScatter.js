@@ -60,7 +60,7 @@ class TwitterScatter {
                     searchResults = temp;
                 }
                 //summaryInstance.drawStats(searchResults, tweetfile);
-                this.drawTwitterScatter(searchResults, yAxis, tweetfile);
+                this.drawScatter(searchResults, yAxis, tweetfile);
             });
         }
     }
