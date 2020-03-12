@@ -10,8 +10,9 @@
   </head>
   <body>
     <div class="sidenav" id="sidenav">
+      <h1>Where My Country Gone?</h1><br>
       <form id="main-form">
-        <h2>&nbsp;&nbsp;Tweet Filtering</h2>
+        <h3>&nbsp;&nbsp;Tweet Filtering</h3>
 
         <!-- Democrat/Republican selection -->
         <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
@@ -25,7 +26,7 @@
             }
           </script>
 
-          <h4>Democrats</h4>
+          <b>Democrats</b><br>
           <input type="checkbox" id="dem-all" onClick="toggle(this, 'dem')">
           <label for="dem-all">Select All</label><br>
           <input type="checkbox" class="dem" id="dem1" name="dem1" value="AOC">
@@ -40,19 +41,19 @@
           <label for="dem5">Chuck Schumer</label><br>
           <input type="checkbox" class="dem" id="dem6" name="dem6" value="ewarren">
           <label for="dem6">Elizabeth Warren</label><br>
-          <input type="checkbox" class="dem" id="dem7" name="dem7" value="HillaryClinton">
+          <input type="checkbox" class="dem" id="dem7" name="dem7" value="HillaryClinton" checked>
           <label for="dem7">Hillary Clinton</label><br>
           <input type="checkbox" class="dem" id="dem8" name="dem8" value="JoeBiden">
           <label for="dem8">Joe Biden</label><br>
           <input type="checkbox" class="dem" id="dem9" name="dem9" value="KamalaHarris">
           <label for="dem9">Kamala Harris</label><br>
           <input type="checkbox" class="dem" id="dem10" name="dem10" value="RepMaxineWaters">
-          <label for="dem10">Maxine Waters</label><br>
+          <label for="dem10">Maxine Waters</label><br><br>
 
-          <h4>Republicans</h4>
+          <b>Republicans</b><br>
           <input type="checkbox" id="rep-all" onClick="toggle(this, 'rep')">
           <label for="rep-all">Select All</label><br>
-          <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump">
+          <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump" checked>
           <label for="rep1">Donald Trump</label><br>
           <input type="checkbox" class="rep" id="rep2" name="rep2" value="Jim_Jordan">
           <label for="rep2">Jim Jordan</label><br>
@@ -75,17 +76,17 @@
         <!-- Sentiment selection -->
         <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Sentiment</button>
         <div class="dropdown-container" id="dropdown-container-2">
-          <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')">
+          <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')" checked>
           <label for="sentiment-all">Select All</label><br>
-          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos">
+          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos" checked>
           <label for="strongpos">Strongly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="slight pos">
+          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="slight pos" checked>
           <label for="slightpos">Slightly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu">
+          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu" checked>
           <label for="neu">Neutral</label><br>
-          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="slight neg">
+          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="slight neg" checked>
           <label for="slightneg">Slightly Negative</label><br>
-          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg">
+          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg" checked>
           <label for="strongneg">Strongly Negative</label><br>
         </div>
 
@@ -93,7 +94,7 @@
         <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Election Period</button>
         <div class="dropdown-container" id="dropdown-container-3">
           <div id="election-radios">
-              <input type="radio" class="election-period" id="2016" name="election-period" value="2016">
+              <input type="radio" class="election-period" id="2016" name="election-period" value="2016" checked>
               <label for="2016">2016 Election</label><br>
               <input type="radio" class="election-period" id="2020" name="election-period" value="2020">
               <label for="2020">2020 Election</label><br>

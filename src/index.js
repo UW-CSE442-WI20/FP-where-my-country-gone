@@ -8,17 +8,25 @@ const twitterScatterInstance = new TwitterScatter();
 const summaryStatsInstance = new SummaryStats();
 
 // Initial view
-let checked = new Set(['marcorubio', 'HillaryClinton', 'AOC', 'realDonaldTrump']);
-let sentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);
-networkInstance.drawNetworkGraph('trump', new Date('2019.7.1'), new Date('2020.02.20'),
-    checked, sentiments, '2020', summaryStatsInstance);
+var checkedDems = ['HillaryClinton'];
+var checkedReps = ['realDonaldTrump'];
+var checkedPeople = new Set(checkedDems.concat(checkedReps));
+var checkedSentiments = new Set(['very pos', 'slight pos', 'neu', 'slight neg', 'very neg']);;
+var checkedElectionPeriod = '2016';
+var d1 = new Date(2016, 8, 1);
+var d2 = new Date(2017, 1, 1);
+var checkedYDimension = 'favorites';
+var networkInput = 'america';
+var scatterInput = 'america';
+
+networkInstance.drawNetworkGraph(networkInput, d1, d2,
+    checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
+
+twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
+    d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, 2016, summaryStatsInstance);
+
 /////////////////////
 // Filtering
-
-var st = new Date(2016, 1, 1);
-var end = new Date(2016, 12, 31);
-
-twitterScatterInstance.drawTwitterScatter(['HillaryClinton'],['realDonaldTrump'], st.toString(), end.toString(), sentiments, "favorites", 2016, summaryStatsInstance)
 var dropdown = document.getElementsByClassName("dropdown-btn");
 for (var i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function() {
@@ -31,18 +39,9 @@ for (var i = 0; i < dropdown.length; i++) {
         }
     });
 }
+
 /////////////////////
 // Filtering/search input
-var checkedDems;
-var checkedReps;
-var checkedPeople;
-var checkedSentiments;
-var checkedElectionPeriod;
-var d1;
-var d2;
-var checkedYDimension = 'favorites';
-var networkInput = 'america';
-var scatterInput = 'america';
 
 d3.select("#main-form")
     .on("submit", function() {
@@ -144,7 +143,7 @@ d3.select("#network-form")
 
 d3.select("#scatter-form")
     .on("submit", function() {
-        console.log("submit clicked")
+        console.log("submit clicked");
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
@@ -157,7 +156,7 @@ d3.select("#scatter-form")
 
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
-        console.log("scatter input ", scatterInput)
+        console.log("scatter input ", scatterInput);
 
         // Draw scatterplot
         twitterScatterInstance.drawTwitterSearch(checkedDems, checkedReps, d1.toString(),
