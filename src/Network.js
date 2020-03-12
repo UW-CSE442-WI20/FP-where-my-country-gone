@@ -7,6 +7,7 @@ class Network {
         let graphfile;
         let tweetsfile;
         var maxOccurences = 0;
+        var singleMaxOccurence = 0;
 
         if (period === '2016') {
             graphfile = 'wordnetwork2016.json';
@@ -64,10 +65,13 @@ class Network {
                  for (let i = 0; i < 20; i++) {
                      let len = arr[i].number;
                      let nextLink = {"source":word, "target":arr[i].word};
-                     let nextNode = {"id":arr[i].word, "size":len};
+                     let nextNode = {"id":arr[i].word, "size":len, "is_master":false};
                      nodes.push(nextNode);
                      links.push(nextLink);
                      maxOccurences += len;
+                     if (singleMaxOccurence < len) {
+                        singleMaxOccurence = len;
+                     }
                     //  in_degree += len;
                     
                      /*
@@ -82,11 +86,11 @@ class Network {
                         linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
                      }*/
                 }
-                nodes.push({"id":word, "size" : maxOccurences / 3});
+                nodes.push({"id":word, "size" : maxOccurences / 5, "is_master":true});
                 let indexes = Array.from(indexesSet);
                 summaryStatsInstance.drawStats(indexes, tweetsfile);
                 var sequentialScale = d3.scaleSequential()
-	                .domain([0, maxOccurences])
+	                .domain([0, singleMaxOccurence])
                     .interpolator(d3.interpolateViridis);
                 this.continuous("#legend", sequentialScale);
                 this.drawNetwork(nodes, links, maxOccurences, sequentialScale);
@@ -222,6 +226,9 @@ class Network {
             context.arc(d.x, d.y, 5 + d.size / maxOccurences * 60, -0.5, 2 * Math.PI, false);
             // context.fill();
             context.fillStyle = sequentialScale(d.size);
+            if (d.is_master) {
+                context.fillStyle = 'black';
+            }
             context.closePath();
             context.fill();
             context.fillStyle = 'black';
