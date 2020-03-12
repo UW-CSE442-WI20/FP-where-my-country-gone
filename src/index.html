@@ -18,58 +18,76 @@
         <button type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
         <div class="dropdown-container" id="dropdown-container-1">
           <script>
+            // Selects all when the user clicks 'Select All'
             function toggle(source, className) {
               let checkboxes = document.getElementsByClassName(className);
               for (let i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].checked = source.checked;
               }
             }
+
+            // Updates checked state of 'Select All' given state of other checkboxes
+            function checkSelectAll(source, className, selectAllName) {
+                let selectAll = document.getElementById(selectAllName);
+                if (!source.checked) {
+                    selectAll.checked = false;
+                } else {
+                    let checkboxes = document.getElementsByClassName(className);
+                    selectAll.checked = true;
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        if (!checkboxes[i].checked) {
+                            selectAll.checked = false;
+                            break;
+                        }
+                    }
+                }
+            }
           </script>
 
           <b>Democrats</b><br>
           <input type="checkbox" id="dem-all" onClick="toggle(this, 'dem')">
           <label for="dem-all">Select All</label><br>
-          <input type="checkbox" class="dem" id="dem1" name="dem1" value="AOC">
+          <input type="checkbox" class="dem" id="dem1" name="dem1" value="AOC" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem1">Alexandria Ocasio-Cortez</label><br>
-          <input type="checkbox" class="dem" id="dem2" name="dem2" value="BarackObama">
+          <input type="checkbox" class="dem" id="dem2" name="dem2" value="BarackObama" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem2">Barack Obama</label><br>
-          <input type="checkbox" class="dem" id="dem3" name="dem3" value="BernieSanders">
+          <input type="checkbox" class="dem" id="dem3" name="dem3" value="BernieSanders" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem3">Bernie Sanders</label><br>
-          <input type="checkbox" class="dem" id="dem4" name="dem4" value="BetoORourke">
+          <input type="checkbox" class="dem" id="dem4" name="dem4" value="BetoORourke" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem4">Beto O'Rourke</label><br>
-          <input type="checkbox" class="dem" id="dem5" name="dem5" value="SenSchumer">
+          <input type="checkbox" class="dem" id="dem5" name="dem5" value="SenSchumer" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem5">Chuck Schumer</label><br>
-          <input type="checkbox" class="dem" id="dem6" name="dem6" value="ewarren">
+          <input type="checkbox" class="dem" id="dem6" name="dem6" value="ewarren" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem6">Elizabeth Warren</label><br>
-          <input type="checkbox" class="dem" id="dem7" name="dem7" value="HillaryClinton" checked>
+          <input type="checkbox" class="dem" id="dem7" name="dem7" value="HillaryClinton" onClick="checkSelectAll(this, 'dem', 'dem-all')" checked>
           <label for="dem7">Hillary Clinton</label><br>
-          <input type="checkbox" class="dem" id="dem8" name="dem8" value="JoeBiden">
+          <input type="checkbox" class="dem" id="dem8" name="dem8" value="JoeBiden" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem8">Joe Biden</label><br>
-          <input type="checkbox" class="dem" id="dem9" name="dem9" value="KamalaHarris">
+          <input type="checkbox" class="dem" id="dem9" name="dem9" value="KamalaHarris" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem9">Kamala Harris</label><br>
-          <input type="checkbox" class="dem" id="dem10" name="dem10" value="RepMaxineWaters">
+          <input type="checkbox" class="dem" id="dem10" name="dem10" value="RepMaxineWaters" onClick="checkSelectAll(this, 'dem', 'dem-all')">
           <label for="dem10">Maxine Waters</label><br><br>
 
           <b>Republicans</b><br>
           <input type="checkbox" id="rep-all" onClick="toggle(this, 'rep')">
           <label for="rep-all">Select All</label><br>
-          <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump" checked>
+          <input type="checkbox" class="rep" id="rep1" name="rep1" value="realDonaldTrump" onClick="checkSelectAll(this, 'rep', 'rep-all')" checked>
           <label for="rep1">Donald Trump</label><br>
-          <input type="checkbox" class="rep" id="rep2" name="rep2" value="Jim_Jordan">
+          <input type="checkbox" class="rep" id="rep2" name="rep2" value="Jim_Jordan" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep2">Jim Jordan</label><br>
-          <input type="checkbox" class="rep" id="rep3" name="rep3" value="LindseyGrahamSC">
+          <input type="checkbox" class="rep" id="rep3" name="rep3" value="LindseyGrahamSC" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep3">Lindsey Graham</label><br>
-          <input type="checkbox" class="rep" id="rep4" name="rep4" value="lisamurkowski">
+          <input type="checkbox" class="rep" id="rep4" name="rep4" value="lisamurkowski" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep4">Lisa Murkowski</label><br>
-          <input type="checkbox" class="rep" id="rep5" name="rep5" value="marcorubio">
+          <input type="checkbox" class="rep" id="rep5" name="rep5" value="marcorubio" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep5">Marco Rubio</label><br>
-          <input type="checkbox" class="rep" id="rep6" name="rep6" value="SpeakerRyan">
+          <input type="checkbox" class="rep" id="rep6" name="rep6" value="SpeakerRyan" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep6">Paul Ryan</label><br>
-          <input type="checkbox" class="rep" id="rep7" name="rep7" value="RandPaul">
+          <input type="checkbox" class="rep" id="rep7" name="rep7" value="RandPaul" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep7">Rand Paul</label><br>
-          <input type="checkbox" class="rep" id="rep8" name="rep8" value="SteveScalise">
+          <input type="checkbox" class="rep" id="rep8" name="rep8" value="SteveScalise" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep8">Steve Scalise</label><br>
-          <input type="checkbox" class="rep" id="rep9" name="rep9" value="tedcruz">
+          <input type="checkbox" class="rep" id="rep9" name="rep9" value="tedcruz" onClick="checkSelectAll(this, 'rep', 'rep-all')">
           <label for="rep9">Ted Cruz</label><br>
         </div>
 
@@ -78,15 +96,15 @@
         <div class="dropdown-container" id="dropdown-container-2">
           <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')" checked>
           <label for="sentiment-all">Select All</label><br>
-          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos" checked>
+          <input type="checkbox" class="sentiment" id="strongpos" name="strongpos" value="very pos" onClick="checkSelectAll(this, 'sentiment', 'sentiment-all')" checked>
           <label for="strongpos">Strongly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="slight pos" checked>
+          <input type="checkbox" class="sentiment" id="slightpos" name="slightpos" value="slight pos" onClick="checkSelectAll(this, 'sentiment', 'sentiment-all')" checked>
           <label for="slightpos">Slightly Positive</label><br>
-          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu" checked>
+          <input type="checkbox" class="sentiment" id="neu" name="neu" value="neu" onClick="checkSelectAll(this, 'sentiment', 'sentiment-all')" checked>
           <label for="neu">Neutral</label><br>
-          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="slight neg" checked>
+          <input type="checkbox" class="sentiment" id="slightneg" name="slightneg" value="slight neg" onClick="checkSelectAll(this, 'sentiment', 'sentiment-all')" checked>
           <label for="slightneg">Slightly Negative</label><br>
-          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg" checked>
+          <input type="checkbox" class="sentiment" id="strongneg" name="strongneg" value="very neg" onClick="checkSelectAll(this, 'sentiment', 'sentiment-all')" checked>
           <label for="strongneg">Strongly Negative</label><br>
         </div>
 
