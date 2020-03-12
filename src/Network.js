@@ -20,6 +20,8 @@ class Network {
          d3.json(graphfile).then((data) => {
              d3.json(tweetsfile).then((tweetData) => {
                  if (data[word] == undefined) {
+                     var result = "No results found for keyword <b>" + word + "</b>. Please try again!";
+                     document.getElementById("no-result-network").innerHTML = result;
                      return;
                  }
                  let indexesSet = new Set();

@@ -11,7 +11,14 @@ span {
     font-family: trebuchet ms;
     font-size: 13px;
     font-style: italic;
+}
+
+#result {
     color: #009900;
+}
+
+#no-result-network, #no-result-scatter {
+    color: red;
 }
 
 p {
@@ -74,13 +81,14 @@ input[type=submit]:hover {
     font-family: trebuchet ms;
     font-size: 20px;
     color: #818181;
-    display: block;
     border: none;
     background: none;
     width:100%;
     text-align: left;
     cursor: pointer;
     outline: none;
+    margin: 0;
+    display: inline-block;
 }
 
 .dropdown-btn:hover {
@@ -141,15 +149,18 @@ div.ui-slider-range.ui-widget-header {
     left:350px;
     height:600px;
 }
-#twittercontainer {
+
+#twittercontainerouter {
     position: absolute;
     left: 925px;
+}
+#twittercontainer {
+    position: relative;
     overflow: auto;
     width: 475px;
-    height: 550px;
+    height: 525px;
     right:25px;
     top:0px;
-    border: 5px solid #00acee;
 }
 
 #pieChart {
@@ -269,7 +280,7 @@ div#tooltip {
     position: absolute;
     display: inline-block;
     padding: 10px;
-    font-family: 'Open Sans' sans-serif;
+    font-family: trebuchet ms;
     color: #000;
     background-color: #fff;
     border: 1px solid #999;
@@ -294,4 +305,47 @@ i {
 .arrow-down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-family: Verdana;
+    font-size: 25px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    font-family: Verdana;
+    font-size: 15px;
+
+}
+h3 {
+    margin: 0;
+    display: inline-block;
+}
+
+#tooltipClick {
+    position: relative;
+    left: 140px;
+}
+
+.fa-info-circle{
+    border-style: none;
 }
