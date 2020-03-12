@@ -725,7 +725,7 @@ class SummaryStats {
                 twttr.widgets.createTweet(toptweets[i],
                     document.getElementById('twittercontainer'),
                     {
-                        theme: 'dark'
+                        theme: 'light'
                     }).then(function( el ) {
                     console.log('Tweet added.');
                 });

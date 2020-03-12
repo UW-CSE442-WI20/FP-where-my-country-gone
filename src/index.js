@@ -168,6 +168,25 @@ d3.select("#option").on("click", function() {
     d3.event.preventDefault();
     summaryStatsInstance.updateData();
 });
+
+$('#yourLink').click(function(){
+    $('#tooltiphowto').toggle();
+});
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+}
 /*
 window.twttr = (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0],
