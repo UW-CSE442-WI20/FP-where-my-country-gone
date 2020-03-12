@@ -81,16 +81,76 @@ class Network {
                          }
                         linkId[links.length - 1] = linkMap[String(word)+String(arr[i].word)];
                      }*/
-                 }
-                 nodes.push({"id":word, "size" : maxOccurences / 3});
-                 let indexes = Array.from(indexesSet);
-                 summaryStatsInstance.drawStats(indexes, tweetsfile);
-                 this.drawNetwork(nodes, links, maxOccurences);
-             });
+                }
+                nodes.push({"id":word, "size" : maxOccurences / 3});
+                let indexes = Array.from(indexesSet);
+                summaryStatsInstance.drawStats(indexes, tweetsfile);
+                var sequentialScale = d3.scaleSequential()
+	                .domain([0, maxOccurences])
+                    .interpolator(d3.interpolateViridis);
+                this.continuous("#legend", sequentialScale);
+                this.drawNetwork(nodes, links, maxOccurences, sequentialScale);
+             }); 
          });
     }
 
-    drawNetwork(nodes, links, maxOccurences) {
+    continuous(selector_id, colorscale) {
+        var legendheight = 600,
+            legendwidth = 80,
+            margin = {top: 10, right: 60, bottom: 10, left: 2};
+        d3.select(selector_id).select("svg").remove();
+        var canvas = d3.select(selector_id)
+            .style("height", legendheight + "px")
+            .style("width", legendwidth + "px")
+            .style("position", "relative")
+            .append("canvas")
+            .attr("height", legendheight - margin.top - margin.bottom)
+            .attr("width", 1)
+            .style("height", (legendheight - margin.top - margin.bottom) + "px")
+            .style("width", (legendwidth - margin.left - margin.right) + "px")
+            .style("border", "1px solid #000")
+            .style("position", "absolute")
+            .style("top", (margin.top) + "px")
+            .style("left", (margin.left) + "px")
+            .node();
+
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var legendscale = d3.scaleLinear()
+            .range([1, legendheight - margin.top - margin.bottom])
+            .domain(colorscale.domain());
+
+        // image data hackery based on http://bl.ocks.org/mbostock/048d21cf747371b11884f75ad896e5a5
+        var image = context.createImageData(1, legendheight);
+        d3.range(legendheight).forEach(function(i) {
+            var c = d3.rgb(colorscale(legendscale.invert(i)));
+            image.data[4*i] = c.r;
+            image.data[4*i + 1] = c.g;
+            image.data[4*i + 2] = c.b;
+            image.data[4*i + 3] = 255;
+        });
+        context.putImageData(image, 0, 0);
+        var legendaxis = d3.axisRight()
+            .scale(legendscale)
+            .tickSize(6)
+            .ticks(8);
+
+        var svg = d3.select(selector_id)
+            .append("svg")
+            .attr("height", (legendheight) + "px")
+            .attr("width", (legendwidth) + "px")
+            .style("position", "absolute")
+            .style("left", "0px")
+            .style("top", "0px")
+
+        svg
+            .append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(" + (legendwidth - margin.left - margin.right + 3) + "," + (margin.top) + ")")
+            .call(legendaxis);
+    }
+
+    drawNetwork(nodes, links, maxOccurences, sequentialScale) {
         console.log("NODES", nodes);
         console.log("LINKS", links);
 
@@ -143,8 +203,12 @@ class Network {
         }
     
         function drawLink(d) {
+            context.beginPath();
+            context.strokeStyle = "#aaa";
             context.moveTo(d.source.x, d.source.y);
             context.lineTo(d.target.x, d.target.y);
+            context.stroke();
+            context.closePath();
             // var midX = (d.source.x + d.target.x) / 2,
             //     midY = (d.source.y + d.target.y) / 2;
             // var factor = linkId[d.id] * 0.34;
@@ -154,30 +218,32 @@ class Network {
         function drawNode(d) {
             //console.log("PCT IS", d.size / maxOccurences);
             context.moveTo(d.x, d.y);
+            context.beginPath();
             context.arc(d.x, d.y, 5 + d.size / maxOccurences * 60, -0.5, 2 * Math.PI, false);
             // context.fill();
+            context.fillStyle = sequentialScale(d.size);
+            context.closePath();
+            context.fill();
+            context.fillStyle = 'black';
             context.fillText(d.id, d.x+ 6 + d.size / maxOccurences * 60, d.y + 6 + d.size / maxOccurences * 60);
-
         }
 
         // This function is run at each iteration of the force algorithm, updating the nodes position.
         function ticked() {
             context.clearRect(0, 0, width, height);
 
-            context.beginPath();
+            // context.beginPath();
             graph.links.forEach(drawLink);
-            context.strokeStyle = "#aaa";
-            context.stroke();
+            
+            // context.stroke();
         
-            context.beginPath();
+            // context.beginPath();
             graph.nodes.forEach(drawNode);
-            context.fill();
+            // context.fill();
             // context.strokeStyle = "#fff";
             // context.stroke();
         }
-
     }
-
 }
 
 module.exports = Network;
