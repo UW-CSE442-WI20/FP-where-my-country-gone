@@ -169,80 +169,80 @@ d3.select("#option").on("click", function() {
     summaryStatsInstance.updateData();
 });
 
-$('#yourLink').click(function(){
-    $('#tooltiphowto').toggle();
-});
+$( "#tooltipClick" )
+    .tooltip({
+        content: $( "#tooltipClick" ).attr( "title" ),
+        items: 'span'
+    })
+    .off( "mouseover" )
+    .on( "click", function(){
+        $( this ).tooltip( "open" );
+        return false;
+    })
+    .attr( "title", "" ).css({ cursor: "pointer" });
 
-var coll = document.getElementsByClassName("collapsible");
+$( "#tooltipClick2" )
+    .tooltip({
+        content: $( "#tooltipClick2" ).attr( "title" ),
+        items: 'span'
+    })
+    .off( "mouseover" )
+    .on( "click", function(){
+        $( this ).tooltip( "open" );
+        return false;
+    })
+    .attr( "title", "" ).css({ cursor: "pointer" });
+
+$( "#tooltipClick3" )
+    .tooltip({
+        content: $( "#tooltipClick3" ).attr( "title" ),
+        items: 'span'
+    })
+    .off( "mouseover" )
+    .on( "click", function(){
+        $( this ).tooltip( "open" );
+        return false;
+    })
+    .attr( "title", "" ).css({ cursor: "pointer" });
+
+$( "#tooltipClick4" )
+    .tooltip({
+        content: $( "#tooltipClick4" ).attr( "title" ),
+        items: 'span'
+    })
+    .off( "mouseover" )
+    .on( "click", function(){
+        $( this ).tooltip( "open" );
+        return false;
+    })
+    .attr( "title", "" ).css({ cursor: "pointer" });
+
+//var coll = document.getElementsByClassName("collapsible");
+var acc = document.getElementsByClassName("accordion");
 var i;
 
-for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
+for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
         this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-            content.style.maxHeight = null;
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
         } else {
-            content.style.maxHeight = content.scrollHeight + "px";
+            panel.style.display = "block";
         }
     });
 }
 /*
-window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-
-    t._e = [];
-    t.ready = function(f) {
-
-        t._e.push(f);
-    };
-
-    return t;
-}(document, "script", "twitter-wjs"));
-
-
-function tweetIntentToAnalytics (intentEvent) {
-    if (!intentEvent) return;
-    var label = "tweet";
-    pageTracker._trackEvent(
-        'twitter_web_intents',
-        intentEvent.type,
-        label
-    );
-}
-
-
-// Wait for the asynchronous resources to load
-twttr.ready(function (twttr) {
-    // Now bind our custom intent events
-    //twttr.events.bind('tweet', tweetIntentToAnalytics);
-    twttr.widgets.createTweet(
-        '20',
-        document.getElementById('twittercontainer'),
-        {
-            theme: 'dark'
-        }
-    ).then( function( el ) {
-        console.log('Tweet added.');
-    });
-    twttr.widgets.createTweet('21',
-        document.getElementById('twittercontainer'),
-        {
-            theme: 'dark'
-        })
-});
-/*
-twttr.widgets.createTweet(
-    '20',
-    document.getElementById('twittercontainer'),
-    {
-        theme: 'dark'
-    }
-);*/
-
+        <div class="content">
+            <ol>
+                <li>Select politicians to focus on.</li>
+                <li>Select the sentiments that you prefer to include.</li>
+                <li>Select an election period and a range of dates.</li>
+                <li></li>
+            </ol>
+        </div>
+ */
