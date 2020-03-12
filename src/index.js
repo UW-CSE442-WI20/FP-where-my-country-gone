@@ -23,7 +23,7 @@ networkInstance.drawNetworkGraph(networkInput, d1, d2,
     checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
 
 twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
-    d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, 2016, summaryStatsInstance);
+    d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, parseInt(checkedElectionPeriod), summaryStatsInstance);
 
 /////////////////////
 // Filtering
@@ -104,7 +104,7 @@ d3.select("#main-form")
 
             // Draw scatterplot
             twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
-                d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, 2016, summaryStatsInstance);
+                d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, parseInt(checkedElectionPeriod), summaryStatsInstance);
         }
     });
 
@@ -142,7 +142,6 @@ d3.select("#network-form")
 
 d3.select("#scatter-form")
     .on("submit", function() {
-        console.log("submit clicked");
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
@@ -155,11 +154,15 @@ d3.select("#scatter-form")
 
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
-        console.log("scatter input ", scatterInput);
 
         // Draw scatterplot
-        twitterScatterInstance.drawTwitterSearch(checkedPeople, d1, d2,
-            checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
+        if (scatterInput === "") {
+            twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
+                d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, parseInt(checkedElectionPeriod), summaryStatsInstance);
+        } else {
+            twitterScatterInstance.drawTwitterSearch(checkedPeople, d1, d2,
+                checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
+        }
     });
 
 
