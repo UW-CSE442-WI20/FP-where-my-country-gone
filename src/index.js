@@ -150,12 +150,12 @@ d3.select("#scatter-form")
         d3.event.preventDefault();
 
         // Get checked input for y-axis dimension choice
-        var yDimensions = document.getElementsByName("y-axis");
+        /*var yDimensions = document.getElementsByName("y-axis");
         for (var i = 0; i < yDimensions.length; i++) {
             if (yDimensions[i].checked) {
                 checkedYDimension = yDimensions[i].value;
             }
-        }
+        }*/
 
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
@@ -171,6 +171,26 @@ d3.select("#scatter-form")
         }
     });
 
+d3.selectAll("input[name='y-axis']")
+    .on("change", function() {
+        // Get checked input for y-axis dimension choice
+        var yDimensions = document.getElementsByName("y-axis");
+        for (var i = 0; i < yDimensions.length; i++) {
+            if (yDimensions[i].checked) {
+                checkedYDimension = yDimensions[i].value;
+            }
+        }
+
+        document.getElementById("no-result-scatter").innerHTML = "";
+        // Draw scatterplot
+        if (scatterInput === "") {
+            twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
+                d1.toString(), d2.toString(), checkedSentiments, checkedYDimension, parseInt(checkedElectionPeriod), summaryStatsInstance);
+        } else {
+            twitterScatterInstance.drawTwitterSearch(checkedPeople, d1, d2,
+                checkedSentiments, checkedYDimension, checkedElectionPeriod, scatterInput, summaryStatsInstance);
+        }
+    });
 
 d3.select("#option").on("click", function() {
     d3.event.preventDefault();
