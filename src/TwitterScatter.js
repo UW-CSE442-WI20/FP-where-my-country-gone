@@ -126,9 +126,6 @@ class TwitterScatter {
     
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
-        console.log("svg draw" , filterResults);
-        console.log('my yax', yAx);
-        console.log('tweets file ' , tweetsfile);
         var margin = {top: 10, right: 30, bottom: 30, left:80};
         var width = 1100 - margin.left - margin.right;
         var height = 700 - margin.top - margin.bottom;
@@ -207,7 +204,7 @@ class TwitterScatter {
                     (height + margin.top + 20) + ")")
                 .style("text-anchor", "middle")
                 .style("font-family", "trebuchet ms")
-                .text("Date");
+                .text("date");
 
             // Text label for the y axis
             svg.append("text")
@@ -265,7 +262,7 @@ class TwitterScatter {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "Date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAx])
+                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + yAx + ": " + d[yAx])
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -321,7 +318,7 @@ class TwitterScatter {
                     } else {
                         return d3.timeFormat("%b %e, %Y")(date);
                     }
-                }));
+                }).ticks(12));
                 scat.attr('cx', function (d) {
                     return newX(d["date"]);
                 })
