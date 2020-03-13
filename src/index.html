@@ -29,11 +29,11 @@
         </div>
       <br>
       <form id="main-form">
-          <h3>&nbsp;&nbsp;&nbsp;Tweet Filtering </h3>
+          <h3>&nbsp;&nbsp;Tweet Filtering </h3>
           <div id="tweetfilteringinfo" style="display: inline;">
               <span id='tooltipClick'
-                    title='The tweet filtering allows filtering of tweets to a get specific subset of data of interest. Some defaults have been pre-selected below as an example. However, you are free to change these or select other filtering options of interest.'>
-                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px; position:fixed;"></i>
+                    title='The tweet filtering allows filtering of tweets to a get specific subset of data of interest. Some defaults have been pre-selected below as an example. However, you are free to change these or select other filtering options of interest. To view a description of any of the filtering categories, hover over the category name (ex. People).'>
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px;"></i>
               </span>
           </div>
           <!-- Democrat/Republican selection -->
@@ -203,7 +203,7 @@
             <section role="tabpanel" id="page2">
                 <!-- Scatterplot search -->
                 <form id="scatter-form">
-                  &nbsp;&nbsp;Please select a Y-dimension:
+                  &nbsp;&nbsp;Please select a Y-dimension before searching:
                   <input type="radio" class="y-axis" id="fav" name="y-axis" value="favorites" required checked>
                   <label for="fav"># of Favorites</label>
                   <input type="radio" class="y-axis" id="rt" name="y-axis" value="retweets">
@@ -213,7 +213,7 @@
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
                     <span id='tooltipClick3'
-                          title='The Twitter Scatter plots a graph of each tweet in the filtered data as a node (using a selected y-dimension over time). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
+                          title='The Twitter Scatter plots a graph of each tweet in the filtered data as a node (using a selected Y-dimension over time). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
                   &nbsp;<span id="no-result-scatter"></span>
               </span>
