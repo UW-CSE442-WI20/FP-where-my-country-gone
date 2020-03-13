@@ -265,7 +265,7 @@ class TwitterScatter {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAx])
+                    tooltip.html("@" + d["username"] + ": " + d["text"] + "<br/>" + "Date: " + formatTime(d["date"]) + "<br/>" + "Likes: " + d[yAx])
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
