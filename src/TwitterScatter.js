@@ -315,11 +315,11 @@ class TwitterScatter {
                 var newY = d3.event.transform.rescaleY(y);
                 xAxis.call(d3.axisBottom(newX).tickFormat(function (date) {
                     if (d3.event.transform.k == 1) {
-                        return d3.timeFormat("%b %Y")(date);
+                        return d3.timeFormat("%b '%y")(date);
                     } else {
-                        return d3.timeFormat("%b %e, %Y")(date);
+                        return d3.timeFormat("%m/%d/%y")(date);
                     }
-                }).ticks(12));
+                }).ticks(10));
                 scat.attr('cx', function (d) {
                     return newX(d["date"]);
                 })
