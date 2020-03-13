@@ -128,7 +128,7 @@ class TwitterScatter {
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
         var margin = {top: 10, right: 30, bottom: 30, left:80};
-        var width = 1000 - margin.left - margin.right;
+        var width = 1400 - margin.left - margin.right;
         var height =650 - margin.top - margin.bottom;
         var wid = width + margin.left + margin.right;
         var hei = height + margin.top + margin.bottom;
@@ -220,7 +220,7 @@ class TwitterScatter {
             svg.append("text")
                 .attr("transform",
                 "translate(" + (width - 120) + " ," +
-                (margin.top + 20) + ")")
+                (margin.top + 10) + ")")
                 .style("text-anchor", "middle")
                 .style("font-family", "trebuchet ms")
                 .style('font-size', '8')
