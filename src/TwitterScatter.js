@@ -118,6 +118,7 @@ class TwitterScatter {
                 }
                 indexes.push(intermmediate[i]);
             }
+            summaryInstance.drawStats(indexes, tweetsfile);
             this.drawScatter(indexes, yAxis, tweetsfile);
             
         });
