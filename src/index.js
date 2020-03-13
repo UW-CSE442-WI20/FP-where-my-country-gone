@@ -17,7 +17,7 @@ var d1 = new Date(2016, 8, 1);
 var d2 = new Date(2017, 1, 1);
 var checkedYDimension = 'favorites';
 var networkInput = 'america';
-var scatterInput = 'america';
+var scatterInput = '';
 
 networkInstance.drawNetworkGraph(networkInput, d1, d2,
     checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
@@ -148,14 +148,6 @@ d3.select("#network-form")
 d3.select("#scatter-form")
     .on("submit", function() {
         d3.event.preventDefault();
-
-        // Get checked input for y-axis dimension choice
-        /*var yDimensions = document.getElementsByName("y-axis");
-        for (var i = 0; i < yDimensions.length; i++) {
-            if (yDimensions[i].checked) {
-                checkedYDimension = yDimensions[i].value;
-            }
-        }*/
 
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
