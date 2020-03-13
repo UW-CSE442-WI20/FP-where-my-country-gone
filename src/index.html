@@ -11,8 +11,12 @@
   </head>
   <body>
     <div class="sidenav" id="sidenav">
-      <h1>Where My Country Gone?</h1><br>
-        <button class="accordion">How to use</button>
+      <h1>Where My Country Gone?</h1>
+      <h4>...is an interactive dashboard intended to help any user
+          learn more about the role of Twitter in the American politics scene.
+          Social media posts from notable U.S. politicians were scraped from Twitter and information from these tweets can be explored
+          in various ways on this page using data visualization.</h4>
+        <button class="accordion">How To Use</button>
         <div class="panel">
             <ol>
                 <li>Make sure that you are using Google Chrome for the best experience!</li>
@@ -28,12 +32,12 @@
           <h3>&nbsp;&nbsp;Tweet Filtering </h3>
           <div id="tweetfilteringinfo" style="display: inline;">
               <span id='tooltipClick'
-                    title='The tweet filtering allows filtering of tweets to a get specific subset of data of interest. Some defaults have been pre-selected below as an example. However, you are free to change these or select other data of interest.'>
+                    title='The tweet filtering allows filtering of tweets to a get specific subset of data of interest. Some defaults have been pre-selected below as an example. However, you are free to change these or select other filtering options of interest.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
               </span>
           </div>
           <!-- Democrat/Republican selection -->
-        <button title='Here you can select a set of people from both political parties to analyze their tweets.'
+        <button title='Here you can select a set of people from either/both political parties to analyze their tweets.'
                 type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;People</button>
         <div class="dropdown-container" id="dropdown-container-1">
           <script>
@@ -111,7 +115,7 @@
         </div>
 
         <!-- Sentiment selection -->
-        <button title="Here you can select the sentiment levels that you would like to focus on. Each tweet has been categorized to 5 sentiment levels ranging from very negative to very positive based on Microsoft's NLTK package."
+        <button title="Here you can select the sentiment levels that you would like to focus on. Each tweet has been categorized into one of the five sentiment levels (ranging from very negative to very positive) based on the VADER sentiment classifier."
                 type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Sentiment</button>
         <div class="dropdown-container" id="dropdown-container-2">
           <input type="checkbox" id="sentiment-all" onClick="toggle(this, 'sentiment')" checked>
@@ -129,7 +133,7 @@
         </div>
 
         <!-- Election period selection -->
-        <button title="Here you can select two signifcant events: the 2016 and 2020 selections. After you select the election periodthat you want analyze, you can select a date range from those periods."
+        <button title="Here you can select between two significant political timeframes: the 2016 and 2020 elections. After you select the election period that you want to analyze, you can use the slider to select a specific date range from those election periods."
                 type="button" class="dropdown-btn"><i class="arrow-right"></i>&nbsp;&nbsp;Election Period</button>
         <div class="dropdown-container" id="dropdown-container-3">
           <div id="election-radios">
@@ -141,7 +145,6 @@
 
           <!-- Date slider -->
           <p>
-            Please select an election period before using the Date slider.<br><br>
             <label>Date Range:</label><br>
             <input type="text" class="slider-amount2" id="date-amount-start" readonly>
             to
@@ -162,7 +165,6 @@
             <ul role="tablist">
                 <li><a role="tab" href="#page1" aria-selected="true">Word Network</a></li>
                 <li><a role="tab" href="#page2">Twitter Scatter</a></li>
-                <li><a role="tab" href="#page3">How to use (Instructions)</a></li>
             </ul>
             <section role="tabpanel" id="page1">
                 <!-- Network search -->
@@ -170,7 +172,7 @@
                     <input type="text" id="network-input" placeholder="Enter a keyword...">
                     <input type="submit" id="network-submit" value="Search" >
                     <span id='tooltipClick2'
-                          title='The word network requires a word to be searched. With Network graph you can visualize the most common words that are concurrently used with the word of choice. It can be interacted with via drag. The size of the nodes is proportional to the number of tweets that word and the word you searched for have in common.'>
+                          title='The word network requires a word to be searched. With the network, you can visualize the most common words that are concurrently used with the word of choice. It can be interacted with via drag. The size of the nodes is proportional to the number of tweets that word and the word you searched for have in common. In addition, you can use the color scale on the right to view the number of common occurrences between the two words.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
                     &nbsp;<span id="no-result-network"></span>
               </span>
@@ -193,7 +195,7 @@
                   <input type="text" id="scatter-input" placeholder="Enter a keyword...">
                   <input type="submit" id="scatter-submit" value="Search" >
                     <span id='tooltipClick3'
-                          title='The Twitter Scatter plots scatter of each tweet in the filtered data as a node (axis of choice used). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
+                          title='The Twitter Scatter plots a graph of each tweet in the filtered data as a node (using a selected y-dimension over time). It also provides tooltips that allow you to highlight specific tweets from the plot. Additionally, you can use the search box to search for one or more words in the dataset.'>
                   <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
                   &nbsp;<span id="no-result-scatter"></span>
               </span>
@@ -201,45 +203,6 @@
                 <div id="scatter-container"></div>
                 <div id='tooltip'></div>
                 <script src="TwitterScatter.js"></script>
-            </section>
-            <section role="tabpanel" id="page3">
-                <p>*Where My Country Gone?* is an interactive dashboard intended to help any user
-                    learn more about the role of twietter in the American politcs scene with data visualization.
-                </p>
-                <h4>With Network graph you can visualize most common words that are concurrently used with word of choice.
-                    It can be intereacted with via drag.
-                </h4>
-                <h4>The Twitter Scatter plots scatter of each tweet in filtered data as a node (axis of choice used)</h4>
-                <h4>The Tweet Filtering allows filtering of tweets to get specific subset of data of interest.</h4>
-                
-                <h2>How to use the dashboard:</h2>
-                <ol>
-                    <li>Select set of political individuals to analyze their tweets</li>
-                    <li>Specify tweets of sentiment level that you wish to analyze. 
-                      Each tweet has been categorized to 5 sentiment levels ranging from negative to
-                      positive based on Microsoft's NLTK package. 
-                    </li>
-                    <li>Select Date. Since the dashboard handles twitter data of
-                      American polticians, it handles two significant evenets: 2016 and
-                      2020 elections. The user can select an election period and further Specify
-                      the date.
-                    </li>
-                    <li>Once the filters are set, press submit! A green text block below will
-                      verify that a search was successful.
-                    </li>
-                    <li>
-                      The word network requires a word to be searched
-                    </li>
-                    <li>
-                      Select the "Twitter Scatter" tab to visualize tweets as a scatterplot,
-                      its tooltip allows you to highlight specific tweets from the plot.
-                    </li>
-                    <li>
-                      The summary stats provide more information about the data that has been
-                      filtered. 
-                    </li>
-                </ol>
-                <p>Thank you for using Where My Country Gone?, and have fun!</p>
             </section>
         </div>
     </div>

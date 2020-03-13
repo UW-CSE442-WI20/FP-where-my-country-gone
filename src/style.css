@@ -2,9 +2,10 @@
     font-family: trebuchet ms;
 }
 
-h1 {
+h1, h4 {
     font-family: trebuchet ms;
     text-align: center;
+    color: #444;
 }
 
 h3 {
