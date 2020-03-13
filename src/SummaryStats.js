@@ -149,8 +149,8 @@ class SummaryStats {
         //d3.selectAll("g > *").remove();
         //svg.selectAll("*").remove();
         function drawPie() {
-            var width = 400;
-            var height = 400;
+            var width = 350;
+            var height = 350;
             var outerRadius = Math.min(width, height) / 2;
             var innerRadius = outerRadius * .999;
             // for animation
@@ -283,7 +283,7 @@ class SummaryStats {
         function dsBarChartBasics() {
 
             var margin = {top: 30, right: 5, bottom: 20, left: 50},
-                width = 500 - margin.left - margin.right,
+                width = 350 - margin.left - margin.right,
                 height = 250 - margin.top - margin.bottom,
                 colorBar = d3.schemeDark2,
                 barPadding = 1
@@ -315,7 +315,9 @@ class SummaryStats {
                 .domain([0, firstDatasetBarChart.length])
                 .range([0, width])
             ;
-
+            var maximumY = d3.max(firstDatasetBarChart, function(d) {
+                return d.measure;
+            });
             // Create linear y scale
             // Purpose: No matter what the data is, the bar should fit into the svg area; bars should not
             // get higher than the svg height. Hence incoming data needs to be scaled to fit into the svg area.
@@ -510,7 +512,7 @@ class SummaryStats {
         function interactiondsBarChartBasics() {
 
             var margin = {top: 30, right: 5, bottom: 20, left: 45},
-                width = 500 - margin.left - margin.right,
+                width = 350 - margin.left - margin.right,
                 height = 250 - margin.top - margin.bottom,
                 colorBar = d3.schemeDark2,
                 barPadding = 1

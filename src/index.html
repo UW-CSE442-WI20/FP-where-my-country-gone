@@ -159,7 +159,25 @@
       </form><br>
       <span id="result"></span><br><br><br>
     </div>
-
+    <div id="summarycontainer">
+        <div id="twittercontainerouter">
+            <h3>Top 10 Tweets from the filtered dataset</h3>
+            <div id="twittercontainer">
+            </div>
+        </div>
+        <div id="pieChart"></div>
+        <div id="option">
+            <b>Summary Statistics</b>
+            &nbsp;&nbsp;
+            <input type="button" id="clear" value="Reset"/>
+            <span id='tooltipClick4'
+                  title="The following visualizations give additional views to the dataset. It shows you a donut chart to see how much the politicians you selected tweet compared to others (hover over a slice to view the politician's percentage). It also shows the overall sentiment and interaction distribution. You can also drill down on a certain politician and you can see their respective distributions. Additionally, we show you the top 10 tweets from the filtered dataset, in which you can actively interact with.">
+                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
+              </span>
+        </div>
+        <div id="sentimentChart"></div>
+        <div id="interactionChart"></div>
+    </div>
     <div class = "main">
         <div id="container">
             <ul role="tablist">
@@ -205,25 +223,6 @@
                 <script src="TwitterScatter.js"></script>
             </section>
         </div>
-    </div>
-    <div id="summarycontainer">
-        <div id="twittercontainerouter">
-            <h3>Top 10 Tweets from the filtered dataset</h3>
-            <div id="twittercontainer">
-            </div>
-        </div>
-      <div id="pieChart"></div>
-      <div id="option">
-          <b>Summary Statistics</b>
-          &nbsp;&nbsp;
-          <input type="button" id="clear" value="Reset"/>
-          <span id='tooltipClick4'
-                title="The following visualizations give additional views to the dataset. It shows you a donut chart to see how much the politicians you selected tweet compared to others (hover over a slice to view the politician's percentage). It also shows the overall sentiment and interaction distribution. You can also drill down on a certain politician and you can see their respective distributions. Additionally, we show you the top 10 tweets from the filtered dataset, in which you can actively interact with.">
-                  <i class="fa fa-info-circle" aria-hidden="true" style="font-size:18px"></i>
-              </span>
-      </div>
-      <div id="sentimentChart"></div>
-      <div id="interactionChart"></div>
     </div>
 
     <script src="./index.js"></script>

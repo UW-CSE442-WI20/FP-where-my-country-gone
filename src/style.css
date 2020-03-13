@@ -175,8 +175,9 @@ div.ui-slider-range.ui-widget-header {
 
 #summarycontainer {
     position:relative;
-    left:350px;
+    left:400px;
     height:600px;
+    top:20px;
 }
 
 #twittercontainerouter {
@@ -186,7 +187,7 @@ div.ui-slider-range.ui-widget-header {
 #twittercontainer {
     position: relative;
     overflow: auto;
-    width: 475px;
+    width: 425px;
     height: 525px;
     right:25px;
     top:0px;
@@ -196,17 +197,19 @@ div.ui-slider-range.ui-widget-header {
     position:absolute;
     margin-top:75px;
     margin-bottom: 50px;
+    width: 400px;
+    height: 400px;
 }
 
 #sentimentChart {
     position:absolute;
-    left:375px;
+    left:425px;
 }
 
 #interactionChart {
     position:absolute;
     top:320px;
-    left:375px;
+    left:425px;
 }
 
 .title {

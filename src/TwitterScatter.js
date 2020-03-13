@@ -59,6 +59,7 @@ class TwitterScatter {
                     }
                     searchResults = temp;
                 }
+                summaryInstance.drawStats(searchResults, tweetfile);
                 this.drawScatter(searchResults, yAxis, tweetfile);
             });
         } else {
