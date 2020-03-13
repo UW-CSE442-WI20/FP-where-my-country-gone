@@ -282,7 +282,7 @@ class SummaryStats {
 
         function dsBarChartBasics() {
 
-            var margin = {top: 30, right: 5, bottom: 20, left: 50},
+            var margin = {top: 35, right: 5, bottom: 20, left: 50},
                 width = 350 - margin.left - margin.right,
                 height = 250 - margin.top - margin.bottom,
                 colorBar = d3.schemeDark2,
@@ -372,13 +372,13 @@ class SummaryStats {
                 .text(function(d) {
                     return formatAsInteger(d.measure);
                 })
-                .attr("text-anchor", "middle")
+                .attr("text-anchor", "top")
                 // Set x position to the left edge of each bar plus half the bar width
                 .attr("x", function(d, i) {
                     return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
                 })
                 .attr("y", function(d) {
-                    return yScale(d.measure) + 14;
+                    return yScale(d.measure) - 5;
                 })
                 .attr("class", "yAxis")
             /* moved to CSS
@@ -480,7 +480,7 @@ class SummaryStats {
                     return (i * (width / currentDatasetBarChart.length)) + ((width / currentDatasetBarChart.length - barPadding) / 2);
                 })
                 .attr("y", function(d) {
-                    return yScale(d.measure) + 14;
+                    return yScale(d.measure) - 5;
                 })
                 .text(function(d) {
                     return formatAsInteger(d.measure);
@@ -511,7 +511,7 @@ class SummaryStats {
 
         function interactiondsBarChartBasics() {
 
-            var margin = {top: 30, right: 5, bottom: 20, left: 45},
+            var margin = {top: 35, right: 5, bottom: 20, left: 45},
                 width = 350 - margin.left - margin.right,
                 height = 250 - margin.top - margin.bottom,
                 colorBar = d3.schemeDark2,
@@ -605,7 +605,7 @@ class SummaryStats {
                     return (i * (width / firstDatasetBarChart.length)) + ((width / firstDatasetBarChart.length - barPadding) / 2);
                 })
                 .attr("y", function(d) {
-                    return yScale(d.measure) + 14;
+                    return yScale(d.measure) - 5;
                 })
                 .attr("class", "yAxis")
             /* moved to CSS
@@ -706,7 +706,7 @@ class SummaryStats {
                     return (i * (width / currentDatasetBarChart.length)) + ((width / currentDatasetBarChart.length - barPadding) / 2);
                 })
                 .attr("y", function(d) {
-                    return yScale(d.measure) + 14;
+                    return yScale(d.measure) - 5;
                 })
                 .text(function(d) {
                     return formatAsInteger(d.measure);
