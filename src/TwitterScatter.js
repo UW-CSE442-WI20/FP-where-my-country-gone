@@ -128,8 +128,8 @@ class TwitterScatter {
 
     drawScatter(filterResults, yAx, tweetsfile) { //filter results is an array of indexes which correlate with the tweetsarray index
         var margin = {top: 10, right: 30, bottom: 30, left:80};
-        var width = 1100 - margin.left - margin.right;
-        var height = 700 - margin.top - margin.bottom;
+        var width = 1000 - margin.left - margin.right;
+        var height =650 - margin.top - margin.bottom;
         var wid = width + margin.left + margin.right;
         var hei = height + margin.top + margin.bottom;
         var svg;
@@ -140,10 +140,10 @@ class TwitterScatter {
         if(svg.size() == 0) {
             svg = d3.select("#scatter-container")
                 .append("svg")
-                .attr('preserveAspectRatio', 'xMinYMin meet')
-                .attr('viewBox', "0 0 " + (wid) + " " + (hei))
-                // .attr("width", width + margin.left + margin.right)
-                // .attr("height", height + margin.top + margin.bottom)
+                // .attr('preserveAspectRatio', 'xMinYMin meet')
+                // .attr('viewBox', "0 0 " + (wid) + " " + (hei))
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -216,6 +216,16 @@ class TwitterScatter {
                 .style("text-anchor", "middle")
                 .style("font-family", "trebuchet ms")
                 .text(yAx);
+            
+            svg.append("text")
+                .attr("transform",
+                "translate(" + (width - 120) + " ," +
+                (margin.top + 20) + ")")
+                .style("text-anchor", "middle")
+                .style("font-family", "trebuchet ms")
+                .style('font-size', '8')
+                .text("use mouse or touchpad to zoom/pan. expect lag with large data selection.");
+            
 
             // Define the div for the tooltip
             var tooltip = d3.select("body")
