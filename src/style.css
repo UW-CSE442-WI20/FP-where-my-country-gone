@@ -348,7 +348,8 @@ i {
     outline: none;
     transition: 0.4s;
     font-family: trebuchet ms;
-    font-size: 25px;
+    font-size: 1em;
+    margin-left: 0%;
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
