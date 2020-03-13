@@ -42,7 +42,6 @@ for (var i = 0; i < dropdown.length; i++) {
 
 /////////////////////
 // Filtering/search input
-
 d3.select("#main-form")
     .on("submit", function() {
         d3.event.preventDefault();
@@ -140,6 +139,7 @@ d3.select("#network-form")
             document.getElementById("no-result-network").innerHTML = result;
         } else {
             // Draw word network
+            document.getElementById("no-result-network").innerHTML = "";
             networkInstance.drawNetworkGraph(networkInput, d1, d2,
                 checkedPeople, checkedSentiments, checkedElectionPeriod, summaryStatsInstance);
         }
@@ -160,6 +160,7 @@ d3.select("#scatter-form")
         // Get search input
         scatterInput = document.getElementById("scatter-input").value;
 
+        document.getElementById("no-result-scatter").innerHTML = "";
         // Draw scatterplot
         if (scatterInput === "") {
             twitterScatterInstance.drawTwitterScatter(checkedDems, checkedReps,
