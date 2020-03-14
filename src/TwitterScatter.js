@@ -219,11 +219,11 @@ class TwitterScatter {
             
             svg.append("text")
                 .attr("transform",
-                "translate(" + (width - 120) + " ," +
+                "translate(" + (width - 180) + " ," +
                 (margin.top + 10) + ")")
                 .style("text-anchor", "middle")
                 .style("font-family", "trebuchet ms")
-                .style('font-size', '8')
+                .style('font-size', '12')
                 .text("use mouse or touchpad to zoom/pan. expect lag with large data selection.");
             
 

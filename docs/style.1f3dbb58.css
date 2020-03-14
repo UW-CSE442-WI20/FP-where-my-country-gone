@@ -1,0 +1,384 @@
+* {
+    font-family: trebuchet ms;
+}
+
+h1, h4 {
+    font-family: trebuchet ms;
+    text-align: center;
+    color: #444;
+}
+
+h3 {
+    color: #444;
+}
+
+span {
+    font-family: trebuchet ms;
+    font-size: 13px;
+    font-style: italic;
+}
+
+#option {
+    font-size: 20px;
+}
+
+#result {
+    color: #009900;
+}
+
+#no-result-network, #no-result-scatter {
+    color: red;
+}
+
+p {
+    font-family: trebuchet ms;
+    font-size: 13px;
+}
+
+input[type=text] {
+    padding: 8px 10px;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 2px solid #00acee;
+    border-radius: 4px;
+    font-family: trebuchet ms;
+}
+
+.slider-amount1, .slider-amount2, .slider-amount3, .slider-amount4 {
+    text-align: center;
+    width: 85px;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+input[type=submit]:hover {
+    background-color: #009900;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+#clear {
+    background-color: #00acee;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+#clear:hover {
+    background-color: #009cde;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: trebuchet ms;
+}
+
+.sidenav {
+    height: 100%;
+    width: 320px;
+    overflow-x: hidden;
+    min-width: 150px;
+    max-width: 320px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: #eee;
+    padding-top: 20px;
+    word-wrap: break-word;
+}
+
+.dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-family: trebuchet ms;
+    font-size: 20px;
+    color: #818181;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    display: inline-block;
+}
+
+.dropdown-btn:hover {
+    color: #00acee;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #eee;
+    padding-left: 8px;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    max-width: 200px;
+    height: auto;
+    padding: 2px;
+    font: 12px arial;
+    background: #ece6e4;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    text-align: center;
+}
+
+.main {
+    margin-left: 300px;
+    padding: 0px 10px;
+}
+
+.scatter-container {
+    margin: auto;
+    width: 100%;
+    height: 500px;
+}
+
+.svg-plot, .canvas-plot {
+    position: absolute;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+div.ui-slider-range.ui-widget-header {
+    background-color: #00acee;
+}
+
+#slider-range2 {
+    width: 280px;
+    display: inline-block;
+}
+
+#summarycontainer {
+    position:relative;
+    left:400px;
+    height:600px;
+    top:20px;
+}
+
+#twittercontainerouter {
+    position: absolute;
+    left: 925px;
+}
+#twittercontainer {
+    position: relative;
+    overflow: auto;
+    width: 425px;
+    height: 525px;
+    right:25px;
+    top:0px;
+}
+
+#pieChart {
+    position:absolute;
+    margin-top:75px;
+    margin-bottom: 50px;
+    width: 400px;
+    height: 400px;
+}
+
+#sentimentChart {
+    position:absolute;
+    left:425px;
+}
+
+#interactionChart {
+    position:absolute;
+    top:320px;
+    left:425px;
+}
+
+.title {
+    font-family: trebuchet ms;
+    font-size: 15px;
+
+}
+.slice {
+    font-size: 10pt;
+    font-family: trebuchet ms;
+    fill: black;
+font-weight: bold;
+}
+
+.axis text {
+    font-family: trebuchet ms;
+    font-size: 11px;
+}
+
+.title {
+    font-family: trebuchet ms;
+    font-size: 15px;
+
+}
+
+.xAxis {
+    font-family: trebuchet ms;
+    font-size: 11px;
+    fill: black;
+}
+
+.yAxis {
+    font-family: trebuchet ms;
+    font-size: 11px;
+    fill: black;
+}
+
+ul[role='tablist'],
+ul[role='tablist'] li {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul[role='tablist'] {
+  margin-bottom: -1px;
+}
+
+ul[role='tablist']:after {
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+ul[role='tablist'] li {
+  display: block;
+  float: left;
+  position: relative;
+  z-index: 1;
+  margin-right: .25rem;
+}
+
+ul[role='tablist'] li a {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: block;
+  background: #f9f9f9;
+  padding: .25rem .5rem;
+
+  border-color: #999;
+  border-style: solid;
+  border-width: 1px;
+}
+
+ul[role='tablist'] li a[aria-selected='true'] {
+  color: #00acee;
+  border-bottom-color: #f9f9f9;
+}
+
+section[role='tabpanel'] {
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #999;
+  background: #f9f9f9;
+  padding: .5rem;
+  margin-bottom: 1rem;
+}
+
+div#tooltip {
+    position: absolute;
+    display: inline-block;
+    padding: 10px;
+    font-family: trebuchet ms;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #999;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+}
+
+i {
+    border: solid #818181;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.arrow-right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-family: trebuchet ms;
+    font-size: 1em;
+    margin-left: 0%;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    font-family: trebuchet ms;
+    font-size: 15px;
+
+}
+h3 {
+    margin: 0;
+    display: inline-block;
+}
+
+#tooltipClick {
+    position: relative;
+    left: 140px;
+}
+
+.fa-info-circle{
+    border-style: none;
+}
+
+
+/*# sourceMappingURL=https://uw-cse442-wi20.github.io/FP-where-my-country-gone/style.1f3dbb58.css.map */
