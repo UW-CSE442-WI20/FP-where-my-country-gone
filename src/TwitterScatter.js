@@ -140,10 +140,10 @@ class TwitterScatter {
         if(svg.size() == 0) {
             svg = d3.select("#scatter-container")
                 .append("svg")
-                // .attr('preserveAspectRatio', 'xMinYMin meet')
-                // .attr('viewBox', "0 0 " + (wid) + " " + (hei))
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr('preserveAspectRatio', 'xMinYMin meet')
+                .attr('viewBox', "0 0 " + (wid) + " " + (hei))
+                // .attr("width", width + margin.left + margin.right)
+                // .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
