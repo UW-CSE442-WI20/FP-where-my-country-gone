@@ -28922,6 +28922,8 @@ function () {
       d3.json(graphfile).then(function (data) {
         d3.json(tweetsfile).then(function (tweetData) {
           if (data[word] == undefined) {
+            var result = "No results found for keyword <b>" + word + "</b>. Please try again!";
+            document.getElementById("no-result-network").innerHTML = result;
             return;
           }
 
@@ -29174,7 +29176,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35991" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40567" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
