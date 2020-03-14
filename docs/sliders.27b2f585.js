@@ -119,71 +119,21 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"sliders.js":[function(require,module,exports) {
 // jQuery range sliders
-// Initial view of popularity slider
-$(function () {
-  $("#slider-range1").slider({
-    range: true,
-    min: 0,
-    max: 4385178,
-    values: [0, 4385178],
-    disabled: true
-  });
-}); // Updated view of popularity slider after user selects a y-axis dimension
-
-$('input[type=radio]').change(function () {
-  if (this.value === "favorites") {
-    $("#slider-range1").slider({
-      range: true,
-      min: 0,
-      max: 4385178,
-      values: [0, 4385178],
-      disabled: false,
-      slide: function slide(event, ui) {
-        $("#pop-amount-start").val(ui.values[0]);
-        $("#pop-amount-end").val(ui.values[1]);
-      }
-    });
-    $("#pop-amount-start").val($("#slider-range1").slider("values", 0));
-    $("#pop-amount-end").val($("#slider-range1").slider("values", 1));
-  } else if (this.value === "retweets") {
-    $("#slider-range1").slider({
-      range: true,
-      min: 0,
-      max: 1591746,
-      values: [0, 1591746],
-      disabled: false,
-      slide: function slide(event, ui) {
-        $("#pop-amount-start").val(ui.values[0]);
-        $("#pop-amount-end").val(ui.values[1]);
-      }
-    });
-    $("#pop-amount-start").val($("#slider-range1").slider("values", 0));
-    $("#pop-amount-end").val($("#slider-range1").slider("values", 1));
-  } else if (this.value === "replies") {
-    $("#slider-range1").slider({
-      range: true,
-      min: 0,
-      max: 175977,
-      values: [0, 175977],
-      disabled: false,
-      slide: function slide(event, ui) {
-        $("#pop-amount-start").val(ui.values[0]);
-        $("#pop-amount-end").val(ui.values[1]);
-      }
-    });
-    $("#pop-amount-start").val($("#slider-range1").slider("values", 0));
-    $("#pop-amount-end").val($("#slider-range1").slider("values", 1));
-  }
-}); // Initial view of Date slider
-
+// Initial view of Date slider
 $(function () {
   $("#slider-range2").slider({
     range: true,
     min: new Date('2016.06.01').getTime() / 1000,
-    max: new Date('2017.03.01').getTime() / 1000,
-    values: [new Date('2016.06.01').getTime() / 1000, new Date('2017.03.01').getTime() / 1000],
-    disabled: true
+    max: new Date('2017.03.31').getTime() / 1000,
+    values: [new Date('2016.08.01').getTime() / 1000, new Date('2017.01.01').getTime() / 1000],
+    disabled: false,
+    slide: function slide(event, ui) {
+      $("#date-amount-start").val(new Date(ui.values[0] * 1000).toLocaleDateString("en-US"));
+      $("#date-amount-end").val(new Date(ui.values[1] * 1000).toLocaleDateString("en-US"));
+    }
   });
+  $("#date-amount-start").val(new Date($("#slider-range2").slider("values", 0) * 1000).toLocaleDateString("en-US"));
+  $("#date-amount-end").val(new Date($("#slider-range2").slider("values", 1) * 1000).toLocaleDateString("en-US"));
 }); // Updated view of Date slider after user selects an election period
 
 $('input[type=radio]').change(function () {
@@ -216,17 +166,15 @@ $('input[type=radio]').change(function () {
     $("#date-amount-start").val(new Date($("#slider-range2").slider("values", 0) * 1000).toLocaleDateString("en-US"));
     $("#date-amount-end").val(new Date($("#slider-range2").slider("values", 1) * 1000).toLocaleDateString("en-US"));
   }
-}); // Add label to popularity display
+}); // Change dropdown arrow
 
-$('input[type=radio]').on('change', function () {
-  if (this.value !== "2016" && this.value !== "2020") {
-    $('#dimension-type').text(this.value);
-  }
+$('.dropdown-btn').click(function () {
+  $(this).children('i').toggleClass("arrow-right arrow-down");
 }); // Make sidebar resizable
 
-$("#sidenav").resizable({
-  handles: 'e'
-});
+/*$("#sidenav").resizable({
+    handles: 'e'
+});*/
 },{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -255,7 +203,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36119" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35991" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

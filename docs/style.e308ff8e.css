@@ -1,14 +1,22 @@
-h2, h4 {
+h3, h4, label, #scatter-form, #dropdown-container-1 {
     font-family: trebuchet ms;
+}
+
+h1 {
+    font-family: trebuchet ms;
+    text-align: center;
+}
+
+span {
+    font-family: trebuchet ms;
+    font-size: 13px;
+    font-style: italic;
+    color: #009900;
 }
 
 p {
     font-family: trebuchet ms;
     font-size: 13px;
-}
-
-label {
-    font-family: trebuchet ms;
 }
 
 input[type=text] {
@@ -29,7 +37,7 @@ input[type=submit] {
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 13px 20px;
+    padding: 12px 20px;
     margin: 4px 2px;
     cursor: pointer;
     font-family: trebuchet ms;
@@ -39,7 +47,7 @@ input[type=submit]:hover {
     background-color: #009900;
     border: none;
     color: white;
-    padding: 13px 20px;
+    padding: 12px 20px;
     margin: 4px 2px;
     cursor: pointer;
     font-family: trebuchet ms;
@@ -48,12 +56,16 @@ input[type=submit]:hover {
 .sidenav {
     height: 100%;
     width: 320px;
+    overflow-x: hidden;
+    min-width: 150px;
+    max-width: 320px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: #eee;
     padding-top: 20px;
+    word-wrap: break-word;
 }
 
 .dropdown-btn {
@@ -102,7 +114,7 @@ div.tooltip {
 
 .scatter-container {
     margin: auto;
-    width: 900px;
+    width: 100%;
     height: 500px;
 }
 
@@ -117,6 +129,171 @@ div.tooltip {
 
 div.ui-slider-range.ui-widget-header {
     background-color: #00acee;
+}
+
+#slider-range2 {
+    width: 280px;
+    display: inline-block;
+}
+
+#summarycontainer {
+    position:relative;
+    left:350px;
+    height:600px;
+}
+#twittercontainer {
+    position: absolute;
+    left: 925px;
+    overflow: auto;
+    width: 475px;
+    height: 550px;
+    right:25px;
+    top:0px;
+    border: 5px solid #00acee;
+}
+
+#pieChart {
+    position:absolute;
+    margin-top:75px;
+    margin-bottom: 50px;
+}
+
+#sentimentChart {
+    position:absolute;
+    left:375px;
+}
+
+#interactionChart {
+    position:absolute;
+    top:320px;
+    left:375px;
+}
+
+.title {
+    font-family: Verdana;
+    font-size: 15px;
+
+}
+.slice {
+    font-size: 10pt;
+    font-family: Verdana;
+    fill: black;
+font-weight: bold;
+}
+
+.axis text {
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.title {
+    font-family: Verdana;
+    font-size: 15px;
+
+}
+
+.xAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: black;
+}
+
+.yAxis {
+    font-family: verdana;
+    font-size: 11px;
+    fill: white;
+}
+
+ul[role='tablist'],
+ul[role='tablist'] li {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul[role='tablist'] {
+  margin-bottom: -1px;
+}
+
+ul[role='tablist']:after {
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+ul[role='tablist'] li {
+  display: block;
+  float: left;
+  position: relative;
+  z-index: 1;
+  margin-right: .25rem;
+}
+
+ul[role='tablist'] li a {
+  font-weight: bold;
+  text-decoration: none;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: block;
+  background: #f9f9f9;
+  padding: .25rem .5rem;
+
+  border-color: #999;
+  border-style: solid;
+  border-width: 1px;
+}
+
+ul[role='tablist'] li a[aria-selected='true'] {
+  border-bottom-color: #f9f9f9;
+}
+
+section[role='tabpanel'] {
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #999;
+  background: #f9f9f9;
+  padding: .5rem;
+  margin-bottom: 1rem;
+}
+
+
+#clear {
+    background-color: #00acee;
+}
+
+div#tooltip {
+    position: absolute;
+    display: inline-block;
+    padding: 10px;
+    font-family: 'Open Sans' sans-serif;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #999;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+}
+
+i {
+    border: solid #818181;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.arrow-right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
